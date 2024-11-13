@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getProducts } from "../helpers/ApiFetch.js";
+import { getProductos } from "../helpers/apiProductos.js";
 import CardProductApp from "./CardProductApp.jsx";
 import PaginationApp from "./PaginationApp.jsx";
 import "./CardProductApp.css";
+import { Navigate } from "react-router-dom";
 
 
 const CarsProductApp = () => {
@@ -20,22 +21,33 @@ const CarsProductApp = () => {
     },[]);
 
     const traerProductos = () =>{
-        getProducts()
-        .then ((response) => setProductos(response))
-        .catch ((error) => console.error(error));
+        getProductos().then ((response) => {
+        if (response?.productos) {
+            setProductos(response.productos);
+            setLoading(false);
+        } else {
+            localStorage.removeItem("token");
+            Navigate("/login");
+        }
+    });
     };
+
     return(
-        <div id="ContenedorCards" className="container p-3 bg-secondary">
-            <div><h3>Productos</h3></div>
+            <>
+            {loading?(
+                <h3>Cargando...</h3>
+            ) : (
+
+            <div id="ContenedorCards" className="container p-3 bg-secondary">
             <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
                 {productos.map ((item) => ( 
                 <CardProductApp 
-                    key={item.id} 
+                    key={item._id} 
                     producto={item}
                 />
                 )).slice(firstIndex,lastIndex)}
-
             </div>
+
             <div>
                 <PaginationApp 
                     productsPerPage={productsPerPage}
@@ -45,7 +57,8 @@ const CarsProductApp = () => {
                 />
             </div>
         </div>
-    );
+    )};
+</>
+);
 };
-
 export default CarsProductApp;

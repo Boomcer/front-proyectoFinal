@@ -24,7 +24,7 @@ const onSpecificPage = (n)=>{
     return (
 
     <nav 
-        className="pagination is-centered mb-6 bg-secondary" 
+        className="pagination is-centered mb-6" 
         role="navigation" 
         aria-label="pagination"
     >

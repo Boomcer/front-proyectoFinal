@@ -2,12 +2,14 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import "./CardProductApp.css";
+import { Link } from "react-router-dom";
+
 
 const CardProductApp = ({producto}) => {
 
-
   return (
-    <div className="col"> 
+    <div className="col">
+      <Link className="nav-link" to={`/producto/${producto._id}`}> 
       <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
         <div id="content-img" className="align-items-center">
         <a href=""><img 
@@ -31,6 +33,7 @@ const CardProductApp = ({producto}) => {
           </div>
           </div>
         </div>
+        </Link>
     </div>
   );
 };
