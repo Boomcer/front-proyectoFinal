@@ -1,7 +1,7 @@
-const url = "https://backend-proyectofinal-rolling.onrender.com/api/auth/login";
+const url = "https://backend-proyectofinal-rolling.onrender.com/api/";
 
 const auth = async (email, password) =>{
-    const resp = await fetch(url, {
+    const resp = await fetch(url + "auth/login", {
         method: "POST",
         body: JSON.stringify({email, password}),
         headers: {

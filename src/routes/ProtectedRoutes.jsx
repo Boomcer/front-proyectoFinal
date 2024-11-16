@@ -1,16 +1,13 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
+const ProtectedRoutes = ({ children }) => {
+  const token = JSON.parse(localStorage.getItem("token")) || null;
 
-const ProtectedRoutes = ({children}) => {
-  
-    const isAdmin = JSON.parse(localStorage.getItem("auth")) || null;
-    
-    if (isAdmin === "admin"){
-        return children;
-    } else {
-        return <Navigate to="/" />;
-    };
+  if (token) {
+    return children;
+  } else {
+    return <Navigate to="/login" />;
+  }
 };
 
-export default ProtectedRoutes;
+export default ProtectedRoutes

@@ -2,7 +2,7 @@ import React from 'react'
 
 const AdministradorScreen = () => {
   return (
-    <div>AdministradorScreen</div>
+    <div>Bienvenido al Administrador</div>
   )
 }
 

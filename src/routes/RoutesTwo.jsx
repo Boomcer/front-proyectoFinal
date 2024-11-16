@@ -5,29 +5,21 @@ import ErrorScreen from "../views/ErrorScreen";
 import MenuApp from '../components/MenuApp';
 import ProtectedRoutes from './ProtectedRoutes';
 import LoginScreen from '../views/LoginScreen';
-import HomeScreen from '../views/HomeScreen';
-import AdministradorScreen from '../views/AdministradorScreen';
-
+import HomeScreen from '../views/homeScreen';
+import AdministradorScreen from '../views/administradorScreen';
+import ProductScreen from '../views/productScreen';
+import CarritoScreen from '../views/carritoScreen';
 
 const RoutesTwo = ()=>{
 
   return(
 <>
-    <MenuApp />
     <Routes>
       <Route path="/" element={<HomeScreen/>}/>
       <Route path="/nosotros" element={<AboutScreen/>}/>
-      <Route path="/login" element={<LoginScreen/>}/>
-      <Route path="/error" element={<ErrorScreen/>}/>      
-      
-      <Route 
-        path="/admin" 
-        element= {
-        <ProtectedRoutes>  
-        <AdministradorScreen/>
-        </ProtectedRoutes>
-        }
-        />
+      <Route path="/producto/id" element={<ProductScreen/>}/>
+      <Route path="/carrito" element={<CarritoScreen/>}/>      
+      <Route path="/admin" element= {<AdministradorScreen/>}/>
       <Route path="*" element={<ErrorScreen/>}/>
     </Routes>
 </>
