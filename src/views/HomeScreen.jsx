@@ -1,15 +1,19 @@
 import React from 'react'
 import DestacadosApp from '../components/DestacadosApp'
 
-const homeScrenn = () => {
+const HomeScreen = () => {
   return (
     <div>
-        <DestacadosApp/>
+        {/* titulo */}
+        {/* carrusel */}
         {/* categorias */}
         {/* grillas de productos */}
         {/* publicidad */}
+        <h1>Home</h1>
+        <DestacadosApp/>
+        <p>Proximamante nuestra home aqui..</p>
     </div>
   )
-}
+};
 
-export default homeScrenn
+export default HomeScreen;

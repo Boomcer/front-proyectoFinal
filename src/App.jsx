@@ -1,27 +1,34 @@
-import { useState } from 'react'
-import Home from './views/HomeScreen'
-import Admin from './views/AdminScreen'
-import About from './views/AboutScreen'
-import Cart from './views/CartScreen'
-import Favorite from './views/FavoriteScreen'
-import Product from './views/ProductScreen'
+import React from 'react'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './css/general.css'
+import RoutesTwo from './routes/RoutesTwo'
+import MenuApp from './components/MenuApp'
+import ProtectedRoutes from './routes/ProtectedRoutes'
+import LoginScreen from './views/LoginScreen'
+
 
 function App() {
 
   return (
     <BrowserRouter>
+      <MenuApp/>
+      <div className='w-100'>
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/admin' element={<Admin/>}/>
-        <Route path='/about' element={<About/>}/>
-        <Route path='/cart' element={<Cart/>}/>
-        <Route path='/favorite' element={<Favorite/>}/>
-        <Route path='/product' element ={<Product/>}/>
+        <Route 
+        path='/*' 
+        element={
+        <ProtectedRoutes>
+        <RoutesTwo/>
+        </ProtectedRoutes>
+        }/>
+        <Route 
+        path="/login" 
+        element={
+        <LoginScreen/>
+        }/>
       </Routes>
+      </div>
     </BrowserRouter>
   )
-}
-
+};
 export default App
