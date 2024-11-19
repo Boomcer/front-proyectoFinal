@@ -13,20 +13,20 @@ function App() {
     <BrowserRouter>
       <MenuApp/>
       <div className='w-100'>
-      <Routes>
-        <Route 
-        path='/*' 
-        element={
-        <ProtectedRoutes>
-        <RoutesTwo/>
-        </ProtectedRoutes>
-        }/>
-        <Route 
-        path="/login" 
-        element={
-        <LoginScreen/>
-        }/>
-      </Routes>
+        <Routes>
+            <Route 
+            path='/*' 
+            element={
+            <ProtectedRoutes>
+            <RoutesTwo/>
+            </ProtectedRoutes>
+            }/>
+            <Route 
+            path="/login" 
+            element={
+            <LoginScreen/>
+            }/>
+        </Routes>
       </div>
     </BrowserRouter>
   )
