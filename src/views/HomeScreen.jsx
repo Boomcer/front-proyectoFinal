@@ -1,7 +1,7 @@
 import React from 'react'
 import CarsProductApp from '../components/CardsProductApp'
 
-const homeScrenn = () => {
+const HomeScrenn = () => {
   return (
     <div>
         {/* titulo */}
@@ -15,4 +15,4 @@ const homeScrenn = () => {
   )
 }
 
-export default homeScrenn
+export default HomeScrenn

@@ -1,4 +1,12 @@
-#ContenedorCards{
+#ContenedorCards1{
+    height: 1200px;  
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items:flex-start;
+    justify-content: center;
+}
+#ContenedorCards2{
     height: 100%;  
     margin-top: 20px;
     display: flex;
@@ -6,6 +14,7 @@
     align-items:self-end;
     justify-content: center;
 }
+
 .card {
     width: 100%;
     height: 220px;
@@ -45,6 +54,11 @@
 }
 .btn{
     font-size: 0.7rem;
+}
+
+#paginacion{
+    margin-right: 10px;
+    display:inline-block;
 }
 
 

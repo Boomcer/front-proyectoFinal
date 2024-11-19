@@ -1,4 +1,5 @@
 import React from 'react'
+import "./CardProductApp.css";
 
 const PaginationApp = ({productsPerPage, totalProducts, currentPage, setCurrentPage}) => {
 
@@ -24,17 +25,18 @@ const onSpecificPage = (n)=>{
     return (
 
     <nav 
-        className="pagination is-centered mb-6" 
+        className="pagination is-centered mb-6 m-1" 
         role="navigation" 
         aria-label="pagination"
     >
         <a className={`pagination-previous ${currentPage === 1 ? 'is-disabled' : ''}`} onClick={onPreviusPage}>Anterior</a>
         <a className={`pagination-next ${currentPage >= pageNumbers.length ? 'is-disabled' : ''}`} onClick={onNextPage}>Siguiente</a>
-        <ul className="pagination-list">
+        <ul className="pagination-list m-1">
             
             {pageNumbers.map(noPage =>(
-                    <li key={noPage}>
-                        <a className={`pagination-link ${
+                    
+                    <li id="paginacion" key={noPage}>
+                        <a  className={`pagination-link ${
                             noPage=== currentPage ? 'is-current' : '' 
                             }`}
                             onClick={()=> onSpecificPage(noPage)}
@@ -42,6 +44,7 @@ const onSpecificPage = (n)=>{
                             {noPage}
                         </a>
                     </li>
+                    
             ))}            
         </ul>
     </nav>

@@ -3,12 +3,11 @@ import { getProductos } from "../helpers/apiProductos.js";
 import CardProductApp from "./CardProductApp.jsx";
 import PaginationApp from "./PaginationApp.jsx";
 import "./CardProductApp.css";
-import { useNavigate } from "react-router-dom";
-
+//import { useNavigate } from "react-router-dom";
 
 const CarsProductApp = () => {
     
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [productos, setProductos] = useState ([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,23 +22,21 @@ const CarsProductApp = () => {
     },[]);
 
     const traerProductos = () =>{
-        getProductos().then ((response) => {
-        if (response?.productos) {
+            getProductos().then ((response) => {
+            response?.productos
             setProductos(response.productos);
             setLoading(false);
-        } else {
-            localStorage.removeItem("token");
-            navigate("/login");
-        }
-    });
-    };
+            });
+            };
 
     return(
             <>
             {loading? (
+                <div id="ContenedorCards1" className="container p-3 bg-secondary">  
                 <h3>Cargando Productos...</h3>
+                </div>
             ) : (
-            <div id="ContenedorCards" className="container p-3 bg-secondary">
+            <div id="ContenedorCards2" className="container p-3 bg-secondary">
                 <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
                 {productos.map ((item) => ( 
                 <CardProductApp 
@@ -47,7 +44,7 @@ const CarsProductApp = () => {
                     producto={item}/>
                 )).slice(firstIndex,lastIndex)}
                 </div>
-                <div>
+                <div className="container d-flex">
                 <PaginationApp 
                     productsPerPage={productsPerPage}
                     currentPage={currentPage}
