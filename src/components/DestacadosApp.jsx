@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {getProducts} from '../helpers/ApiTraerProductos'
+import {destacados} from '../helpers/ApiTraerProductos'
+import '../css/destacados.css'
 
 const DestacadosApp = () => {
     const [productos, setProductos] = useState([]);
 
     useEffect(() =>{
         async function cargarProductos() {
-            const productosData = await getProducts();
+            const productosData = await destacados();
             setProductos(productosData);
         }
         cargarProductos();
@@ -15,7 +16,7 @@ const DestacadosApp = () => {
 
   return (
     <div>
-        <h1>Destacados</h1>
+        <h1 className="ps-5">Destacados</h1>
         <div id="carouselExampleDark" className="carousel carousel-dark slide">
         
         <div className="carousel-inner">
@@ -23,14 +24,14 @@ const DestacadosApp = () => {
             { productos.map((producto, index) => (
                 <div key={producto._id} className={`carousel-item ${index === 0 ? 'active': ""}`}
                 data-bs-interval="10000">
-                    <div className="">
-                        <section className=''>
+                    <div className="d-flex justify-content-center container">
+                        <section className=" container-img">
                             <img src={producto.img}
                             alt="imagen" 
                             className=''/>
                         </section>
-                        <section className=''>
-                            <h3>{producto.nombre}</h3>
+                        <section className='align-self-center container-nombre'>
+                            <p>{producto.nombre}</p>
                         </section>
 
                     </div>
