@@ -5,6 +5,7 @@ import RoutesTwo from './routes/RoutesTwo'
 import MenuApp from './components/MenuApp'
 import ProtectedRoutes from './routes/ProtectedRoutes'
 import LoginScreen from './views/LoginScreen'
+import FormScreen from './views/FormScreen'
 
 
 function App() {
@@ -26,6 +27,13 @@ function App() {
         element={
         <LoginScreen/>
         }/>
+         <Route 
+         path="/formulario" 
+         element={
+         <FormScreen/>
+         }/>
+
+         
       </Routes>
       </div>
     </BrowserRouter>
