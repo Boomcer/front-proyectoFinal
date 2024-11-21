@@ -39,8 +39,18 @@ const MenuApp = () => {
           </NavLink>
         </li>
         <li className="nav-item">
+          <NavLink to="/favoritos" className="nav-link">
+            Favoritos
+          </NavLink>
+        </li>
+        <li className="nav-item">
           <NavLink to="/login" className="nav-link">
             Login
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink to="/carrito" className="nav-link">
+            Carrito
           </NavLink>
         </li>
       </ul>

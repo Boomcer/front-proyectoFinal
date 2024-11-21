@@ -5,10 +5,12 @@ import ErrorScreen from "../views/ErrorScreen";
 import MenuApp from '../components/MenuApp';
 import ProtectedRoutes from './ProtectedRoutes';
 import LoginScreen from '../views/LoginScreen';
-import HomeScreen from '../views/homeScreen';
-import AdministradorScreen from '../views/administradorScreen';
-import ProductScreen from '../views/productScreen';
+import HomeScreen from '../views/HomeScreen';
+import AdministradorScreen from '../views/AdministradorScreen';
+import ProductScreen from '../views/ProductScreen';
 import CarritoScreen from '../views/carritoScreen';
+import FavoritosScreen from '../views/FavoritosScreen';
+import RegistroScreen from '../views/RegistroScreen';
 
 const RoutesTwo = ()=>{
 
@@ -19,7 +21,17 @@ const RoutesTwo = ()=>{
       <Route path="/nosotros" element={<AboutScreen/>}/>
       <Route path="/producto/id" element={<ProductScreen/>}/>
       <Route path="/carrito" element={<CarritoScreen/>}/>      
-      <Route path="/admin" element= {<AdministradorScreen/>}/>
+      <Route path="/favoritos" element= {<FavoritosScreen/>}/>
+      <Route path="/login" element= {<LoginScreen/>}/>
+      <Route path="/registro" element= {<RegistroScreen/>}/>
+
+      <Route 
+        path='/admin' 
+        element={
+        <ProtectedRoutes>
+        <AdministradorScreen/>
+        </ProtectedRoutes>
+        }/>
       <Route path="*" element={<ErrorScreen/>}/>
     </Routes>
 </>
