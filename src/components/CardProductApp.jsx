@@ -13,7 +13,7 @@ const CardProductApp = ({producto}) => {
         <a href=""><img 
           src={producto.img} 
           className="card-img-top" 
-          alt={producto.titulo}
+          alt={producto.nombre}
           />
           </a>
         </div>

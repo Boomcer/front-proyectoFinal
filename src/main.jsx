@@ -4,11 +4,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './css/general.css'
 import './App.css'
-//import HomeScreen from './views/HomeScreen.jsx'
-import CarsProductApp from './components/CardsProductApp.jsx'
+import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
-  
-    <CarsProductApp/>
-
+    
+    <App/>
 )

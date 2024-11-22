@@ -1,15 +1,14 @@
-import { useState } from 'react'
 import React from 'react'
-import Home from './views/homeScrenn'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './css/general.css'
+import HomeScreen from './views/homeScreen'
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home/>}/>
+        <Route path='/' element={<HomeScreen/>}/>
       </Routes>
     </BrowserRouter>
   )
