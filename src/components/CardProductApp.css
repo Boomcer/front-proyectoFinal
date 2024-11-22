@@ -52,14 +52,13 @@
     padding: 0.6rem 0.6rem;
     font-size: 0.8rem;
 }
+
 .btn{
     font-size: 0.7rem;
 }
 
 #paginacion{
     margin-right: 10px;
-    display:inline-block;
+    display:inline-flex;
 }
-
-
 
