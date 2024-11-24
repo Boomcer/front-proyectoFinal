@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../helpers/fetchApi.js"
 import '../css/LoginScreen.css';
+import { Link } from "react-router-dom";
 
 const LoginScreen = () => {
 
@@ -74,6 +75,9 @@ const LoginScreen = () => {
                   <button className="btn btn-warning">Iniciar</button>
                 </div>
                 
+                <div className="alert alert-info" role="alert">
+                Aun no eres cliente?  <Link to="/registro" href="#" className="alert-link">Registrate aqui</Link>, y comienza tu experiencia.
+                </div>
             </form>
             </div>
             {message && (

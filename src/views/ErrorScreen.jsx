@@ -2,7 +2,7 @@ import React from 'react'
 
 const errorScreen = () => {
   return (
-    <div>errorScreen</div>
+    <div>ErrorScreen</div>
   )
 }
 

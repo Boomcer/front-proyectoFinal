@@ -4,8 +4,10 @@ import './css/general.css'
 import RoutesTwo from './routes/RoutesTwo'
 import MenuApp from './components/MenuApp'
 import ProtectedRoutes from './routes/ProtectedRoutes'
+//import LoginScreen from './views/LoginScreen'
+import HomeScrenn from './views/HomeScreen'
+import AboutScreen from './views/AboutScreen'
 import LoginScreen from './views/LoginScreen'
-
 
 function App() {
 
@@ -17,15 +19,8 @@ function App() {
         <Route 
         path='/*' 
         element={
-        <ProtectedRoutes>
         <RoutesTwo/>
-        </ProtectedRoutes>
-        }/>
-        <Route 
-        path="/login" 
-        element={
-        <LoginScreen/>
-        }/>
+         }/>
       </Routes>
       </div>
     </BrowserRouter>

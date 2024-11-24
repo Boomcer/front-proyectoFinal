@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const ProtectedRoutes = ({ children }) => {
   const token = JSON.parse(localStorage.getItem("token")) || null;
@@ -6,7 +6,15 @@ const ProtectedRoutes = ({ children }) => {
   if (token) {
     return children;
   } else {
-    return <Navigate to="/login" />;
+    return(
+    <>
+    <div className="alert alert-info" role="alert">
+  Esta seccion es solo para Administradores <Link to="/" href="#" className="alert-link">click aqui para seguir navegando</Link>, o inicie sesion como usuario registrado.
+</div>
+  
+    </>
+    )
+          
   }
 };
 
