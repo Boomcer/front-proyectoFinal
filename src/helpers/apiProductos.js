@@ -14,6 +14,16 @@ const getProductos = async () => {
     return data;
 };
 
+const destacados = async () => {
+    const response = await fetch (url,{
+        method: "GET"
+    });
+
+    const data = await response.json();
+    const destacados = data.productos.filter(producto => producto.destacado);
+    return destacados
+};
+
     const getProducto = async (id) => {
 
     const resp = await fetch(url + "/" + id, {
@@ -30,5 +40,6 @@ const getProductos = async () => {
     
     export {
     getProductos,
+    destacados,
     getProducto,
 };

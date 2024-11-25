@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {destacados} from '../helpers/ApiTraerProductos'
+import {destacados} from '../helpers/apiProductos'
 import '../css/destacados.css'
 
 const DestacadosApp = () => {
