@@ -1,11 +1,11 @@
-.container {
+.login-container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
   }
   
-  .card {
+  .login-card {
     width: 50%;
     position: fixed;
     top: 50%;
@@ -15,6 +15,6 @@
     padding: 3% 3%;
   }
   
-  .card-body {  
+  .login-card-body {  
     background-color: rgb(213, 207, 199);
   }

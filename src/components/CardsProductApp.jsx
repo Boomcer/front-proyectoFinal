@@ -33,7 +33,7 @@ const CarsProductApp = () => {
             <>
             {loading? (
                 <div id="ContenedorCards1" className="container p-3 bg-secondary">  
-                <h3>Cargando Productos...</h3>
+                <h5 font color="white">Cargando Productos...</h5>
                 </div>
             ) : (
             <div id="ContenedorCards2" className="container p-3 bg-secondary">

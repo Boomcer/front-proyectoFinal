@@ -1,4 +1,5 @@
 import React from 'react'
+import CardsProductApp from '../components/CardsProductApp'
 
 const HomeScreen = () => {
   return (
@@ -6,10 +7,9 @@ const HomeScreen = () => {
         {/* titulo */}
         {/* carrusel */}
         {/* categorias */}
+        <CardsProductApp/>
         {/* grillas de productos */}
         {/* publicidad */}
-        <h1>Home</h1>
-        <p>Proximamante nuestra home aqui..</p>
     </div>
   )
 };

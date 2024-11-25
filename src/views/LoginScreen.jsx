@@ -32,16 +32,16 @@ const LoginScreen = () => {
     };
   
     return (
-        <div className="container">
+        <div className="login-container">
         <div className="row justify-content-center align-items-center">
         <div className="col">
-          <div className="card img-card">
+          <div className="login-card img-card">
             <img 
               src="" 
               alt="inicio"
               className="card-img-top"
             />
-            <div className="card-body">
+            <div className="login-card-body">
               <h3 className="card-title mb-3 text-center">Iniciar Sesión</h3>
               
               <form onSubmit={login}>
