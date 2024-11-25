@@ -39,4 +39,3 @@ const RoutesTwo = ()=>{
 };
 
 export default RoutesTwo;
-
