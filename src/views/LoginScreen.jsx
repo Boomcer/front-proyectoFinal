@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../helpers/fetchApi.js"
 import '../css/LoginScreen.css';
+import { Link } from "react-router-dom";
 
 const LoginScreen = () => {
 
@@ -31,16 +32,16 @@ const LoginScreen = () => {
     };
   
     return (
-        <div className="container">
+        <div className="login-container">
         <div className="row justify-content-center align-items-center">
         <div className="col">
-          <div className="card img-card">
+          <div className="login-card img-card">
             <img 
               src="" 
               alt="inicio"
               className="card-img-top"
             />
-            <div className="card-body">
+            <div className="login-card-body">
               <h3 className="card-title mb-3 text-center">Iniciar Sesión</h3>
               
               <form onSubmit={login}>
@@ -74,6 +75,9 @@ const LoginScreen = () => {
                   <button className="btn btn-warning">Iniciar</button>
                 </div>
                 
+                <div className="alert alert-info" role="alert">
+                Aun no eres cliente?  <Link to="/registro" href="#" className="alert-link">Registrate aqui</Link>, y comienza tu experiencia.
+                </div>
             </form>
             </div>
             {message && (

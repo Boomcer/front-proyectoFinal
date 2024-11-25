@@ -1,20 +1,20 @@
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-  
-  .card {
-    width: 50%;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #777272;
-    padding: 3% 3%;
-  }
-  
-  .card-body {  
-    background-color: rgb(213, 207, 199);
-  }
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.login-card {
+  width: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #777272;
+  padding: 3% 3%;
+}
+
+.login-card-body {  
+  background-color: rgb(213, 207, 199);
+}

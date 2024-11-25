@@ -9,9 +9,7 @@ const HomeScreen = () => {
         {/* categorias */}
         {/* grillas de productos */}
         {/* publicidad */}
-        <h1>Home</h1>
         <DestacadosApp/>
-        <p>Proximamante nuestra home aqui..</p>
     </div>
   )
 };
