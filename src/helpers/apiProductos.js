@@ -27,8 +27,18 @@ const getProductos = async () => {
         const data = await resp.json();
         return data;
     };
+
+    const destacados = async () => {
+        const response = await fetch (url ,{
+            method: "GET"
+        })
+        const data = await response.json();
+        const destacados = data.productos.filter(producto => producto.destacado);
+        return destacados;
+    };
     
     export {
     getProductos,
     getProducto,
+    destacados,
 };
