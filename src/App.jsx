@@ -8,6 +8,7 @@ import ProtectedRoutes from './routes/ProtectedRoutes'
 import HomeScrenn from './views/HomeScreen'
 import AboutScreen from './views/AboutScreen'
 import LoginScreen from './views/LoginScreen'
+import { auth } from './helpers/fetchApi'
 
 function App() {
 
