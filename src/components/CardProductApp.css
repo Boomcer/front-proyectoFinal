@@ -61,11 +61,28 @@
     display:inline-block;
 }
 
-a{
-    text-decoration: none;
-    color: white;
-    margin-left: 10px;
-}
 h5{
     color: white;
 }
+             /* Texto negro en hover */
+             .custom-highlight {
+                color: #ffffff;           /* Texto blanco */
+                background-color: #007bff; /* Fondo azul */
+                border-radius: 50%;       /* Borde redondeado opcional */
+                padding: 5px 10px;        /* Espaciado interno */
+                font-weight: bold;        /* Texto en negrita */
+              }
+              
+              /* Estilo para los números de páginas distintas a la actual */
+              .custom-default {
+                color: #ffffff;           /* Texto blanco */
+                background-color: transparent; /* Fondo transparente */
+                padding: 5px 10px;        /* Espaciado interno */
+                font-weight: normal;      /* Texto normal */
+                transition: all 0.3s ease; /* Transición suave en hover */
+              }
+              
+              .custom-default:hover {
+                background-color: #f1f1f1; /* Fondo gris claro al pasar el mouse */
+                color: #000;              /* Texto negro en hover */
+              }
