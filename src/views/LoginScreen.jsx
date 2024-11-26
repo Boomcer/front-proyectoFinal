@@ -76,7 +76,7 @@ const LoginScreen = () => {
                 </div>
                 
                 <div className="alert alert-info" role="alert">
-                Aun no eres cliente?  <Link to="/registro" href="#" className="alert-link">Registrate aqui</Link>, y comienza tu experiencia.
+                Aun no eres cliente?  <Link to="/registro" className="alert-link">Registrate aqui</Link>, y comienza tu experiencia.
                 </div>
             </form>
             </div>
