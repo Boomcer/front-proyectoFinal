@@ -19,7 +19,7 @@ const RoutesTwo = ()=>{
     <Routes>
       <Route path="/" element={<HomeScreen/>}/>
       <Route path="/nosotros" element={<AboutScreen/>}/>
-      <Route path="/producto/id" element={<ProductScreen/>}/>
+      <Route path="/producto/:id" element={<ProductScreen/>}/>
       <Route path="/carrito" element={<CarritoScreen/>}/>      
       <Route path="/favoritos" element= {<FavoritosScreen/>}/>
       <Route path="/login" element= {<LoginScreen/>}/>
