@@ -7,6 +7,8 @@ const MenuApp = () => {
   const [favoritesCount, setFavoritesCount] = useState(0); // Estado para el contador de favoritos
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('uid');
     setIsLoggedIn(false);
     console.log("Usuario desconectado");
   };

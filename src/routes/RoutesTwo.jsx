@@ -7,12 +7,10 @@ import LoginScreen from '../views/LoginScreen';
 import HomeScreen from '../views/HomeScreen';
 import AdministradorScreen from '../views/AdministradorScreen';
 import ProductScreen from '../views/ProductScreen';
-import CarritoScreen from '../views/carritoScreen';
 import FavoritosScreen from '../views/FavoritosScreen';
 import RegistroScreen from '../views/RegistroScreen';
 import CategoriasScreen from '../views/CategoriasScreen'
-
-
+import CartScreen from '../views/cartScreen';
 const RoutesTwo = ()=>{
 
   return(
@@ -21,10 +19,10 @@ const RoutesTwo = ()=>{
       <Route path="/" element={<HomeScreen/>}/>
       <Route path="/nosotros" element={<AboutScreen/>}/>
       <Route path="/categorias" element={<CategoriasScreen/>}/>
-      <Route path="/producto/:id" element={<ProductScreen/>}/>
-      <Route path="/carrito" element={<CarritoScreen/>}/>      
+      <Route path="/producto/:id" element={<ProductScreen/>}/>      
       <Route path="/favoritos" element= {<FavoritosScreen/>}/>
       <Route path="/login" element= {<LoginScreen/>}/>
+      <Route path="/login" element= {<CartScreen/>}/>
       <Route path="/registro" element= {<RegistroScreen/>}/>
 
       <Route 
