@@ -11,6 +11,7 @@ import FavoritosScreen from '../views/FavoritosScreen';
 import RegistroScreen from '../views/RegistroScreen';
 import CategoriasScreen from '../views/CategoriasScreen'
 import CartScreen from '../views/cartScreen';
+
 const RoutesTwo = ()=>{
 
   return(
@@ -22,7 +23,7 @@ const RoutesTwo = ()=>{
       <Route path="/producto/:id" element={<ProductScreen/>}/>      
       <Route path="/favoritos" element= {<FavoritosScreen/>}/>
       <Route path="/login" element= {<LoginScreen/>}/>
-      <Route path="/login" element= {<CartScreen/>}/>
+      <Route path="/carrito" element= {<CartScreen/>}/>
       <Route path="/registro" element= {<RegistroScreen/>}/>
 
       <Route 
