@@ -71,6 +71,11 @@ const MenuApp = () => {
               </NavLink>
             </li>
             <li className="nav-item">
+              <NavLink to="/perfil" className="nav-link">
+                MiPerfil
+              </NavLink>
+            </li>
+            <li className="nav-item">
               <NavLink to="/admin" className="nav-link">
                 <i className="bi bi-gear"></i>
               </NavLink>
