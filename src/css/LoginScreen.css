@@ -1,4 +1,4 @@
-.container {
+.login-container {
     padding: 2%;
     display: flex;
     align-items: center;
@@ -6,7 +6,7 @@
     height: 100%;
   }
   
-  .card {
+  .login-card {
     width: 50%;
     position: fixed;
     

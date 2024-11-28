@@ -63,8 +63,8 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
+    <div className="login-container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="login-card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="text-center mb-4">
           <img 
             src="https://via.placeholder.com/100" 
