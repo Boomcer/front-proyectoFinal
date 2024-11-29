@@ -8,7 +8,7 @@ const CardProductApp = ({producto}) => {
 
   return (
     <div className="col">
-      <Link className="nav-link" to={`/producto/${producto.id}`}>
+      <Link className="nav-link" to={`/producto/${producto._id}`}>
       <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
         <div id="content-img" className="align-items-center">
           <img 
