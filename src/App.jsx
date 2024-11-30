@@ -1,14 +1,9 @@
-import React from 'react'
+import Footer from './components/Footer'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './css/general.css'
 import RoutesTwo from './routes/RoutesTwo'
 import MenuApp from './components/MenuApp'
-import ProtectedRoutes from './routes/ProtectedRoutes'
-//import LoginScreen from './views/LoginScreen'
-import HomeScrenn from './views/HomeScreen'
-import AboutScreen from './views/AboutScreen'
-import LoginScreen from './views/LoginScreen'
-import { auth } from './helpers/fetchApi'
+
 
 
 function App() {
@@ -25,6 +20,9 @@ function App() {
          }/>
       </Routes>
       </div>
+      <div className="footer">
+      <Footer />
+    </div>
     </BrowserRouter>
   )
 };
