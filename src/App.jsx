@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Footer from './components/Footer'
 import Home from './views/homeScrenn'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import './css/general.css'
@@ -10,6 +11,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
       </Routes>
+      <div className="footer">
+      <Footer />
+    </div>
     </BrowserRouter>
   )
 }
