@@ -1,14 +1,34 @@
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import LogoChico from '../assets/img/LogoChico.jpeg';
 
+
+
 const MenuApp = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para el login
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está logueado
   const [favoritesCount, setFavoritesCount] = useState(0); // Estado para el contador de favoritos
+  const navigate = useNavigate(); // Hook para redirigir
+
+  // Verificar si hay un token en localStorage al montar el componente
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token); // Actualiza el estado basado en si el token existe o no
+  }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('uid');
     setIsLoggedIn(false);
-    console.log("Usuario desconectado");
+    
+  };
+
+  const handleLoginClick = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -69,36 +89,37 @@ const MenuApp = () => {
                 <span className="ms-1 badge bg-danger">{favoritesCount}</span>
               </NavLink>
             </li>
+            
             <li className="nav-item dropdown mx-2">
               {isLoggedIn ? (
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="userMenu"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  style={{ textDecoration: "none" }}
-                >
-                  <i className="bi bi-person-circle"></i>
-                </a>
+                <>
+                  {/* Icono y menú desplegable si está logueado */}
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="userMenu"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <i className="bi bi-person-circle"></i>
+                  </a>
+                  <ul className="dropdown-menu" aria-labelledby="userMenu">
+                    <li>
+                      <button className="dropdown-item" onClick={handleLogout}>
+                        Desconectarse
+                      </button>
+                    </li>
+                  </ul>
+                </>
               ) : (
-                <NavLink
-                  to="/login"
-                  className="nav-link"
-                  style={{ textDecoration: "none" }}
-                >
-                  <i className="bi bi-person-circle"></i>
-                </NavLink>
-              )}
-              {isLoggedIn && (
-                <ul className="dropdown-menu" aria-labelledby="userMenu">
-                  <li>
-                    <button className="dropdown-item" onClick={handleLogout}>
-                      Desconectarse
-                    </button>
-                  </li>
-                </ul>
+                // Redirigir al login si no está logueado
+                <i
+                  className="bi bi-person-circle nav-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleLoginClick}
+                ></i>
               )}
             </li>
             <li className="nav-item mx-2">
@@ -118,3 +139,4 @@ const MenuApp = () => {
 };
 
 export default MenuApp;
+
