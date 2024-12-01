@@ -1,0 +1,20 @@
+.login-container {
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .login-card {
+    width: 50%;
+    position: fixed;
+    
+    transform: translate(-50%, -0%);
+    background: #777272;
+    padding: 3% 3%;
+  }
+  
+  .login-card-body {  
+    background-color: rgb(213, 207, 199);
+  }

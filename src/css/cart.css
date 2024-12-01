@@ -1,0 +1,143 @@
+.producto-item {
+    list-style: none;
+    margin-bottom: 0.5rem;
+  }
+
+  .producto-contenedor {
+    display: flex;
+    align-items: center;
+    /* justify-content:; */
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .producto-contenedor.reducido {
+    padding: 0.25rem; /* Reduce el padding general */
+  }
+
+  /* Imagen */
+  .producto-imagen {
+    /* margin-right: 0.5rem; */
+    margin-left: 1rem;
+  }
+
+  .imagen {
+    width: 80px; /* Tamaño más pequeño */
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  /* Detalles */
+  .producto-detalles {
+    flex-grow: 1;
+  }
+
+  .nombre {
+    color: #ea5a0d;
+    font-size: 1rem; /* Fuente más pequeña */
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+
+  .descripcion {
+    font-size: 0.75rem; /* Reducido */
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+  }
+
+  .precio {
+    font-size: 0.9rem; /* Ajuste para menor espacio */
+    font-weight: bold;
+    color: #000000;
+  }
+
+  /* Botón */
+  .producto-boton .btn-eliminar {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem; /* Botón más compacto */
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+     margin-right: 1rem;
+  }
+
+  .producto-boton .btn-eliminar:hover {
+    background-color: #a71d2a;
+  }
+
+  /* Lista del carrito */
+  .carrito-lista {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Mensaje de carrito vacío */
+  .carrito-vacio {
+    text-align: center;
+    padding: 2rem 0;
+    color: #666;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .carrito-vacio {
+    text-align: center;
+    padding: 2rem 0;
+    color: #666;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .detalle{
+      margin-right: 5rem;
+  }
+
+  /* Estilos para los modales */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-contenido {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-contenido p {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .modal-contenido .btn {
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .modal-backdrop.show {
+    opacity: 0.0;
+}
