@@ -89,6 +89,7 @@ const MenuApp = () => {
                 <span className="ms-1 badge bg-danger">{favoritesCount}</span>
               </NavLink>
             </li>
+            
             <li className="nav-item dropdown mx-2">
               {isLoggedIn ? (
                 <>
