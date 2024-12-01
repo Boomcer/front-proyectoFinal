@@ -19,7 +19,7 @@ const MenuApp = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('uid');
     setIsLoggedIn(false);
-    
+    navigate("/login");
   };
 
   const handleLoginClick = () => {
@@ -30,6 +30,16 @@ const MenuApp = () => {
       navigate('/login');
     }
   };
+
+  const handlePerfilClick = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/perfil");
+    } else{
+      alert("Debe iniciar sesión para poder ingresar a este área");
+      navigate('/login');
+    }
+    };
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -56,22 +66,38 @@ const MenuApp = () => {
           {/* Menús principales a la izquierda */}
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <NavLink to="/" className="nav-link">
-                Home
+              <NavLink 
+              to="/" 
+              className="nav-link">
+              Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/categorias" className="nav-link">
-                Categorías
+              <NavLink 
+              to="/categorias" 
+              className="nav-link">
+              Categorías
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/nosotros" className="nav-link">
-                Nosotros
+              <NavLink 
+              to="/nosotros" 
+              className="nav-link">
+              Nosotros
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/admin" className="nav-link">
+              <NavLink 
+              to="/perfil" 
+              className="nav-link" 
+              onClick={handlePerfilClick}>
+              MiPerfil
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink 
+              to="/admin" 
+              className="nav-link">
                 <i className="bi bi-gear"></i>
               </NavLink>
             </li>
@@ -105,10 +131,14 @@ const MenuApp = () => {
                   >
                     <i className="bi bi-person-circle"></i>
                   </a>
-                  <ul className="dropdown-menu" aria-labelledby="userMenu">
+                  <ul 
+                  className="dropdown-menu" 
+                  aria-labelledby="userMenu">
                     <li>
-                      <button className="dropdown-item" onClick={handleLogout}>
-                        Desconectarse
+                      <button 
+                      className="dropdown-item" 
+                      onClick={handleLogout}>
+                      Desconectarse
                       </button>
                     </li>
                   </ul>

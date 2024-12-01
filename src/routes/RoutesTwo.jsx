@@ -11,6 +11,7 @@ import FavoritosScreen from '../views/FavoritosScreen';
 import RegistroScreen from '../views/RegistroScreen';
 import CategoriasScreen from '../views/CategoriasScreen'
 import CartScreen from '../views/cartScreen';
+import PerfilScreen from '../views/PerfilScreen';
 
 const RoutesTwo = ()=>{
 
@@ -19,6 +20,7 @@ const RoutesTwo = ()=>{
     <Routes>
       <Route path="/" element={<HomeScreen/>}/>
       <Route path="/nosotros" element={<AboutScreen/>}/>
+      <Route path="/perfil" element={<PerfilScreen/>}/>
       <Route path="/categorias" element={<CategoriasScreen/>}/>
       <Route path="/producto/:id" element={<ProductScreen/>}/>      
       <Route path="/favoritos" element= {<FavoritosScreen/>}/>
