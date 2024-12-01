@@ -3,7 +3,7 @@ import '../css/adminPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductoForm from '../components/ProductoForm';
 import TablaProductos from '../components/TablaProductos';
-import Paginacion from '../components/Paginacion'
+import Paginacion from '../components/Paginacion';
 import {
   obtenerProductos,
   crearProducto,
@@ -116,9 +116,9 @@ const AdministradorScreen = () => {
           </button>
         </div>
       ) : (
-        <div className="card mb-4">
-          <div className="card-body">
-            <h2 className="card-title mb-4 text-center">
+        <div className="card-admin mb-4">
+          <div className="card-admin-body">
+            <h2 className="card-admin-title mb-4 text-center">
               {productoEditando ? 'Editar' : 'Agregar'} Producto
             </h2>
             <ProductoForm

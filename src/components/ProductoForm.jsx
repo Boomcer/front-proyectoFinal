@@ -9,7 +9,8 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
     precio: '',
     stock: '',
     categoria: '',
-    imagen: ''
+    imagen: '',
+    destacado: false // Nuevo campo
   });
   const [previewImage, setPreviewImage] = useState('');
 
@@ -21,17 +22,18 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
         precio: producto.precio || '',
         stock: producto.stock || '',
         categoria: producto.categoria || '',
-        imagen: producto.imagen || ''
+        imagen: producto.imagen || '',
+        destacado: producto.destacado || false // Inicializar destacado
       });
       setPreviewImage(producto.imagen || '');
     }
   }, [producto]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value // Manejar checkbox
     }));
 
     if (name === 'imagen') {
@@ -141,6 +143,17 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
               onChange={handleChange}
               required
             />
+          </div>
+          <div className="mb-3 form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="destacado"
+              name="destacado"
+              checked={formData.destacado}
+              onChange={handleChange}
+            />
+            <label htmlFor="destacado" className="form-check-label">Destacado</label>
           </div>
         </div>
         <div className="col-md-4">
