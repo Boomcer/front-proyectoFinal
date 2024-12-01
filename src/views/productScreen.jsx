@@ -15,13 +15,13 @@ const ProductScreen = () => {
     .catch((error) => {
       console.error('Error al obtener el producto:', error);
     });
-    
+
   }, [id]);
 
   if (!producto) {
     return <div className="container mt-4">Cargando producto...</div>;
   }
-  
+
 
 
   return (
