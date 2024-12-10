@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../helpers/fetchApi.js";
-import img from '../assets/img/LogoGrande.jpeg';
 import { Link } from "react-router-dom";
 
 const LoginScreen = () => {
@@ -63,8 +62,8 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="login-container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="login-card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="text-center mb-4">
           <img 
             src="https://via.placeholder.com/100" 
