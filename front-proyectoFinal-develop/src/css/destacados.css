@@ -1,0 +1,43 @@
+.container{
+    gap: 150px;
+}
+
+.container-img{
+    img{
+        max-height: 200px;
+    }
+}
+
+.container-nombre{
+    max-width: 250px;
+    font-size: 30px;
+}
+
+@media (max-width:576px) {
+    .container{
+        gap: 30px;
+    }
+
+    .container-img{
+        img{
+            max-height: 150px;
+        }
+    }
+
+    .container-nombre{
+        max-width: 150px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container{
+        gap: 90px;
+    }
+
+
+    .container-nombre{
+        max-width: 200px;
+        font-size: 25px;
+    }
+}
