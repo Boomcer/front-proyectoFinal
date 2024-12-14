@@ -1,10 +1,16 @@
+.destacados-bg{
+    background-color: #6D757C;
+}
+
 .container{
     gap: 150px;
 }
 
 .container-img{
     img{
-        max-height: 200px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        max-height: 180px;
     }
 }
 

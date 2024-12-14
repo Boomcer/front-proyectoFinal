@@ -19,7 +19,7 @@ const DestacadosApp = () => {
         <h1 className="ps-5">Destacados</h1>
         <div id="carouselExampleDark" className="carousel carousel-dark slide">
         
-        <div className="carousel-inner">
+        <div className="carousel-inner destacados-bg">
 
             { productos.map((producto, index) => (
                 <div key={producto._id} className={`carousel-item ${index === 0 ? 'active': ""}`}
