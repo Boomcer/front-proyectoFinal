@@ -13,11 +13,13 @@ const FavoritesView = () => {
     };
     fetchFavoritos();
   }, [uid]);
-
+  console.log(favoritos)
   return (
     <div>
+      <h1>favoritos</h1>
       {favoritos.map((productoId) => (
         <CardProductApp key={productoId} producto={{ _id: productoId }} />
+        
       ))}
     </div>
   );

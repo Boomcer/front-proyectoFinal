@@ -2,7 +2,7 @@ const urlUsuario = "https://backend-proyectofinal-rolling.onrender.com/api/usuar
 
 
 export const getUsuarios = async () => {
-    const resp = await fetch(urlProductos, {
+    const resp = await fetch(urlUsuario, {
         method: "GET",
         headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -19,8 +19,8 @@ export const getUsuarios = async () => {
 
 
 export const getUserById = async (uid) => {
-    const response = await fetch(`https://backend-proyectofinal-rolling.onrender.com/api/usuarios/673782a061200afc461fd6f8`);
-    console.log(response);
+    const response = await fetch(`https://backend-proyectofinal-rolling.onrender.com/api/usuarios/${uid}`);
+    console.log(uid);
     return response.json();
   };
 

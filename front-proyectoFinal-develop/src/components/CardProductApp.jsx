@@ -4,7 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import "./CardProductApp.css";
 import { Link, NavLink } from "react-router-dom";
-import { updateFavoritos, getUserById , getUsuario} from '../helpers/favoritosApi'; // Funciones API
+import { updateFavoritos, getUserById} from '../helpers/favoritosApi'; // Funciones API
+import { getUsuario } from "../helpers/apiUsuarios";
 
 
  
@@ -16,7 +17,7 @@ const CardProductApp = ({producto}) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const user = await getUserById(); // Obtener usuario desde la API
+      const user = await getUsuario(); // Obtener usuario desde la API
       setFavoritos(user.favoritos);
     };
     fetchUser();

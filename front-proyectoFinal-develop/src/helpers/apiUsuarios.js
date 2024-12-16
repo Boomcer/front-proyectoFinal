@@ -1,7 +1,10 @@
 const url = "https://backend-proyectofinal-rolling.onrender.com/api/usuarios";
 
+
 const getUsuario = async (uid) =>{
+
     console.log("Fetching user with UID:", uid);
+
     const resp = await fetch(url + "/" + uid, {  
         method: "GET",
         headers: {
