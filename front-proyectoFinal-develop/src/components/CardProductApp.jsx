@@ -12,21 +12,15 @@ import { getUsuario } from "../helpers/apiUsuarios";
 const CardProductApp = ({producto}) => {
 
   const [favoritos, setFavoritos] = useState([]);
-  const uid = localStorage.getItem('uid');
+ 
+  
+const uid = JSON.parse(localStorage.getItem("token"))
   
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUsuario(); // Obtener usuario desde la API
-      setFavoritos(user.favoritos);
-    };
-    fetchUser();
-  }, [uid]);
-
   const toggleFavorito = async () => {
-    const updatedFavoritos = favoritos.includes(producto._id)
-      ? favoritos.filter((id) => id !== producto._id)
-      : [...favoritos, producto._id];
+    const updatedFavoritos = favoritos.includes(favoritos.productoId)
+      ? favoritos.filter((id) => id !== favoritos.productoId)
+      : [...favoritos, favoritos.productoId];
 
     setFavoritos(updatedFavoritos);
     await updateFavoritos(uid, updatedFavoritos); // Actualizar en el backend
@@ -51,7 +45,7 @@ const CardProductApp = ({producto}) => {
              <button to={`/producto/${producto._id}`} className="btn btn-outline-secondary">Añadir a carrito</button>
             </div>         
             <div style={{fontSize:"2em", color:"#e0e0e0"}}>
-              <button onClick={toggleFavorito}><FontAwesomeIcon icon={faHeart}         style={{ color: favoritos.includes(producto._id) ? 'red' : 'gray', cursor: 'pointer' }}
+              <button onClick={toggleFavorito}><FontAwesomeIcon icon={faHeart}         style={{ color: favoritos.includes(favoritos.productoId) ? 'red' : 'gray', cursor: 'pointer' }}
               /></button>
             </div>
             

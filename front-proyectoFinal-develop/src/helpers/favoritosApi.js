@@ -19,7 +19,7 @@ export const getUsuarios = async () => {
 
 
 export const getUserById = async (uid) => {
-    const response = await fetch(`https://backend-proyectofinal-rolling.onrender.com/api/usuarios/${uid}`);
+    const response = await fetch(`https://backend-proyectofinal-rolling.onrender.com/api/usuarios${uid}`);
     console.log(uid);
     return response.json();
   };

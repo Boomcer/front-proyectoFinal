@@ -49,8 +49,18 @@ const LoginScreen = () => {
       if (response?.token) {
         localStorage.setItem("token", JSON.stringify(response.token));
         localStorage.setItem("uid", JSON.stringify(response.uid));
+        localStorage.setItem(
+          "favoritos",
+          JSON.stringify(response.favoritos || []) 
+        );
+        localStorage.setItem(
+          "carrito",
+          JSON.stringify(response.carrito || []) 
+        );
+        console.log(response);
         navigate("/");
-      } else {
+      }
+       else {
         // Configurar mensaje en caso de error
         setError(null);
         setMessage(response); // Mostrar el mensaje de error
