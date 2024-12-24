@@ -10,8 +10,10 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
     stock: '',
     categoria: '',
     imagen: '',
-    destacado: false // Nuevo campo
+    destacado: false 
   });
+  console.log('Datos enviados:', formData);
+
   const [previewImage, setPreviewImage] = useState('');
 
   useEffect(() => {
