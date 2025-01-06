@@ -12,6 +12,7 @@ const getUsuario = async (uid) => {
     const data = await resp.json();
     return data;
 };
+
 // Actualizar información del usuario
 const putUsuario = async (uid, datos) => {
     const token = JSON.parse(localStorage.getItem("token")); // Token desde localStorage
@@ -26,14 +27,44 @@ const putUsuario = async (uid, datos) => {
     const data = await resp.json();
     return data;
 };
+
 // Añadir producto al carrito
 const addToCarrito = async (productoId, cantidad = 1) => {
-    const uid = JSON.parse(localStorage.getItem("uid")).uid; // UID desde localStorage
+    const token = JSON.parse(localStorage.getItem("token")); // Obtener Token desde localStorage
+
+    if (!token) {
+        throw new Error("El token no está disponible en localStorage.");
+    }
+
+    // Estructura de los datos que se enviarán al backend
     const datos = {
-        carrito: [{ productoId, cantidad }], // Datos para el carrito
+        carrito: [{ 
+            productoId, 
+            cantidad 
+        }],
     };
-    return await putUsuario(uid, datos); // Llamada a putUsuario
+
+    console.log("Datos enviados al carrito:", datos);
+
+    // Realizar la solicitud al backend para actualizar el carrito
+    const resp = await fetch("https://backend-proyectofinal-rolling.onrender.com/api/usuarios/675aaba923b2ed40d46a7896", {
+        method: "PUT",
+        body: JSON.stringify(datos),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "x-token": token, // Token enviado en headers
+        },
+    });
+
+    if (!resp.ok) {
+        const errorMessage = await resp.text();
+        throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    return data;
 };
+
 // Añadir producto a favoritos
 const addToFavoritos = async (productoId) => {
     const uid = localStorage.getItem("uid");
@@ -60,6 +91,47 @@ const addToFavoritos = async (productoId) => {
     const data = await resp.json();
     return data;
 };
+
+// Eliminar producto de favoritos
+const deleteToFavoritos = async (productoId) => {
+    const uid = localStorage.getItem("uid");
+    const token = JSON.parse(localStorage.getItem("token")); 
+    console.log("Token:", token);
+    
+    if (!token) {
+        throw new Error("El token no está disponible en localStorage.");
+    }
+
+    // Estructura de los datos que se enviarán al backend
+    const datos = {
+        eliminarFavorito: [{ 
+            productoId 
+        }],
+    };
+
+    
+    console.log("Datos enviados para eliminar favorito:", datos);
+
+    // Realizar la solicitud al backend para eliminar el favorito
+    const resp = await fetch( `${url}/${uid}` , {
+        method: "PUT",
+        body: JSON.stringify(datos),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "x-token": token, // Token enviado en headers
+        },
+    });
+
+    if (!resp.ok) {
+        const errorMessage = await resp.text();
+        throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    return data;
+};
+
+
 // Actualizar información del usuario en localStorage
 const refreshUsuario = async () => {
     const uid = localStorage.getItem("uid"); // Obtener UID desde localStorage
@@ -70,15 +142,11 @@ const refreshUsuario = async () => {
     try {
         // Hacer el GET para obtener los datos del usuario
         const data = await getUsuario(uid);
-        // Actualizar el carrito y favoritos en localStorage con los datos obtenidos
-        console.log(data);
-        
         localStorage.setItem("carrito", JSON.stringify(data.carrito || []));
-
         localStorage.setItem("favoritos", JSON.stringify(data.usuario.favoritos || []));
     } catch (error) {
         console.error("Error al actualizar los datos del usuario:", error);
         throw error; // Re-throw error to handle it at the calling level
     }
 };
-export { getUsuario, putUsuario, addToCarrito, addToFavoritos, refreshUsuario };
+export { getUsuario, putUsuario, addToCarrito, addToFavoritos, refreshUsuario, deleteToFavoritos };

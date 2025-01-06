@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import LogoChico from '../assets/img/LogoChico.jpeg';
 
-
-
 const MenuApp = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para verificar si el usuario está logueado
   const [favoritesCount, setFavoritesCount] = useState(0); // Estado para el contador de favoritos
@@ -13,6 +11,23 @@ const MenuApp = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token); // Actualiza el estado basado en si el token existe o no
+  }, []);
+
+  // Actualizar contador de favoritos al montar o cuando cambien los favoritos
+  useEffect(() => {
+    const updateFavoritesCount = () => {
+      const favorites = JSON.parse(localStorage.getItem('favoritos')) || [];
+      setFavoritesCount(favorites.length);
+    };
+
+    updateFavoritesCount();
+
+    // Agregar listener para cambios en localStorage (opcional)
+    window.addEventListener('storage', updateFavoritesCount);
+
+    return () => {
+      window.removeEventListener('storage', updateFavoritesCount);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -35,11 +50,11 @@ const MenuApp = () => {
     const token = localStorage.getItem("token");
     if (token) {
       navigate("/perfil");
-    } else{
+    } else {
       alert("Debe iniciar sesión para poder ingresar a este área");
       navigate('/login');
     }
-    };
+  };
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -66,38 +81,27 @@ const MenuApp = () => {
           {/* Menús principales a la izquierda */}
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <NavLink 
-              to="/" 
-              className="nav-link">
-              Home
+              <NavLink to="/" className="nav-link">
+                Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink 
-              to="/categorias" 
-              className="nav-link">
-              Categorías
+              <NavLink to="/categorias" className="nav-link">
+                Categorías
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink 
-              to="/nosotros" 
-              className="nav-link">
-              Nosotros
+              <NavLink to="/nosotros" className="nav-link">
+                Nosotros
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink 
-              to="/perfil" 
-              className="nav-link" 
-              onClick={handlePerfilClick}>
-              MiPerfil
+              <NavLink to="/perfil" className="nav-link" onClick={handlePerfilClick}>
+                Mi Perfil
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink 
-              to="/admin" 
-              className="nav-link">
+              <NavLink to="/admin" className="nav-link">
                 <i className="bi bi-gear"></i>
               </NavLink>
             </li>
@@ -115,7 +119,7 @@ const MenuApp = () => {
                 <span className="ms-1 badge bg-danger">{favoritesCount}</span>
               </NavLink>
             </li>
-            
+
             <li className="nav-item dropdown mx-2">
               {isLoggedIn ? (
                 <>
@@ -131,14 +135,10 @@ const MenuApp = () => {
                   >
                     <i className="bi bi-person-circle"></i>
                   </a>
-                  <ul 
-                  className="dropdown-menu" 
-                  aria-labelledby="userMenu">
+                  <ul className="dropdown-menu" aria-labelledby="userMenu">
                     <li>
-                      <button 
-                      className="dropdown-item" 
-                      onClick={handleLogout}>
-                      Desconectarse
+                      <button className="dropdown-item" onClick={handleLogout}>
+                        Desconectarse
                       </button>
                     </li>
                   </ul>
@@ -169,4 +169,3 @@ const MenuApp = () => {
 };
 
 export default MenuApp;
-
