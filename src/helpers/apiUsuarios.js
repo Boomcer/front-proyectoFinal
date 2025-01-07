@@ -30,10 +30,11 @@ const putUsuario = async (uid, datos) => {
 
 // Añadir producto al carrito
 const addToCarrito = async (productoId, cantidad = 1) => {
+    const uid = localStorage.getItem("uid"); // Obtener UID desde localStorage
     const token = JSON.parse(localStorage.getItem("token")); // Obtener Token desde localStorage
 
-    if (!token) {
-        throw new Error("El token no está disponible en localStorage.");
+    if (!uid || !token) {
+        throw new Error("El UID o el token no están disponibles en localStorage.");
     }
 
     // Estructura de los datos que se enviarán al backend
@@ -47,7 +48,7 @@ const addToCarrito = async (productoId, cantidad = 1) => {
     console.log("Datos enviados al carrito:", datos);
 
     // Realizar la solicitud al backend para actualizar el carrito
-    const resp = await fetch("https://backend-proyectofinal-rolling.onrender.com/api/usuarios/675aaba923b2ed40d46a7896", {
+    const resp = await fetch(`https://backend-proyectofinal-rolling.onrender.com/api/usuarios/${uid}`, {
         method: "PUT",
         body: JSON.stringify(datos),
         headers: {
