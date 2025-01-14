@@ -15,7 +15,7 @@ const alta = async (nombre, email, password, rol) =>{
 };
 export { alta };*/
 
-const url = "https://backend-proyectofinal-rolling.onrender.com/api/";
+const url =  import.meta.env.VITE_API_URL + "/api/";
 
 const alta = async (datos) => {
   const resp = await fetch(url + "usuarios", {

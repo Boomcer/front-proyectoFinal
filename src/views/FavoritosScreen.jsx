@@ -1,44 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { getProductos } from '../helpers/apiProductos'; // Asumí que esta función ya está definida
-import { getUsuario, refreshUsuario } from '../helpers/apiUsuarios'; // Asumí que esta función ya está definida
+import { getProducto } from '../helpers/apiProductos'; // Cambiado a singular
+import { getUsuario, deleteToFavoritos } from '../helpers/apiUsuarios';
 import CardFavoritos from '../components/CardFavoritos';
 const FavoritosScreen = () => {
   const [favoritos, setFavoritos] = useState([]);
-  const [productos, setProductos] = useState([]);
-  const uid = localStorage.getItem('uid'); // Obtener el UID desde el localStorage
+  const uid = localStorage.getItem('uid');
   useEffect(() => {
     const fetchFavoritos = async () => {
       try {
         // Traemos los datos del usuario, incluyendo los favoritos
         const usuario = await getUsuario(uid);
-        // Ahora tenemos los productos favoritos completos en `usuario.favoritos`, los asignamos directamente al estado 
-        const favoritisimo = localStorage.getItem('favoritos');
-        setFavoritos(JSON.parse(favoritisimo));
-        // setFavoritos(usuario.favoritos);
-        // Si necesitas todos los productos disponibles en la tienda, puedes traerlos también
-        const productos = await getProductos();
-        setProductos(productos.productos); // Asegúrate de que productos.productos es un array
-        console.log(productos);
-        console.log(usuario);
-        
-        console.log("Estado favoritos :",favoritos);
-        console.log("Estado favoritos actualizado:", favoritos);
+        const favoritosIds = JSON.parse(localStorage.getItem('favoritos')) || [];
+        // Arreglo de objetos con productoId
+        console.log(favoritosIds);
+        // Mapeamos para obtener los productos usando getProducto
+        const productosFavoritos = await Promise.all(
+          favoritosIds.map((fav) => getProducto(fav.productoId._id))
+        );
+        console.log('Productos favoritos obtenidos:', productosFavoritos);
+        // Guardamos los productos obtenidos en el estado
+        setFavoritos(productosFavoritos);
       } catch (error) {
-        console.error("Error al obtener los favoritos o productos:", error);
+        console.error('Error al obtener los favoritos o productos:', error);
       }
     };
     fetchFavoritos();
   }, [uid]);
+
+  useEffect(() => {
+    console.log(favoritos);
+    
+  }, [favoritos]);
+
+  const handleDeleteFavorito = async (productoId) => {
+    try {
+      await deleteToFavoritos(productoId); // Eliminar el producto de favoritos en el backend
+      setFavoritos((prevFavoritos) =>
+        prevFavoritos.filter((favorito) => favorito._id !== productoId)
+      ); // Actualizar el estado local
+    } catch (error) {
+      console.error('Error al eliminar el favorito:', error);
+    }
+  };
   return (
     <div>
       <h1>Favoritos</h1>
       <div className="row g-4">
-       
-        
-        {favoritos.map((producto) => (
-          
-          // <p>{producto._id}--{producto.productoId}</p>// <CardProductApp key={producto._id} producto={producto} />
-          <CardFavoritos key={producto._id} producto={producto} onDeleteFavorito={refreshUsuario} />
+        {favoritos.map((favorito) => (
+          <CardFavoritos
+            key={favorito._id}
+            id={favorito._id}
+            producto={favorito.producto}
+            onDeleteFavorito={handleDeleteFavorito}
+          />
         ))}
       </div>
     </div>

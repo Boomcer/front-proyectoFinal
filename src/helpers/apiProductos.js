@@ -1,5 +1,5 @@
-const urlProductos = "https://backend-proyectofinal-rolling.onrender.com/api/productos?desde=0";
-const urlProducto = "https://backend-proyectofinal-rolling.onrender.com/api/productos/"
+const urlProductos =  import.meta.env.VITE_API_URL + "/api/productos?desde=0";
+const urlProducto =  import.meta.env.VITE_API_URL + '/api/productos';
 
 const getProductos = async () => {
     const resp = await fetch(urlProductos, {

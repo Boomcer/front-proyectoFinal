@@ -1,5 +1,6 @@
+// CardFavoritos.jsx
 import React from "react";
-import PropTypes from "prop-types"; // Para validación de props
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -45,5 +46,9 @@ const CardFavoritos = ({ producto, onDeleteFavorito }) => {
 };
 
 
+CardFavoritos.propTypes = {
+  producto: PropTypes.object.isRequired,
+  onDeleteFavorito: PropTypes.func.isRequired,
+};
 
 export default CardFavoritos;
