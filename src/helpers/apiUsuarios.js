@@ -97,44 +97,44 @@ const addToFavoritos = async (productoId) => {
 // Eliminar producto de favoritos
 const deleteToFavoritos = async (productoId) => {
     const uid = localStorage.getItem("uid");
-    const token = JSON.parse(localStorage.getItem("token"));
-    console.log("Token:", token);
-    console.log("Producto ID:", productoId);
-    if (!token) {
-      throw new Error("El token no está disponible en localStorage.");
+    const token = JSON.parse(localStorage.getItem("token")); // Obtener token desde localStorage
+
+    if (!uid || !token) {
+        throw new Error("El UID o el token no están disponibles en localStorage.");
     }
-    // Estructura del cuerpo que espera la API
+
+    // Formato que espera el backend
     const body = {
-      _id: 
-        
-            productoId
-        
-      ,
+        eliminarFavorito:[productoId], // Array con el ID del producto
     };
-    console.log(JSON.stringify(body));
-    
+
+    console.log("Datos enviados al backend para eliminar:", body);
+
     try {
-      // Realizar la solicitud al backend
-      const resp = await fetch(`${url}/${uid}`, {
-        method: "PUT",
-        body: JSON.stringify(body),        
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-          "x-token": token, // Token enviado en headers
-        },
-      });
-      if (!resp.ok) {
-        const errorMessage = await resp.text();
-        throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
-      }
-      const data = await resp.json();
-      console.log("Respuesta del servidor:", data);
-      return data;
+        // Solicitud PUT al backend
+        const resp = await fetch(`${url}/${uid}`, {
+            method: "PUT",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "x-token": token,
+            },
+        });
+
+        if (!resp.ok) {
+            const errorMessage = await resp.text();
+            throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        console.log("Respuesta del servidor:", data);
+        return data;
     } catch (error) {
-      console.error("Error al eliminar el favorito:", error.message);
-      throw error; // Re-lanzar el error para que pueda ser manejado por la función que llama
+        console.error("Error al eliminar el favorito:", error.message);
+        throw error;
     }
-  };
+};
+
 
 
 // Actualizar información del usuario en localStorage
