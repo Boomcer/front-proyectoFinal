@@ -31,41 +31,74 @@ const putUsuario = async (uid, datos) => {
 
 // Añadir producto al carrito
 const addToCarrito = async (productoId, cantidad = 1) => {
-    const uid = localStorage.getItem("uid"); // Obtener UID desde localStorage
-    const token = JSON.parse(localStorage.getItem("token")); // Obtener Token desde localStorage
+    const uid = localStorage.getItem("uid");
+    const token = localStorage.getItem("token");
+  
+    if (!uid || !token) {
+      throw new Error("El UID o el token no están disponibles en localStorage.");
+    }
+  
+    const datos = {
+      carrito: [{ productoId, cantidad }],
+    };
+  
+    const resp = await fetch(`${url}/${uid}`, {
+      method: "PUT",
+      body: JSON.stringify(datos),
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": JSON.parse(token),
+      },
+    });
+  
+    if (!resp.ok) {
+      throw new Error("Error al añadir el producto al carrito.");
+    }
+  
+    return await resp.json();
+  };
+  
+// Eliminar producto del carrito
+const deleteFromCarrito = async (productoId) => {
+    const uid = localStorage.getItem("uid");
+    const token = JSON.parse(localStorage.getItem("token")); // Obtener token desde localStorage
 
     if (!uid || !token) {
         throw new Error("El UID o el token no están disponibles en localStorage.");
     }
 
-    // Estructura de los datos que se enviarán al backend
-    const datos = {
-        carrito: [{ 
-            productoId, 
-            cantidad 
-        }],
+    // Formato que espera el backend
+    const body = {
+        eliminarCarrito: [{ productoId }], // Array con el ID del producto
     };
 
-    console.log("Datos enviados al carrito:", datos);
+    console.log("Datos enviados al backend para eliminar del carrito:", body);
 
-    // Realizar la solicitud al backend para actualizar el carrito
-    const resp = await fetch(`https://backend-proyectofinal-rolling.onrender.com/api/usuarios/${uid}`, {
-        method: "PUT",
-        body: JSON.stringify(datos),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            "x-token": token, // Token enviado en headers
-        },
-    });
+    try {
+        // Solicitud PUT al backend
+        const resp = await fetch(`${url}/${uid}`, {
+            method: "PUT",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "x-token": token,
+            },
+        });
 
-    if (!resp.ok) {
-        const errorMessage = await resp.text();
-        throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+        if (!resp.ok) {
+            const errorMessage = await resp.text();
+            throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        console.log("Respuesta del servidor:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al eliminar el producto del carrito:", error.message);
+        throw error;
     }
-
-    const data = await resp.json();
-    return data;
 };
+
 
 // Añadir producto a favoritos
 const addToFavoritos = async (productoId) => {
@@ -136,7 +169,6 @@ const deleteToFavoritos = async (productoId) => {
 };
 
 
-
 // Actualizar información del usuario en localStorage
 const refreshUsuario = async () => {
     const uid = localStorage.getItem("uid"); // Obtener UID desde localStorage
@@ -154,4 +186,4 @@ const refreshUsuario = async () => {
         throw error; // Re-throw error to handle it at the calling level
     }
 };
-export { getUsuario, putUsuario, addToCarrito, addToFavoritos, refreshUsuario, deleteToFavoritos };
+export { getUsuario, putUsuario, addToCarrito, addToFavoritos, refreshUsuario, deleteToFavoritos, deleteFromCarrito};

@@ -1,100 +1,93 @@
-import React, { useState, useEffect } from "react";
-import { getUsuario } from "../helpers/apiUsuarios"; // Asumimos que esta función ya está definida
-import CardProductApp from "../components/CardProductApp"; // Reutilizamos este componente para productos
+import React from "react";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
-const CartApp = () => {
-  const [carrito, setCarrito] = useState([]); // Estado para los productos del carrito
-  const [productos, setProductos] = useState([]); // Estado para los datos completos de los productos
-  const [total, setTotal] = useState(0); // Estado para el total del carrito
-  const uid = localStorage.getItem("uid"); // Obtener el UID desde el localStorage
+const CardCarrito = ({ producto, onDeleteCarrito, onUpdateCantidad }) => {
+  const { _id, nombre, precio, img, carritoId, cantidad } = producto; // Extraer las propiedades necesarias
 
-  useEffect(() => {
-    const fetchCarrito = async () => {
-      try {
-        // Traemos los datos del usuario, incluyendo el carrito
-        const usuario = await getUsuario(uid);
-        setCarrito(usuario.carrito || []); // Asumimos que `usuario.carrito` es un array de objetos con productoId y cantidad
+  const handleDelete = () => {
+    if (carritoId) {
+      console.log("ID del producto a eliminar del carrito:", carritoId);
+      onDeleteCarrito(carritoId);
+    } else {
+      console.error("ID del producto no válido:", carritoId);
+    }
+  };
 
-        // Calculamos el total basado en los precios y cantidades de los productos del carrito
-        if (usuario.carrito) {
-          const sumaTotal = usuario.carrito.reduce(
-            (acc, item) => acc + item.producto.precio * item.cantidad,
-            0
-          );
-          setTotal(sumaTotal);
-        }
-      } catch (error) {
-        console.error("Error al obtener el carrito:", error);
-      }
-    };
-    fetchCarrito();
-  }, [uid]);
+  const handleSumar = () => {
+    onUpdateCantidad(carritoId, cantidad + 1);
+  };
 
-  const eliminarProducto = async (productoId) => {
-    try {
-      // Implementar la lógica para eliminar productos del carrito en el backend
-      // Actualizar el carrito después de la eliminación
-      const nuevoCarrito = carrito.filter((item) => item.productoId !== productoId);
-      setCarrito(nuevoCarrito);
-      // Recalcular el total
-      const sumaTotal = nuevoCarrito.reduce(
-        (acc, item) => acc + item.producto.precio * item.cantidad,
-        0
-      );
-      setTotal(sumaTotal);
-    } catch (error) {
-      console.error("Error al eliminar el producto del carrito:", error);
+  const handleRestar = () => {
+    if (cantidad > 1) {
+      onUpdateCantidad(carritoId, cantidad - 1);
     }
   };
 
   return (
-    <div className="mt-3">
-      <ul>
-        {carrito.length === 0 ? (
-          <div>
-            <div className="col text-center carrito-vacio">
-              <p>El carrito está vacío</p>
-            </div>
+    <div className="col">
+      <div
+        id="card"
+        className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark mt-2"
+      >
+        <Link className="nav-link" to={`/producto/${_id}`}>
+          <div id="content-img" className="align-items-center">
+            <img
+              src={img || "/default-image.png"}
+              className="card-img-top"
+              alt={nombre || "Producto"}
+              style={{
+                width: "150px",
+                height: "80px",
+                objectFit: "cover",
+              }}
+            />
           </div>
-        ) : (
-          carrito.map((item) => (
-            <li key={item.productoId} className="producto-item">
-              <div className="producto-contenedor reducido bg-secondary">
-                <div className="producto-imagen me-5">
-                  <img
-                    src={item.producto.img}
-                    alt={`Imagen de ${item.producto.nombre}`}
-                    className="imagen"
-                  />
-                </div>
-
-                <div className="producto-detalles">
-                  <h6 className="nombre">{item.producto.nombre}</h6>
-                  <p className="descripcion">{item.producto.descripcion}</p>
-                  <p className="precio">
-                    Precio: ${item.producto.precio} x {item.cantidad}
-                  </p>
-                </div>
-
-                <div className="producto-boton">
-                  <button
-                    className="btn-eliminar"
-                    onClick={() => eliminarProducto(item.productoId)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))
-        )}
-      </ul>
-
-      <div className="row text-center">
-        <h2>Total: ${total}</h2>
+        </Link>
+        <div className="card-body text-light">
+          <h6 className="card-title">{nombre || "Producto sin nombre"}</h6>
+          <p className="card-text">${precio || "0.00"}</p>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <button
+              className="btn btn-sm btn-outline-danger"
+              onClick={handleRestar}
+              disabled={cantidad <= 1}
+            >
+              <FontAwesomeIcon icon={faMinus} />
+            </button>
+            <span className="fw-bold">{cantidad}</span>
+            <button
+              className="btn btn-sm btn-outline-success"
+              onClick={handleSumar}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </button>
+          </div>
+          <button
+            onClick={handleDelete}
+            className="btn btn-sm btn-danger mt-2"
+          >
+            <FontAwesomeIcon icon={faTrash} /> Eliminar del Carrito
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default CartApp;
+CardCarrito.propTypes = {
+  producto: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    nombre: PropTypes.string.isRequired,
+    precio: PropTypes.number.isRequired,
+    img: PropTypes.string,
+    carritoId: PropTypes.string.isRequired,
+    cantidad: PropTypes.number.isRequired,
+  }).isRequired,
+  onDeleteCarrito: PropTypes.func.isRequired,
+  onUpdateCantidad: PropTypes.func.isRequired,
+};
+
+export default CardCarrito;
