@@ -8,11 +8,11 @@ const CardCarrito = ({ producto, onDeleteCarrito, onUpdateCantidad }) => {
   const { _id, nombre, precio, img, carritoId, cantidad } = producto; // Extraer las propiedades necesarias
 
   const handleDelete = () => {
-    if (carritoId) {
-      console.log("ID del producto a eliminar del carrito:", carritoId);
-      onDeleteCarrito(carritoId);
+    if (_id) {
+      console.log("ID del producto a eliminar del carrito:", _id);
+      onDeleteCarrito(_id);
     } else {
-      console.error("ID del producto no válido:", carritoId);
+      console.error("ID del producto no válido:", _id);
     }
   };
 

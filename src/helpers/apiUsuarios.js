@@ -168,6 +168,67 @@ const deleteToFavoritos = async (productoId) => {
     }
 };
 
+// Actualizar producto en el carrito
+const putCarrito = async (productoId, cantidad) => {
+    const uid = localStorage.getItem("uid");
+    const token = localStorage.getItem("token");
+  
+    if (!uid || !token) {
+      throw new Error("El UID o el token no están disponibles en localStorage.");
+    }
+  
+    const datos = {
+      productoId,
+      cantidad,
+    };
+  
+    const resp = await fetch(`${url}/${uid}`, {
+      method: "PUT",
+      body: JSON.stringify(datos),
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": JSON.parse(token),
+      },
+    });
+  
+    if (!resp.ok) {
+      const errorMessage = await resp.text();
+      throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+    }
+  
+    const data = await resp.json();
+    return data;
+  };
+
+// Vaciar todo el carrito
+const clearCarrito = async () => {
+    const uid = localStorage.getItem("uid");
+    const token = JSON.parse(localStorage.getItem("token")); // Obtener token desde localStorage
+    if (!uid || !token) {
+        throw new Error("El UID o el token no están disponibles en localStorage.");
+    }
+    try {
+        // Solicitud PUT al backend para vaciar el carrito
+        const resp = await fetch(`${url}/${uid}`, {
+            method: "PUT",
+            body: JSON.stringify({ carrito: [] }), // Enviar un carrito vacío
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "x-token": token,
+            },
+        });
+        if (!resp.ok) {
+            const errorMessage = await resp.text();
+            throw new Error(errorMessage || `Error del servidor: ${resp.status}`);
+        }
+        const data = await resp.json();
+        console.log("Carrito vaciado con éxito:", data);
+        return data;
+    } catch (error) {
+        console.error("Error al vaciar el carrito:", error.message);
+        throw error;
+    }
+};
 
 // Actualizar información del usuario en localStorage
 const refreshUsuario = async () => {
@@ -186,4 +247,4 @@ const refreshUsuario = async () => {
         throw error; // Re-throw error to handle it at the calling level
     }
 };
-export { getUsuario, putUsuario, addToCarrito, addToFavoritos, refreshUsuario, deleteToFavoritos, deleteFromCarrito};
+export { getUsuario, putUsuario, addToCarrito, addToFavoritos, refreshUsuario, deleteToFavoritos, deleteFromCarrito, putCarrito, clearCarrito};
