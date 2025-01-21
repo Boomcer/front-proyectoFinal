@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getProducto } from "../helpers/apiProductos"; // Función para obtener los datos de un producto
-import { getUsuario, deleteFromCarrito } from "../helpers/apiUsuarios"; // Función para obtener datos del usuario y eliminar productos del carrito
-import CartApp from "../components/CartApp"; // Componente para mostrar los productos del carrito
+import {
+  getUsuario,
+  deleteFromCarrito,
+  putCarrito,
+  clearCarrito,
+  refreshUsuario
+} from "../helpers/apiUsuarios"; // Función para obtener datos del usuario y eliminar productos del carrito
+import CartApp from "../components/CardCarrito"; // Componente para mostrar los productos del carrito
 
 const CartScreen = () => {
   const [carrito, setCarrito] = useState([]); // Estado para almacenar los productos del carrito
@@ -50,23 +56,65 @@ const CartScreen = () => {
     }
   };
 
+  const handleUpdateCantidad = async (carritoId, cantidad) => {
+    try {
+      await putCarrito(carritoId, cantidad);
+      setCarrito((prevCarrito) =>
+        prevCarrito.map((producto) =>
+          producto.carritoId === carritoId
+            ? { ...producto, cantidad }
+            : producto
+        )
+      );
+    } catch (error) {
+      console.error("Error al actualizar la cantidad del producto:", error);
+    }
+  };
+  const handleComprar = async () => {
+  try {
+    // Itera sobre los productos en el carrito y usa `handleDeleteCarrito` para eliminarlos uno por uno
+    for (const producto of carrito) {
+      console.log("Eliminando producto del carrito:", producto.carritoId);
+      await handleDeleteCarrito(producto.carritoId);
+    }
+
+    // Vaciar el carrito en el backend (opcional, si no es manejado en la iteración)
+    await clearCarrito(uid);
+
+    alert("¡Compra realizada con éxito! Todos los productos han sido eliminados del carrito.");
+  } catch (error) {
+    console.error("Error al realizar la compra:", error);
+    alert("Ocurrió un error al intentar completar la compra.");
+  }
+};
+
+  
+
   return (
     <div className="p-2">
       <h1>🛒 Carrito de Compras 🛒</h1>
       <div className=" row g-3">
         {/* Aquí usamos el componente CartApp para mostrar los productos del carrito */}
         {carrito.map(({ producto, carritoId, cantidad }) => (
- <CartApp
- key={carritoId}
- id={carritoId}
- producto={{
-   ...producto,
-   cantidad,
- }}
- onDeleteCarrito={handleDeleteCarrito}
-/>
-))}
+          <CartApp
+            key={carritoId}
+            id={carritoId}
+            producto={{
+              ...producto,
+              cantidad,
+            }}
+            onDeleteCarrito={handleDeleteCarrito}
+            onUpdateCantidad={handleUpdateCantidad}
+          />
+        ))}
       </div>
+      {carrito.length > 0 && (
+        <div className="text-center mt-4">
+          <button className="btn btn-primary" onClick={handleComprar}>
+            Comprar Todo
+          </button>
+        </div>
+      )}
     </div>
   );
 };
