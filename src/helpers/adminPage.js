@@ -59,14 +59,21 @@ export const crearProducto = async (producto) => {
 
 export const actualizarProducto = async (id, producto) => {
   try {
+    if (!id) {
+      throw new Error('El ID del producto es obligatorio.');
+    }
+
+    console.log('Actualizando producto:', id, producto);
+
     const response = await fetch(`${API_URL}/productos/${id}`, {
       method: 'PUT',
       headers: getHeaders(),
-      body: JSON.stringify(producto)
+      body: JSON.stringify(producto),
     });
-    return handleResponse(response);
+
+    return await handleResponse(response);
   } catch (error) {
-    console.error('Error al actualizar producto:', error);
+    console.error('Error al actualizar producto:', error.message);
     throw error;
   }
 };

@@ -24,6 +24,7 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
         precio: producto.precio || '',
         stock: producto.stock || '',
         categoria: producto.categoria || '',
+        // categoria: producto.categoria?.nombre || '',
         imagen: producto.imagen || '',
         destacado: producto.destacado || false // Inicializar destacado
       });

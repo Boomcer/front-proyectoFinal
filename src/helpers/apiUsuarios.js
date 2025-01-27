@@ -200,6 +200,7 @@ const putCarrito = async (productoId, cantidad) => {
     return data;
   };
 
+
 // Vaciar todo el carrito
 const clearCarrito = async () => {
     const uid = localStorage.getItem("uid");
@@ -211,7 +212,7 @@ const clearCarrito = async () => {
         // Solicitud PUT al backend para vaciar el carrito
         const resp = await fetch(`${url}/${uid}`, {
             method: "PUT",
-            body: JSON.stringify({ carrito: [] }), // Enviar un carrito vacío
+            body: JSON.stringify({ vaciarCarrito: true }), // Indicar al backend que vacíe el carrito
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
                 "x-token": token,
