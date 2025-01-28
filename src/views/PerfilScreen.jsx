@@ -58,7 +58,7 @@ const PerfilScreen = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 mb-3">
       {usuario ? (
         <>
           <h2 className="mb-4">Hola, {usuario.nombre || 'Usuario'}</h2>

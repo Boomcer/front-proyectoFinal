@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <MenuApp/>
-      <div className='w-100'>
+      <div className=''>
       <Routes>
         <Route 
         path='/*' 

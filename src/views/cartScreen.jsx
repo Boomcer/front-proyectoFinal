@@ -1,41 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { getProducto } from "../helpers/apiProductos"; // Función para obtener los datos de un producto
+import { getProducto } from "../helpers/apiProductos";
 import {
   getUsuario,
   deleteFromCarrito,
   putCarrito,
   clearCarrito,
-  refreshUsuario
-} from "../helpers/apiUsuarios"; // Función para obtener datos del usuario y eliminar productos del carrito
-import CartApp from "../components/CardCarrito"; // Componente para mostrar los productos del carrito
+} from "../helpers/apiUsuarios";
+import CartApp from "../components/CardCarrito";
 
 const CartScreen = () => {
-  const [carrito, setCarrito] = useState([]); // Estado para almacenar los productos del carrito
-  const uid = localStorage.getItem("uid"); // Obtenemos el UID del usuario almacenado en el localStorage
+  const [carrito, setCarrito] = useState([]);
+  const uid = localStorage.getItem("uid");
 
   useEffect(() => {
     const fetchCarrito = async () => {
       try {
-        // Obtener los datos del usuario, incluyendo el carrito
         const usuario = await getUsuario(uid);
-        const carritoList = usuario.usuario.carrito || []; // Array de productos en el carrito
+        const carritoList = usuario.usuario.carrito || [];
 
-        console.log("Lista del carrito del usuario:", carritoList);
-
-        // Obtener los detalles de los productos en el carrito
         const productosCarrito = await Promise.all(
           carritoList.map(async (item) => {
-            const producto = await getProducto(item.productoId); // Detalles del producto
+            const producto = await getProducto(item.productoId);
             return {
-              ...producto, // Incluimos los datos completos del producto
-              carritoId: item._id, // ID único del producto en el carrito
-              cantidad: item.cantidad, // Cantidad del producto en el carrito
+              ...producto, // Detalles completos del producto
+              carritoId: item._id,
+              cantidad: item.cantidad,
             };
           })
         );
 
-        console.log("Productos en el carrito obtenidos:", productosCarrito);
-        setCarrito(productosCarrito); // Guardar los datos completos en el estado
+        setCarrito(productosCarrito);
       } catch (error) {
         console.error("Error al obtener el carrito o productos:", error);
       }
@@ -43,14 +37,25 @@ const CartScreen = () => {
 
     fetchCarrito();
   }, [uid]);
+console.log(carrito);
+
+const calcularTotalCarrito = () => {
+  return carrito.reduce((total, item) => {
+    const precio = parseFloat(item.producto.precio) || 0; // Accede a producto.precio
+    const cantidad = parseInt(item.cantidad, 10) || 0; // Usa item.cantidad
+    const subtotal = precio * cantidad;
+    return total + subtotal;
+  }, 0); // Comienza desde 0
+};
+
+  
 
   const handleDeleteCarrito = async (carritoId) => {
     try {
-      console.log("ID del producto a eliminar del carrito:", carritoId);
-      await deleteFromCarrito(carritoId); // Llamar a la función de eliminación del backend
+      await deleteFromCarrito(carritoId);
       setCarrito((prevCarrito) =>
         prevCarrito.filter((producto) => producto.carritoId !== carritoId)
-      ); // Actualizar la lista localmente
+      );
     } catch (error) {
       console.error("Error al eliminar el producto del carrito:", error);
     }
@@ -70,31 +75,24 @@ const CartScreen = () => {
       console.error("Error al actualizar la cantidad del producto:", error);
     }
   };
+
   const handleComprar = async () => {
-  try {
-    // Itera sobre los productos en el carrito y usa `handleDeleteCarrito` para eliminarlos uno por uno
-    for (const producto of carrito) {
-      console.log("Eliminando producto del carrito:", producto.carritoId);
-      await handleDeleteCarrito(producto.carritoId);
+    try {
+      for (const producto of carrito) {
+        await handleDeleteCarrito(producto.carritoId);
+      }
+      await clearCarrito(uid);
+      alert("¡Compra realizada con éxito!");
+    } catch (error) {
+      console.error("Error al realizar la compra:", error);
+      alert("Ocurrió un error al intentar completar la compra.");
     }
-
-    // Vaciar el carrito en el backend (opcional, si no es manejado en la iteración)
-    await clearCarrito(uid);
-
-    alert("¡Compra realizada con éxito! Todos los productos han sido eliminados del carrito.");
-  } catch (error) {
-    console.error("Error al realizar la compra:", error);
-    alert("Ocurrió un error al intentar completar la compra.");
-  }
-};
-
-  
+  };
 
   return (
     <div className="p-2">
       <h1>🛒 Carrito de Compras 🛒</h1>
-      <div className=" row g-3">
-        {/* Aquí usamos el componente CartApp para mostrar los productos del carrito */}
+      <div className="row g-3">
         {carrito.map(({ producto, carritoId, cantidad }) => (
           <CartApp
             key={carritoId}
@@ -109,8 +107,9 @@ const CartScreen = () => {
         ))}
       </div>
       {carrito.length > 0 && (
-        <div className="text-center mt-4">
-          <button className="btn btn-primary" onClick={handleComprar}>
+        <div className="text-center mt-5 mb-3">
+          <h4>Total: ${calcularTotalCarrito().toFixed(2)}</h4>
+          <button className="btn btn-primary mt-3" onClick={handleComprar}>
             Comprar Todo
           </button>
         </div>

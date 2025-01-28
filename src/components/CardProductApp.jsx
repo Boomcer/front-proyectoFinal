@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { addToCarrito, addToFavoritos, refreshUsuario } from "../helpers/apiUsuarios.js";
-import "./CardProductApp.css";
+import "../css/CardProductApp.css";
 const CardProductApp = ({ producto }) => {
       
   const [loadingCarrito, setLoadingCarrito] = useState(false);
@@ -44,7 +44,7 @@ const handleAddToFavoritos = async () => {
 };
   return (
     <div className="col">
-      <Link className="nav-link" to={`/producto/${producto._id}`}>
+      <Link className="nav-link conteiner_card" to={`/producto/${producto._id}`}>
         <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
           <div id="content-img" className="align-items-center">
             <img

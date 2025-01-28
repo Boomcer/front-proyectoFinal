@@ -4,7 +4,7 @@ import CardsProductApp from '../components/CardsProductApp'
 
 const HomeScreen = () => {
   return (
-    <div>
+    <div className='container'>
         {/* titulo */}
         {/* carrusel */}
         {/* categorias */}

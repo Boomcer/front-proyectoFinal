@@ -1,3 +1,5 @@
+
+
 #ContenedorCards1{
     height: 1200px;  
     display: flex;
@@ -13,9 +15,13 @@
     align-items:center;
     justify-content: center;
 }
-
-.card {
+.conteiner_card{
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+} 
+.card {
+    width: 220px;
     height: 220px;
     object-fit: cover;
     overflow: hidden;
