@@ -108,7 +108,7 @@ const calcularTotalCarrito = () => {
       </div>
       {carrito.length > 0 && (
         <div className="text-center mt-5 mb-3">
-          <h4>Total: ${calcularTotalCarrito().toFixed(2)}</h4>
+        <h4>Total: ${Math.round(calcularTotalCarrito())}</h4>
           <button className="btn btn-primary mt-3" onClick={handleComprar}>
             Comprar Todo
           </button>
