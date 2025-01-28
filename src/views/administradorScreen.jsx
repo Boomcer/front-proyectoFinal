@@ -50,7 +50,7 @@ const AdministradorScreen = () => {
     }
   };
 
-  const handleSubmit = async (producto) => {
+  const handleGuardarProducto = async (producto) => {
     try {
       if (productoEditando) {
         await actualizarProducto(productoEditando._id, producto);
@@ -135,8 +135,8 @@ const AdministradorScreen = () => {
             </h2>
             <ProductoForm
               producto={productoEditando}
-              onSubmit={handleSubmit}
-              onCancel={() => {
+              onGuardar={handleGuardarProducto}
+              onCancelar={() => {
                 setMostrarFormulario(false);
                 setProductoEditando(null);
               }}

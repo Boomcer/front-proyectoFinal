@@ -8,11 +8,8 @@ const getHeaders = () => {
     throw new Error('No hay token de acceso. Por favor, inicia sesión.');
   }
   return {
-    // 'Content-Type': 'application/json',
-    // 'x-token': token
     "Content-type": "application/json; charset=UTF-8",
     "x-token": JSON.parse(localStorage.getItem("token")),
-
   };
 };
 
@@ -87,6 +84,20 @@ export const eliminarProducto = async (id) => {
     return handleResponse(response);
   } catch (error) {
     console.error('Error al eliminar producto:', error);
+    throw error;
+  }
+};
+
+// Nueva función para obtener categorías
+export const obtenerCategorias = async (limite = 10, desde = 0) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/categorias`,
+      { headers: getHeaders() }
+    );
+    return handleResponse(response);
+  } catch (error) {
+    console.error('Error al obtener categorías:', error);
     throw error;
   }
 };
