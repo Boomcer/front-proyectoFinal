@@ -44,8 +44,8 @@ const handleAddToFavoritos = async () => {
 };
   return (
     <div className="col">
-      <Link className="nav-link" to={`/producto/${producto._id}`}>
         <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
+        <Link className="nav-link" to={`/producto/${producto._id}`}>
           <div id="content-img" className="align-items-center">
             <img
               src={producto.img}
@@ -53,8 +53,11 @@ const handleAddToFavoritos = async () => {
               alt={producto.nombre}
             />
           </div>
+          </Link>
           <div className="card-body text-light">
+          <Link className="nav-link" to={`/producto/${producto._id}`}>
             <h6 className="card-title">{producto.nombre}</h6>
+          </Link>
             <p className="card-text">$ {producto.precio}</p>
             <div className="d-flex align-items-center justify-content-around">
               <div>
@@ -79,7 +82,6 @@ const handleAddToFavoritos = async () => {
             </div>
           </div>
         </div>
-      </Link>
     </div>
   );
 };
