@@ -1,0 +1,63 @@
+.wrapper {
+  background: #f7f7f7;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.cardFormInner {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardInput {
+  margin-bottom: 15px;
+}
+
+.cardInputLabel {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.cardInputField {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.cardFormRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.cardFormCol {
+  flex: 1;
+}
+
+.select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.cvv {
+  max-width: 100px;
+}
+
+.cardFormButton {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cardFormButton:hover {
+  background-color: #0056b3;
+}

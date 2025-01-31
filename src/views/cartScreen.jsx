@@ -1,47 +1,106 @@
-import React, {useEffect, useState} from 'react'
-import '../css/cart.css'
-import CartApp from '../components/CartApp'
-import ModalCartApp from '../components/ModalCartApp'
-import {destacados} from '../helpers/apiProductos'
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getProducto } from "../helpers/apiProductos";
+import { getUsuario, deleteFromCarrito, putCarrito } from "../helpers/apiUsuarios"; 
+import CartApp from "../components/CardCarrito";
 
 const CartScreen = () => {
-  const [productos, setProductos] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() =>{
-      async function cargarProductos() {
-          const productosData = await destacados();
-          setProductos(productosData);
-      }
-      cargarProductos();
-  }, []);
+  const [carrito, setCarrito] = useState([]);
+  const uid = localStorage.getItem("uid");
+  const navigate = useNavigate();
 
   useEffect(() => {
-      // Recalcular el total cuando cambia la lista de productos
-      const sumaPrecios = productos.reduce((acc, producto) => acc + producto.precio, 0);
-      setTotal(sumaPrecios);
-    }, [productos]);
+    const fetchCarrito = async () => {
+      try {
+        const usuario = await getUsuario(uid);
+        const carritoList = usuario.usuario.carrito || [];
+
+        const productosCarrito = await Promise.all(
+          carritoList.map(async (item) => {
+            const producto = await getProducto(item.productoId);
+            return {
+              ...producto,
+              carritoId: item._id,
+              cantidad: item.cantidad,
+            };
+          })
+        );
+
+        setCarrito(productosCarrito);
+      } catch (error) {
+        console.error("Error al obtener el carrito o productos:", error);
+      }
+    };
+
+    fetchCarrito();
+  }, [uid]);
+
+
+  const handleDeleteCarrito = async (productoId) => {
+    try {
+      await deleteFromCarrito(productoId);
+      setCarrito((prevCarrito) =>
+        prevCarrito.filter((item) => item._id !== productoId)
+      ); 
+    } catch (error) {
+      console.error("Error al eliminar el producto del carrito:", error);
+    }
+  };
+
+    const handleUpdateCantidad = async (carritoId, nuevaCantidad) => {
+    try {
+      await putCarrito(carritoId, nuevaCantidad); 
+      setCarrito((prevCarrito) =>
+        prevCarrito.map((item) =>
+          item.carritoId === carritoId
+            ? { ...item, cantidad: nuevaCantidad }
+            : item
+        )
+      ); 
+    } catch (error) {
+      console.error("Error al actualizar la cantidad:", error);
+    }
+  };
+
+  // Calcular el total del carrito
+  const calcularTotalCarrito = () => {
+    return carrito.reduce((total, item) => {
+      const precio = parseFloat(item.producto.precio) || 0;
+      const cantidad = parseInt(item.cantidad, 10) || 0;
+      return total + precio * cantidad;
+    }, 0);
+  };
 
   return (
-    <div className='container'>
-        <div className="row">
-            <h1 className='text-center mt-5'>
-                🛒Carrito De Compras🛒
-            </h1>
+    <div className="p-2">
+      <h1>🛒 Carrito de Compras 🛒</h1>
+      <div className="row g-3">
+        {carrito.map(({ producto, carritoId, cantidad }) => (
+          <CartApp
+            key={carritoId}
+            id={carritoId}
+            producto={{
+              ...producto,
+              cantidad,
+            }}
+            onDeleteCarrito={handleDeleteCarrito} 
+            onUpdateCantidad={handleUpdateCantidad} 
+          />
+        ))}
+      </div>
+      {carrito.length > 0 && (
+        <div className="text-center mt-5 mb-3">
+          <h4>Total: ${Math.round(calcularTotalCarrito())}</h4>
+          <button
+            className="btn btn-primary mt-3"
+            onClick={() => navigate("/checkout")}
+          >
+            Comprar Todo
+          </button>
         </div>
-        <div >
-          <CartApp productos={productos} total={total} />
-        </div>
-        <div className="row">
-            <div className="col text-center mb-5 mt-0">
-                <ModalCartApp total={total} />
-            </div>
-        </div>
-
-
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default CartScreen
+export default CartScreen;

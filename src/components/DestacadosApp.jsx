@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {destacados} from '../helpers/apiProductos.js'
+import { Link } from 'react-router-dom'
 import '../css/destacados.css'
 
 const DestacadosApp = () => {
@@ -19,21 +20,24 @@ const DestacadosApp = () => {
         <h1 className="ps-5">Destacados</h1>
         <div id="carouselExampleDark" className="carousel carousel-dark slide">
         
-        <div className="carousel-inner">
+        <div className="carousel-inner destacados-bg">
 
             { productos.map((producto, index) => (
                 <div key={producto._id} className={`carousel-item ${index === 0 ? 'active': ""}`}
                 data-bs-interval="10000">
                     <div className="d-flex justify-content-center container">
                         <section className=" container-img">
+                        <Link className="nav-link" to={`/producto/${producto._id}`}>
                             <img src={producto.img}
                             alt="imagen" 
                             className=''/>
+                        </Link>
                         </section>
                         <section className='align-self-center container-nombre'>
+                        <Link className="nav-link" to={`/producto/${producto._id}`}>
                             <p>{producto.nombre}</p>
+                        </Link>
                         </section>
-
                     </div>
                 </div>
             ))}

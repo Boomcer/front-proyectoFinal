@@ -1,0 +1,117 @@
+
+.conteinerCardd{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+      
+}
+
+#ContenedorCards1 {
+    height: 1200px;   
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#ContenedorCards2 {
+    height: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    max-width: 190px;
+    height: 220px;
+    object-fit: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1px;
+
+}
+
+.card:hover {
+    box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.573) !important;
+}
+
+#content-img {
+    object-fit: cover;
+}
+
+.card-img-top {
+    width: 100px;
+    height: 100px;
+    box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.373);
+}
+
+.card-body {
+    width: 100%;
+    height: auto;
+    padding: 0.5rem 0 !important
+}
+
+.card-title {
+    width: 100%;
+    height: 20%;
+    font-size: 0.6rem;
+}
+
+.card-text {
+    height: 15px;
+    padding: 0.6rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+.btn {
+    font-size: 0.7rem;
+}
+
+#paginacion {
+
+    margin-right: 10px;
+    display: inline-block;
+}
+
+h5 {
+    color: white;
+}
+
+.custom-highlight {
+    color: #ffffff;
+    background-color: #007bff;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* Estilo para los números de páginas distintas a la actual */
+.custom-default {
+    color: #ffffff;
+    /* Texto blanco */
+    background-color: transparent;
+    /* Fondo transparente */
+    padding: 5px 10px;
+    /* Espaciado interno */
+    font-weight: normal;
+    /* Texto normal */
+    transition: all 0.3s ease;
+    /* Transición suave en hover */
+}
+
+.custom-default:hover {
+    background-color: #f1f1f1;
+    /* Fondo gris claro al pasar el mouse */
+    color: #000;
+    /* Texto negro en hover */
+}

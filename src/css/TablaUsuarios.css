@@ -1,0 +1,36 @@
+/* Estilos para el contenedor de la imagen */
+.user-image-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  /* Estilos para la imagen */
+  .user-image {
+    border-radius: 50%;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Efecto de hover en la imagen */
+  .user-image-container:hover .user-image {
+    opacity: 0.7;
+  }
+  
+  /* Overlay que aparece al hacer hover */
+  .image-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .user-image-container:hover .image-overlay {
+    opacity: 1;
+  }

@@ -1,0 +1,126 @@
+.about-us-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .about-section {
+    text-align: center;
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .fade-in {
+    animation: fadeIn 1s ease forwards;
+  }
+  
+  .description {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .description p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  .team-section {
+    text-align: center;
+  }
+  
+  .team-section h2 {
+    margin-bottom: 3rem;
+  }
+  
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .team-member {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  
+  .team-member:hover {
+    transform: translateY(-10px);
+  }
+  
+  .team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    object-fit: cover;
+  }
+  
+  .team-member h3 {
+    margin: 0.5rem 0;
+    color: #333;
+  }
+  
+  .team-member p {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.8s ease forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .about-us-container {
+      padding: 1rem;
+    }
+  
+    .team-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+  
+    .description p {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .team-member {
+      padding: 1rem;
+    }
+  }

@@ -1,8 +1,19 @@
-# React + Vite
+# General Paz Moda & Indumentaria
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bienvenidos a **General Paz Moda**, tu destino de moda preferido. 
 
-Currently, two official plugins are available:
+Nacimos con la visión de transformar la manera en que las personas compran moda en línea, ofreciendo una experiencia única y personalizada.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Nuestro compromiso es brindar las últimas tendencias en moda con la mejor calidad y precios accesibles. Trabajamos incansablemente para asegurar que cada cliente encuentre exactamente lo que busca.
+
+## Integrantes
+
+- [José Simón Díaz](https://github.com/JoseSimonDiaz)
+- [Nicolas Gallardo](https://github.com/Boomcer)
+- [Carlos Daniel ledesma](https://github.com/cdledesma)
+- [Matias Leon](https://github.com/LeonMatias22)
+- [Guillermo Andres Zurita ](https://github.com/guillermozu)
+- [Nicolas Rodriguez](https://github.com/Nicorodev)
+
+
+¡Gracias por apoyar General Paz Moda! ✨

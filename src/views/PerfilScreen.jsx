@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { getUsuario, putUsuario } from '../helpers/apiUsuarios';
 
 const PerfilScreen = () => {
-  const [usuario, setUsuario] = useState(null); // Estado para guardar los datos del usuario
-  const [editMode, setEditMode] = useState(false); // Controla si los campos están habilitados
-  const [selectedImage, setSelectedImage] = useState(null); // Estado para la imagen precargada
-  const [deleteAccount, setDeleteAccount] = useState(false); // Estado para el checkbox "Eliminar cuenta"
-  const navigate = useNavigate(); // Hook para redirigir
-  const uid = JSON.parse(localStorage.getItem("uid")) || null; // Obtener el UID del usuario
+  const [usuario, setUsuario] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar la contraseña
+  const navigate = useNavigate();
+  const uid = localStorage.getItem("uid");
 
-  // Cargar datos del usuario desde el backend al montar el componente
   useEffect(() => {
     setUsuario(null);
     if (uid) {
       getUsuario(uid).then((response) => {
-        setUsuario(response?.usuario || {}); // Establecer datos del usuario
+        setUsuario(response?.usuario || {});
       });
     } else {
-      alert("No se encontró un usuario logueado. Redirigiendo al login.");
-      navigate('/login'); // Redirigir al login si no hay UID
+      Swal.fire({
+        title: "Sesión no encontrada",
+        text: "No se encontró un usuario logueado. Redirigiendo al login.",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      }).then(() => navigate('/login'));
     }
 
-    // Limpiar el estado del usuario al desmontar el componente
     return () => setUsuario(null);
   }, [uid, navigate]);
 
@@ -30,141 +32,158 @@ const PerfilScreen = () => {
     const { id, value } = e.target;
     setUsuario((prev) => ({ ...prev, [id]: value }));
   };
-  
-    // Habilitar modo de edición o guardar cambios
-    const handleEditClick = async () => {
-      if (editMode) {
-        // Guardar cambios en el backend
-        try {
-          putUsuario(uid,usuario).then((response)=>{
-          setEditMode(response?.usuario || {});
-          })
-          //const response = await putUsuario(uid, usuario); // Llamada PUT al backend
-          if (response.ok) {
-            alert("Datos actualizados correctamente.");
-            setEditMode(false); // Deshabilitar edición
-          } else {
-            alert("Error al actualizar los datos. Verifique e intente nuevamente.");
-          }
-        } catch (error) {
-          console.error("Error al actualizar los datos:", error);
-          alert("Ocurrió un error. Intente nuevamente más tarde.");
+
+  const handleEditClick = async () => {
+    if (editMode) {
+      try {
+        const response = await putUsuario(uid, usuario);
+        if (response.ok) {
+          Swal.fire({
+            title: "Datos actualizados",
+            text: "Tus datos han sido guardados correctamente.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          });
+          setEditMode(false);
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al actualizar los datos. Inténtalo de nuevo.",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+          });
         }
-      } else {
-        // Habilitar modo de edición
-        setEditMode(true);
+      } catch (error) {
+        Swal.fire({
+          title: "Error inesperado",
+          text: "Ocurrió un error. Inténtalo más tarde.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
-    };
-  
-    // Manejar la selección de una nueva imagen
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setSelectedImage(URL.createObjectURL(file)); // Mostrar previsualización
-        setUsuario((prev) => ({ ...prev, img: file })); // Agregar la imagen al estado del usuario
+    } else {
+      setEditMode(true);
+    }
+  };
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    Swal.fire({
+      title: "¿Cerrar sesión?",
+      text: "Se eliminarán tus credenciales y deberás iniciar sesión nuevamente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, cerrar sesión",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("uid"); // Eliminar credenciales
+        navigate("/login"); // Redirigir al login
+        Swal.fire({
+          title: "Sesión cerrada",
+          text: "Has cerrado sesión correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
       }
-    };
-  
-    // Cerrar y regresar al home
-    const handleClose = () => {
-      setUsuario(null);
-      navigate("/");
-    };
-  
-    return (
-      <div className="container mt-5">
-        {usuario ? (
-          <>
-            <h2 className="mb-4">Hola, {usuario.email}</h2>
-            <h3 className="mb-4">Mis Datos Personales</h3>
-            <form>
-              {/* Campo de Nombre */}
-              <div className="mb-3">
-                <label htmlFor="nombre" className="form-label">Nombre</label>
-                <input
-                  type="text"
-                  id="nombre"
-                  className="form-control"
-                  value={usuario.nombre || ""}
-                  onChange={handleChange}
-                  disabled={!editMode} // Deshabilitado por defecto
+    });
+  };
+
+  return (
+    <div className="container mt-5 mb-3">
+      {usuario ? (
+        <>
+          <h2 className="mb-4">Hola, {usuario.nombre || 'Usuario'}</h2>
+          <h3 className="mb-4">Mis Datos Personales</h3>
+          <form>
+            <div className="mb-3">
+              <label htmlFor="nombre" className="form-label">Nombre</label>
+              <input
+                type="text"
+                id="nombre"
+                className="form-control"
+                value={usuario.nombre || ""}
+                onChange={handleChange}
+                disabled={!editMode}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Correo</label>
+              <input
+                type="email"
+                id="email"
+                className="form-control"
+                value={usuario.email || ""}
+                disabled
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="img" className="form-label">URL de Imagen de Perfil</label>
+              <div className="text-center">
+                <img
+                  src={usuario.img || "https://via.placeholder.com/150"}
+                  alt="Perfil"
+                  className="img-thumbnail mb-3"
+                  style={{ width: "150px", height: "150px", objectFit: "cover" }}
                 />
               </div>
-  
-              {/* Campo de Nueva Contraseña */}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">Nueva Contraseña</label>
+              <input
+                type="text"
+                id="img"
+                className="form-control"
+                value={usuario.img || ""}
+                onChange={handleChange}
+                disabled={!editMode}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">Contraseña</label>
+              <div className="input-group">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   className="form-control"
-                  value={usuario.password || ""} // Vacío inicialmente
+                  value={usuario.password || ""}
                   onChange={handleChange}
-                  disabled={!editMode} // Deshabilitado por defecto
+                  disabled={!editMode}
                 />
-              </div>
-  
-              {/* Imagen de Perfil */}
-              <div className="mb-3">
-                <label htmlFor="profileImage" className="form-label">Imagen de Perfil</label>
-                <div className="text-center">
-                  <img
-                    src={selectedImage || usuario.img || "https://via.placeholder.com/150"}
-                    alt="Perfil"
-                    className="img-thumbnail mb-3"
-                    style={{ width: "150px", height: "150px", objectFit: "cover" }}
-                  />
-                </div>
-                <input
-                  type="file"
-                  id="profileImage"
-                  className="form-control"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  disabled={!editMode} // Deshabilitado por defecto
-                />
-              </div>
-  
-              {/* Checkbox "Eliminar cuenta" */}
-              <div className="form-check mb-3">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="deleteAccount"
-                  checked={deleteAccount}
-                  onChange={(e) => setDeleteAccount(e.target.checked)}
-                  disabled={!editMode} // Deshabilitado por defecto
-                />
-                <label className="form-check-label" htmlFor="deleteAccount">
-                  Eliminar cuenta
-                </label>
-              </div>
-  
-              {/* Botones */}
-              <div className="d-flex justify-content-between">
                 <button
                   type="button"
-                  className="btn btn-primary"
-                  onClick={handleEditClick}
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  {editMode ? "Guardar Cambios" : "Actualizar Datos"}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleClose}
-                >
-                  Cerrar
+                  {showPassword ? "Ocultar" : "Mostrar"}
                 </button>
               </div>
-            </form>
-          </>
-        ) : (
-          <p>Cargando datos...</p>
-        )}
-      </div>
-    );
-  };
-  
-  export default PerfilScreen;
-  
+            </div>
+
+            <div className="d-flex justify-content-between">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleEditClick}
+              >
+                {editMode ? "Guardar Cambios" : "Actualizar Datos"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleLogout}
+              >
+                Cerrar Sesión
+              </button>
+            </div>
+          </form>
+        </>
+      ) : (
+        <p>Cargando datos...</p>
+      )}
+    </div>
+  );
+};
+
+export default PerfilScreen;
