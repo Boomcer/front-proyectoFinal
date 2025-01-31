@@ -1,4 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL + "/api";
+const urlProductosCategoria =
+  import.meta.env.VITE_API_URL + "/api/productos/categoria/";
 
 const getToken = () => localStorage.getItem("token");
 
@@ -99,10 +101,86 @@ export const obtenerCategorias = async (limite = 10, desde = 0) => {
     );
 
     return handleResponse(response);
-    
   } catch (error) {
     console.error("Error al obtener categorías:", error);
     throw error;
   }
 };
 
+export const getProductosPorCategoria = async (categoriaId) => {
+  if (!categoriaId) {
+    console.error(
+      "Error en getProductosPorCategoria: ID de categoría inválido"
+    );
+    throw new Error("El ID de la categoría es inválido.");
+  }
+
+  try {
+    const resp = await fetch(`${urlProductosCategoria}${categoriaId}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "x-token": JSON.parse(localStorage.getItem("token")),
+      },
+    });
+
+    if (!resp.ok) {
+      throw new Error("Error al obtener los productos por categoría");
+    }
+
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.error("Error en getProductosPorCategoria:", error.message);
+    return { productos: [] };
+  }
+};
+
+export const obtenerUsuarios = async (limite = 5, desde = 0) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/usuarios?limite=${limite}&desde=${desde}`,
+      {
+        headers: getHeaders(),
+      }
+    );
+    return handleResponse(response);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    throw error;
+  }
+};
+
+export const eliminarUsuario = async (id) => {
+  const response = await fetch(`${API_URL}/usuarios/${id}`, { // Agrega la barra después de API_URL
+    method: 'DELETE',
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error('No se pudo eliminar el usuario');
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const actualizarUsuario = async (id, usuario) => {
+  try {
+    const response = await fetch(`${API_URL}/usuarios/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(usuario),
+    });
+
+    if (!response.ok) {
+      throw new Error('No se pudo actualizar el usuario');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    throw error;
+  }
+};

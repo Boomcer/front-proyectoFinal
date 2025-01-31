@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { buscarProductos } from '../helpers/buscar.js';
 import '../css/Header.css';
 import LogoChico from '../assets/img/LogoChico.jpeg';
 
@@ -10,6 +11,7 @@ const Header = () => {
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,13 +24,9 @@ const Header = () => {
       const favorites = JSON.parse(localStorage.getItem('favoritos')) || [];
       setFavoritesCount(favorites.length);
     };
-
     updateFavoritesCount();
     window.addEventListener('storage', updateFavoritesCount);
-
-    return () => {
-      window.removeEventListener('storage', updateFavoritesCount);
-    };
+    return () => window.removeEventListener('storage', updateFavoritesCount);
   }, []);
 
   useEffect(() => {
@@ -36,20 +34,15 @@ const Header = () => {
       const cart = JSON.parse(localStorage.getItem('carrito')) || [];
       setCartCount(cart.length);
     };
-
     updateCartCount();
     window.addEventListener('storage', updateCartCount);
-
-    return () => {
-      window.removeEventListener('storage', updateCartCount);
-    };
+    return () => window.removeEventListener('storage', updateCartCount);
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -58,22 +51,27 @@ const Header = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('uid');
     setIsLoggedIn(false);
-    navigate("/login");
-  };
-
-  const handlePerfilClick = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/perfil");
-    } else {
-      alert("Debe iniciar sesión para poder ingresar a este área");
-      navigate('/login');
-    }
+    navigate('/login');
   };
 
   const handleSearch = () => {
     if (searchQuery.trim() !== '') {
       navigate(`/buscar?q=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery(''); // Opcional: limpia la barra de búsqueda
+    }
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const fetchSuggestions = async (query) => {
+    if (query.length > 1) {
+      const data = await buscarProductos(query);
+      setSuggestions(data);
+    } else {
+      setSuggestions([]);
     }
   };
 
@@ -100,11 +98,27 @@ const Header = () => {
             placeholder="¿Qué estás buscando?" 
             aria-label="Buscar"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              fetchSuggestions(e.target.value);
+            }}
+            onKeyPress={handleKeyPress}
           />
           <button className="search-button" aria-label="Buscar" onClick={handleSearch}>
             <i className="bi bi-search"></i>
           </button>
+          {suggestions.length > 0 && (
+            <ul className="suggestions-list">
+              {suggestions.map((item, index) => (
+                <li key={index} onClick={() => {
+                  setSearchQuery(item.nombre);
+                  handleSearch();
+                }}>
+                  {item.nombre}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className="user-actions">
@@ -115,8 +129,8 @@ const Header = () => {
           <div className="icon-button" aria-label="Mi cuenta">
             {isLoggedIn ? (
               <>
-                <i className="bi bi-person-circle dropdown-toggle" data-bs-toggle="dropdown"></i>
-                <ul className="dropdown-menu">
+                <i className="bi bi-person-circle dropdown-toggle d-flex" data-bs-toggle="dropdown"></i>
+                <ul className="dropdown-menu g-4">
                   <li><button className="dropdown-item" onClick={handleLogout}>Desconectarse</button></li>
                 </ul>
               </>
@@ -130,18 +144,6 @@ const Header = () => {
           </NavLink>
         </div>
       </div>
-
-      <nav className={`navigation ${isMenuOpen ? 'active' : ''}`}>
-        <ul>
-          <li><NavLink to="/">Inicio</NavLink></li>
-          <li><NavLink to="/categorias">Categorías</NavLink></li>
-          <li><NavLink to="/nosotros">Nosotros</NavLink></li>
-          <li><NavLink to="/perfil" onClick={handlePerfilClick}>Mi Perfil</NavLink></li>
-          <li><NavLink to="/admin">Admin</NavLink></li>
-        </ul>
-      </nav>
-
-      {isMenuOpen && <div className="overlay" onClick={() => setIsMenuOpen(false)}></div>}
     </header>
   );
 };

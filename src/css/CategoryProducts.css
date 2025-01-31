@@ -1,0 +1,12 @@
+.conteinerCAT {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.card-img-top {
+  border-radius: 11px;
+}

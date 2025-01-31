@@ -34,10 +34,10 @@ const CarsProductApp = () => {
             <>
             {loading? (
                 <div id="ContenedorCards1" className="container p-3 bg-secondary">  
-                <h5 font color="white">Cargando Productos...</h5>
+                <h5>Cargando Productos...</h5>
                 </div>
             ) : (
-            <div id="ContenedorCards2" className="container p-3 bg-secondary">
+            <div id="ContenedorCards2" className="container bg-secondary">
                 <div className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
                 {productos.map ((item) => ( 
                 <CardProductApp 

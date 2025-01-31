@@ -10,7 +10,7 @@ const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
     precio: '',
     stock: '',
     categoria: '',
-    imagen: '',
+    img: '',
     destacado: false,
   });
 
@@ -136,7 +136,7 @@ const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
         <input
           type="text"
           className="form-control"
-          name="imagen"
+          name="img"
           value={formData.imagen}
           onChange={handleChange}
         />

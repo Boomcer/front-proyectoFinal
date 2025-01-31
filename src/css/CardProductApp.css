@@ -1,37 +1,44 @@
-
-
-#ContenedorCards1{
+#ContenedorCards1 {
     /* height: 1200px;   */
     display: flex;
-    align-items:flex-start;
+    align-items: flex-start;
     justify-content: center;
+    
 }
-#ContenedorCards2{
-    height: 90%;  
+
+#ContenedorCards2 {
+    /* height: 90%; */
     margin-top: 10px;
     margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
-    align-items:center;
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
     justify-content: center;
 }
-.conteiner_card{
+
+.conteiner_card {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-} 
+    align-items: center;
+    padding-top:12px ;
+}
+
 .card {
-    width: 220px;
+    width: 180px;
     height: 220px;
     object-fit: cover;
     overflow: hidden;
 }
+
 .card:hover {
     box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.573) !important;
 }
 
-#content-img{
-    object-fit:cover;
+#content-img {
+    object-fit: cover;
 }
 
 .card-img-top {
@@ -40,55 +47,63 @@
     box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.373);
 }
 
-.card-body{
+.card-body {
     width: 100%;
     height: auto;
     padding: 0.5rem 0 !important
 }
 
-.card-title{
+.card-title {
     width: 100%;
     height: 20%;
     font-size: 0.6rem;
 }
 
-.card-text{
+.card-text {
     height: 15px;
     padding: 0.6rem 0.6rem;
     font-size: 0.8rem;
 }
-.btn{
+
+.btn {
     font-size: 0.7rem;
 }
 
-#paginacion{
-  
+#paginacion {
+
     margin-right: 10px;
-    display:inline-block;
+    display: inline-block;
 }
 
-h5{
+h5 {
     color: white;
 }
-            
-             .custom-highlight {
-                color: #ffffff;          
-                background-color: #007bff; 
-                border-radius: 50%;       
-                padding: 5px 10px;     
-                font-weight: bold;        
-              }
-              
-              /* Estilo para los números de páginas distintas a la actual */
-              .custom-default {
-                color: #ffffff;           /* Texto blanco */
-                background-color: transparent; /* Fondo transparente */
-                padding: 5px 10px;        /* Espaciado interno */
-                font-weight: normal;      /* Texto normal */
-                transition: all 0.3s ease; /* Transición suave en hover */
-              }
-              
-              .custom-default:hover {
-                background-color: #f1f1f1; /* Fondo gris claro al pasar el mouse */
-                color: #000;              /* Texto negro en hover */
-              }
+
+.custom-highlight {
+    color: #ffffff;
+    background-color: #007bff;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* Estilo para los números de páginas distintas a la actual */
+.custom-default {
+    color: #ffffff;
+    /* Texto blanco */
+    background-color: transparent;
+    /* Fondo transparente */
+    padding: 5px 10px;
+    /* Espaciado interno */
+    font-weight: normal;
+    /* Texto normal */
+    transition: all 0.3s ease;
+    /* Transición suave en hover */
+}
+
+.custom-default:hover {
+    background-color: #f1f1f1;
+    /* Fondo gris claro al pasar el mouse */
+    color: #000;
+    /* Texto negro en hover */
+}

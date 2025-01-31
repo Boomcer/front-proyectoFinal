@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { obtenerCategorias } from '../helpers/adminPage.js';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../css/CardCategori.css';
-// import CategoryProducts from "../views/CategoryProducts";
-
 
 const defaultImages = [
   'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop',
@@ -21,6 +19,7 @@ function Categories() {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [error, setError] = useState(null);
   const carouselRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,7 +27,7 @@ function Categories() {
         const data = await obtenerCategorias(20, 0);
         const categoriasConImagen = data.categorias.map((category, index) => ({
           ...category,
-          image: defaultImages[index % defaultImages.length] // Asigna una imagen por defecto
+          image: defaultImages[index % defaultImages.length] // Repite las imágenes si hay más categorías
         }));
         setCategories(categoriasConImagen);
       } catch (error) {
@@ -38,7 +37,7 @@ function Categories() {
 
     fetchCategories();
   }, []);
-  
+
   const scroll = (direction) => {
     if (carouselRef.current) {
       const scrollAmount = direction === 'left' ? -300 : 300;
@@ -48,7 +47,16 @@ function Categories() {
       });
     }
   };
-
+  
+  const handleCategoryClick = (categoryId) => {
+    console.log("ID de la categoría seleccionada:", categoryId); // Depuración
+    if (!categoryId) {
+      console.error("Error: El ID de la categoría es inválido.");
+      return;
+    }
+    navigate(`/categoria/${categoryId}`);
+  };
+  
   return (
     <div className="categories-container">
       <div className="categories-header">
@@ -69,22 +77,23 @@ function Categories() {
 
           <div className="categories-carousel" ref={carouselRef}>
             {categories.map((category) => (
-              <Link to={`/categoria/${category._id}`} key={category._id} className="category-link">
-                <div
-                  className="category-card"
-                  onMouseEnter={() => setHoveredCategory(category._id)}
-                  onMouseLeave={() => setHoveredCategory(null)}
-                  style={{
-                    transform: hoveredCategory === category._id ? 'translateY(-4px)' : 'translateY(0)',
-                  }}
-                >
-                  <div 
-                    className="category-image"
-                    style={{ backgroundImage: `url(${category.image})` }}
-                  />
-                  <h3 className="category-name">{category.nombre}</h3>
-                </div>
-              </Link>
+              <div
+                key={category._id}
+                className="category-card"
+                onMouseEnter={() => setHoveredCategory(category._id)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                onClick={() => handleCategoryClick(category._id)}
+                style={{
+                  transform: hoveredCategory === category._id ? 'translateY(-4px)' : 'translateY(0)',
+                  cursor: 'pointer'
+                }}
+              >
+                <div 
+                  className="category-image"
+                  style={{ backgroundImage: `url(${category.image})` }}
+                />
+                <h3 className="category-name">{category.nombre}</h3>
+              </div>
             ))}
           </div>
 

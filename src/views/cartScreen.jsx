@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getProducto } from "../helpers/apiProductos";
-import {
-  getUsuario,
-  deleteFromCarrito,
-  putCarrito,
-  clearCarrito,
-} from "../helpers/apiUsuarios";
+import { getUsuario } from "../helpers/apiUsuarios";
 import CartApp from "../components/CardCarrito";
+// import CreditCard from '../components/CreditCard'
 
 const CartScreen = () => {
   const [carrito, setCarrito] = useState([]);
   const uid = localStorage.getItem("uid");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCarrito = async () => {
@@ -22,7 +20,7 @@ const CartScreen = () => {
           carritoList.map(async (item) => {
             const producto = await getProducto(item.productoId);
             return {
-              ...producto, // Detalles completos del producto
+              ...producto, 
               carritoId: item._id,
               cantidad: item.cantidad,
             };
@@ -37,56 +35,13 @@ const CartScreen = () => {
 
     fetchCarrito();
   }, [uid]);
-console.log(carrito);
 
-const calcularTotalCarrito = () => {
-  return carrito.reduce((total, item) => {
-    const precio = parseFloat(item.producto.precio) || 0; // Accede a producto.precio
-    const cantidad = parseInt(item.cantidad, 10) || 0; // Usa item.cantidad
-    const subtotal = precio * cantidad;
-    return total + subtotal;
-  }, 0); // Comienza desde 0
-};
-
-  
-
-  const handleDeleteCarrito = async (carritoId) => {
-    try {
-      await deleteFromCarrito(carritoId);
-      setCarrito((prevCarrito) =>
-        prevCarrito.filter((producto) => producto.carritoId !== carritoId)
-      );
-    } catch (error) {
-      console.error("Error al eliminar el producto del carrito:", error);
-    }
-  };
-
-  const handleUpdateCantidad = async (carritoId, cantidad) => {
-    try {
-      await putCarrito(carritoId, cantidad);
-      setCarrito((prevCarrito) =>
-        prevCarrito.map((producto) =>
-          producto.carritoId === carritoId
-            ? { ...producto, cantidad }
-            : producto
-        )
-      );
-    } catch (error) {
-      console.error("Error al actualizar la cantidad del producto:", error);
-    }
-  };
-
-  const handleComprar = async () => {
-    try {
-      for (const producto of carrito) {
-        await handleDeleteCarrito(producto.carritoId);
-      }
-      await clearCarrito(uid);
-      alert("¡Compra realizada con éxito!");
-    } catch (error) {
-      console.error("Error al realizar la compra:", error);
-      alert("Ocurrió un error al intentar completar la compra.");
-    }
+  const calcularTotalCarrito = () => {
+    return carrito.reduce((total, item) => {
+      const precio = parseFloat(item.producto.precio) || 0;
+      const cantidad = parseInt(item.cantidad, 10) || 0;
+      return total + precio * cantidad;
+    }, 0);
   };
 
   return (
@@ -101,15 +56,16 @@ const calcularTotalCarrito = () => {
               ...producto,
               cantidad,
             }}
-            onDeleteCarrito={handleDeleteCarrito}
-            onUpdateCantidad={handleUpdateCantidad}
           />
         ))}
       </div>
       {carrito.length > 0 && (
         <div className="text-center mt-5 mb-3">
-        <h4>Total: ${Math.round(calcularTotalCarrito())}</h4>
-          <button className="btn btn-primary mt-3" onClick={handleComprar}>
+          <h4>Total: ${Math.round(calcularTotalCarrito())}</h4>
+          <button
+            className="btn btn-primary mt-3"
+            onClick={() => navigate("/checkout")}
+          >
             Comprar Todo
           </button>
         </div>
