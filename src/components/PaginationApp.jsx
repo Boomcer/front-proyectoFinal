@@ -1,5 +1,6 @@
 import React from 'react'
-import "./CardProductApp.css";
+import "../css/CardProductApp.css";
+
 
 export const PaginationApp = ({productsPerPage, totalProducts, currentPage, setCurrentPage}) => {
 

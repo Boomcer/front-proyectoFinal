@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.conteiner {
+  width: 100%;
+  justify-content: center;
+  padding: 10px;
+
+}
+
+.img {
+    width: 100%;
+    object-fit: cover;
+  border-radius: 30px;
+  -webkit-box-shadow: -1px 10px 91px 10px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 10px 91px 10px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 10px 91px 10px rgba(0, 0, 0, 0.75);
+}
+
+@media (min-width:576px) {
+   .img{
+    width: 50%;
+   }
+}

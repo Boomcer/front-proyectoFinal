@@ -12,6 +12,8 @@ import FavoritosScreen from '../views/FavoritosScreen';
 import RegistroScreen from '../views/RegistroScreen';
 import CategoriasScreen from '../views/CategoriasScreen'
 import PerfilScreen from '../views/PerfilScreen';
+// import CategoryProducts from '../views/CategoryProducts';
+
 
 const RoutesTwo = ()=>{
 
@@ -22,6 +24,7 @@ const RoutesTwo = ()=>{
       <Route path="/nosotros" element={<AboutScreen/>}/>
       <Route path="/perfil" element={<PerfilScreen/>}/>
       <Route path="/categorias" element={<CategoriasScreen/>}/>
+      {/* <Route path="/categoria/:categoryId" element={<CategoryProducts />} /> */}
       <Route path="/producto/:id" element={<ProductScreen/>}/>
       <Route path="/carrito" element={<CartScreen/>}/>
       <Route path="/favoritos" element= {<FavoritosScreen/>}/>

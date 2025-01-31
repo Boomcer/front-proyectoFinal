@@ -58,17 +58,19 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
         </thead>
         <tbody>
           {productos.map((producto) => (
+
+            
             <tr key={producto._id}>
               <td>
                 {producto.imagen && (
                   <div
                     className="product-image-container"
-                    onMouseEnter={() => setHoveredImage(producto._id)}
+                    onMouseEnter={() => setHoveredImage(producto._id )}
                     onMouseLeave={() => setHoveredImage(null)}
                     onClick={() => mostrarImagenCompleta(producto.imagen, producto.nombre)}
                   >
                     <img
-                      src={producto.imagen}
+                      src={producto.img}
                       alt={producto.nombre}
                       className="product-image img-fluid"
                     />
@@ -121,5 +123,8 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
     </div>
   );
 };
+
+
+
 
 export default TablaProductos;

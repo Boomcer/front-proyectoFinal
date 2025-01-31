@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../helpers/fetchApi.js";
+import img from '../assets/img/LogoGrande.jpeg';
 import { Link } from "react-router-dom";
 
 const LoginScreen = () => {
@@ -46,8 +47,16 @@ const LoginScreen = () => {
 
     auth(formulario.email, formulario.password).then((response) => {
       if (response?.token) {
+        // Guardar el token como una cadena normal (sin stringify)
         localStorage.setItem("token", JSON.stringify(response.token));
-        localStorage.setItem("uid", JSON.stringify(response.uid));
+        // Guardar el uid como una cadena normal (sin stringify)
+        localStorage.setItem("uid", response.usuario.uid);
+
+        // Guardar favoritos y carrito con JSON.stringify() porque son arrays u objetos
+        localStorage.setItem("favoritos", JSON.stringify(response.usuario.favoritos || []));
+        localStorage.setItem("carrito", JSON.stringify(response.usuario.carrito || []));
+
+        console.log(response);
         navigate("/");
       } else {
         // Configurar mensaje en caso de error
@@ -62,8 +71,8 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
+    <div className="login-container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="login-card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="text-center mb-4">
           <img 
             src="https://via.placeholder.com/100" 
@@ -142,4 +151,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default LoginScreen; 

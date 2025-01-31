@@ -1,21 +1,24 @@
-import DestacadosApp from '../components/DestacadosApp'
-import CardsProductApp from '../components/CardsProductApp'
-import BannerApp from '../components/BannerApp';
+import React from 'react';
+import DestacadosApp from '../components/DestacadosApp';
+import CardsProductApp from '../components/CardsProductApp';
+import Page from '../components/CardPage';
+import Categories from '../components/CardCategori';
+import Publicidad from '../components/publicidad';
 
 const HomeScreen = () => {
 
   return (
-    <div>
+    <div className='container'>
         {/* titulo */}
         {/* carrusel */}
-        {/* categorias */}
         <DestacadosApp/>
-        <BannerApp/>
+        <Categories/>
         <CardsProductApp/>
+        <Page/>
+        <Publicidad/>
         {/* grillas de productos */}
-        {/* publicidad */}
     </div>
-  )
+  );
 };
 
 export default HomeScreen;

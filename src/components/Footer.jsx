@@ -43,7 +43,7 @@ const Footer = () => {
             <div className="col-xl-4 col-lg-4 mb-50">
               <div className="footer-widget">
                 <div className="footer-logo">
-                  <Link to="/">
+                  <Link to="../views/ErrorScreen.jsx">
                     <img className="w-50" id="Logo" src={LogoChico} alt="Logo" />
                   </Link>
                 </div>
@@ -55,15 +55,15 @@ const Footer = () => {
                 </div>
                 <div className="footer-social-icon">
                   <span>Siguenos</span>
-                  <Link to="*">
+                  <a href="../views/ErrorScreen.jsx">
                     <i className="fab fa-facebook-f facebook-bg"></i>
-                  </Link>
-                  <Link to="*">
+                  </a>
+                  <a href="../views/ErrorScreen.jsx">
                     <i className="fab fa-twitter twitter-bg"></i>
-                  </Link>
-                  <Link to="*">
+                  </a>
+                  <a href="../views/ErrorScreen.jsx">
                     <i className="fab fa-google-plus-g google-bg"></i>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -74,12 +74,12 @@ const Footer = () => {
                 </div>
               <div className="footerlist">
                 <ul>
-                  <li><Link to="/">Inicio</Link></li>
-                  <li><Link to="/nosotros">Sobre Nosotros</Link></li>
-                  <li><Link to="/">Productos</Link></li>
-                  <li><Link to="*">Preguntas</Link></li>
-                  <li><Link to="*">Contacto</Link></li>
-                  <li><Link to="*">Politicas</Link></li>
+                  <li><a href="../views/ErrorScreen.jsx">Inicio</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Sobre Nosotros</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Productos</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Preguntas</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Contacto</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Politicas</a></li>
                 </ul>
               </div>
               </div>
@@ -98,6 +98,16 @@ const Footer = () => {
                   General Paz Moda &copy; 2024, Todos los derechos reservados{' '}
                   <a href="https://codepen.io/anupkumar92/">Aqui</a>
                 </p>
+              </div>
+            </div>
+            <div className="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+              <div className="footer-menu">
+                <ul>
+                  <li><a href="../views/ErrorScreen.jsx">Inicio</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Sobre nosotros</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Politica</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Contacto</a></li>
+                </ul>
               </div>
             </div>
           </div>
