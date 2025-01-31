@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { getProducto } from '../helpers/apiProductos'; // Cambiado a singular
+import { getProducto } from '../helpers/apiProductos'; 
 import { getUsuario, deleteToFavoritos } from '../helpers/apiUsuarios';
 import CardFavoritos from '../components/CardFavoritos';
 
 const FavoritosScreen = () => {
-  const [favoritos, setFavoritos] = useState([]); // Lista de favoritos con sus IDs
+  const [favoritos, setFavoritos] = useState([]); 
   const uid = localStorage.getItem('uid');
 
   useEffect(() => {
     const fetchFavoritos = async () => {
       try {
-        // Traemos los datos del usuario, incluyendo los favoritos
-        const usuario = await getUsuario(uid);
-        const favoritosList = usuario.usuario.favoritos || []; // Array de favoritos del backend
         
-        console.log('Lista de favoritos del usuario:', favoritosList);
-
-        // Obtener los detalles de los productos favoritos
+        const usuario = await getUsuario(uid);
+        const favoritosList = usuario.usuario.favoritos || []; 
+        
+       
+       
         const productosFavoritos = await Promise.all(
           favoritosList.map(async (fav) => {
             const producto = await getProducto(fav.productoId); // Detalles del producto
             return { ...producto, favoritoId: fav._id }; // Incluimos el ID único del favorito
           })
         );
-        console.log('Productos favoritos obtenidos:', productosFavoritos);
+       
         setFavoritos(productosFavoritos); // Guardar en el estado
       } catch (error) {
         console.error('Error al obtener los favoritos o productos:', error);
@@ -50,9 +49,9 @@ const FavoritosScreen = () => {
   };
 
   return (
-    <div>
+    <div className="d-flex justify-content-center flex-wrap w-100">
       <h1>Favoritos</h1>
-      <div className="row g-4">
+      <div className="row g-2">
         {favoritos.map((favorito) => (
           <CardFavoritos
             key={favorito.favoritoId} // Usar el ID único del favorito como clave

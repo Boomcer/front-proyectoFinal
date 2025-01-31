@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProducto } from "../helpers/apiProductos";
-import { getUsuario } from "../helpers/apiUsuarios";
+import { getUsuario, deleteFromCarrito, putCarrito } from "../helpers/apiUsuarios"; 
 import CartApp from "../components/CardCarrito";
-// import CreditCard from '../components/CreditCard'
 
 const CartScreen = () => {
   const [carrito, setCarrito] = useState([]);
@@ -20,7 +19,7 @@ const CartScreen = () => {
           carritoList.map(async (item) => {
             const producto = await getProducto(item.productoId);
             return {
-              ...producto, 
+              ...producto,
               carritoId: item._id,
               cantidad: item.cantidad,
             };
@@ -36,6 +35,34 @@ const CartScreen = () => {
     fetchCarrito();
   }, [uid]);
 
+
+  const handleDeleteCarrito = async (productoId) => {
+    try {
+      await deleteFromCarrito(productoId);
+      setCarrito((prevCarrito) =>
+        prevCarrito.filter((item) => item._id !== productoId)
+      ); 
+    } catch (error) {
+      console.error("Error al eliminar el producto del carrito:", error);
+    }
+  };
+
+    const handleUpdateCantidad = async (carritoId, nuevaCantidad) => {
+    try {
+      await putCarrito(carritoId, nuevaCantidad); 
+      setCarrito((prevCarrito) =>
+        prevCarrito.map((item) =>
+          item.carritoId === carritoId
+            ? { ...item, cantidad: nuevaCantidad }
+            : item
+        )
+      ); 
+    } catch (error) {
+      console.error("Error al actualizar la cantidad:", error);
+    }
+  };
+
+  // Calcular el total del carrito
   const calcularTotalCarrito = () => {
     return carrito.reduce((total, item) => {
       const precio = parseFloat(item.producto.precio) || 0;
@@ -56,6 +83,8 @@ const CartScreen = () => {
               ...producto,
               cantidad,
             }}
+            onDeleteCarrito={handleDeleteCarrito} 
+            onUpdateCantidad={handleUpdateCantidad} 
           />
         ))}
       </div>

@@ -1,74 +1,49 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const CardCarrito = ({ producto, onDeleteCarrito, onUpdateCantidad }) => {
-  const { _id, nombre, precio, img, carritoId, cantidad } = producto; // Extraer las propiedades necesarias
+const CardCarrito = ({ producto, onDeleteCarrito }) => {
+  const { _id, nombre, precio, img } = producto;
 
+  // Función para eliminar un producto del carrito con SweetAlert2
   const handleDelete = () => {
-    if (_id) {
-      console.log("ID del producto a eliminar del carrito:", _id);
-      onDeleteCarrito(_id);
-    } else {
-      console.error("ID del producto no válido:", _id);
-    }
-  };
-
-  const handleSumar = () => {
-    onUpdateCantidad(carritoId, cantidad + 1);
-  };
-
-  const handleRestar = () => {
-    if (cantidad > 1) {
-      onUpdateCantidad(carritoId, cantidad - 1);
-    }
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará el producto del carrito.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onDeleteCarrito(_id);
+        Swal.fire("Eliminado", "El producto ha sido eliminado.", "success");
+      }
+    });
   };
 
   return (
     <div className="col">
-      <div
-        id="card"
-        className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark mt-2"
-      >
+      <div className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark mt-2">
         <Link className="nav-link" to={`/producto/${_id}`}>
           <div id="content-img" className="align-items-center">
             <img
               src={img || "/default-image.png"}
               className="card-img-top"
               alt={nombre || "Producto"}
-              style={{
-                width: "150px",
-                height: "80px",
-                objectFit: "cover",
-              }}
+              style={{ width: "150px", height: "80px", objectFit: "cover" }}
             />
           </div>
         </Link>
         <div className="card-body text-light">
           <h6 className="card-title">{nombre || "Producto sin nombre"}</h6>
           <p className="card-text">${precio || "0.00"}</p>
-          <div className="d-flex justify-content-center align-items-center gap-2">
-            <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={handleRestar}
-              disabled={cantidad <= 1}
-            >
-              <FontAwesomeIcon icon={faMinus} />
-            </button>
-            <span className="fw-bold">{cantidad}</span>
-            <button
-              className="btn btn-sm btn-outline-success"
-              onClick={handleSumar}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-            </button>
-          </div>
-          <button
-            onClick={handleDelete}
-            className="btn btn-sm btn-danger mt-2"
-          >
+          <button onClick={handleDelete} className="btn btn-sm btn-danger mt-2">
             <FontAwesomeIcon icon={faTrash} /> Eliminar del Carrito
           </button>
         </div>
@@ -83,10 +58,8 @@ CardCarrito.propTypes = {
     nombre: PropTypes.string.isRequired,
     precio: PropTypes.number.isRequired,
     img: PropTypes.string,
-    carritoId: PropTypes.string.isRequired,
-    cantidad: PropTypes.number.isRequired,
   }).isRequired,
   onDeleteCarrito: PropTypes.func.isRequired,
-  onUpdateCantidad: PropTypes.func.isRequired,
 };
+
 export default CardCarrito;

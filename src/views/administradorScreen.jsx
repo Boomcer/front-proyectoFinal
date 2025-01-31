@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductoForm from '../components/ProductoForm';
 import TablaProductos from '../components/TablaProductos';
 import TablaUsuarios from '../components/TablaUsuarios';
-// import UsuarioForm from '../components/UsuarioForm';
+import UsuarioForm from '../components/UsuarioForm .jsx'; // Importar el formulario de usuario
 import Paginacion from '../components/Paginacion';
 import {
   obtenerProductos,
@@ -14,6 +14,7 @@ import {
   obtenerUsuarios,
   eliminarUsuario,
   actualizarUsuario,
+  crearUsuario,
 } from '../helpers/adminPage.js';
 import Swal from 'sweetalert2';
 
@@ -21,8 +22,10 @@ const AdministradorScreen = () => {
   const [productos, setProductos] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [productoEditando, setProductoEditando] = useState(null);
+  const [usuarioEditando, setUsuarioEditando] = useState(null); // Estado para el usuario que se está editando
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [mostrarFormularioUsuario, setMostrarFormularioUsuario] = useState(false);
+  const [mostrarFormularioUsuario, setMostrarFormularioUsuario] = useState(false); // Estado para mostrar el formulario de usuario
+
   // Estados de paginación separados
   const [paginacionProductos, setPaginacionProductos] = useState({
     total: 0,
@@ -68,21 +71,22 @@ const AdministradorScreen = () => {
     }
   };
 
- const cargarUsuarios = async () => {
-    try {
-      const data = await obtenerUsuarios(paginacionUsuarios.limite, paginacionUsuarios.desde);
-      console.log(data); // Inspeccionar la respuesta de la API
-      setUsuarios(data.todosLosUsuarios || []);
-      setPaginacionUsuarios((prev) => ({
-        ...prev,
-        total: data.usuariosActivos || 0, // Ajusta según la respuesta de la API
-      }));
-    } catch (error) {
-      console.error("Error al obtener usuarios:", error);
-      setUsuarios([]);
-    }
-  };
-;
+const cargarUsuarios = async () => {
+  try {
+    const data = await obtenerUsuarios(paginacionUsuarios.limite, paginacionUsuarios.desde);
+    console.log("Respuesta de la API:", data); // Depuración
+
+    setUsuarios(Array.isArray(data.todosLosUsuarios) ? data.todosLosUsuarios : []);
+    setPaginacionUsuarios((prev) => ({
+      ...prev,
+      total: typeof data.usuariosActivos === "number" ? data.usuariosActivos : 0,
+    }));
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    setUsuarios([]);
+  }
+};
+
 
   const handleGuardarProducto = async (producto) => {
     try {
@@ -113,12 +117,46 @@ const AdministradorScreen = () => {
     }
   };
 
-  const handleEditar = (producto) => {
+  const handleGuardarUsuario = async (usuario) => {
+    try {
+      if (usuarioEditando) {
+        await actualizarUsuario(usuarioEditando._id, usuario);
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Usuario actualizado correctamente',
+        });
+      } else {
+        await crearUsuario(usuario);
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Usuario creado correctamente',
+        });
+      }
+      await cargarUsuarios();
+      setMostrarFormularioUsuario(false);
+      setUsuarioEditando(null);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'Hubo un problema al procesar el usuario',
+      });
+    }
+  };
+
+  const handleEditarProducto = (producto) => {
     setProductoEditando(producto);
     setMostrarFormulario(true);
   };
 
-  const handleEliminar = async (id) => {
+  const handleEditarUsuario = (usuario) => {
+    setUsuarioEditando(usuario);
+    setMostrarFormularioUsuario(true);
+  };
+
+  const handleEliminarProducto = async (id) => {
     try {
       await eliminarProducto(id);
       await cargarProductos();
@@ -136,6 +174,24 @@ const AdministradorScreen = () => {
     }
   };
 
+  const handleEliminarUsuario = async (id) => {
+    try {
+      await eliminarUsuario(id);
+      Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: 'Usuario eliminado correctamente',
+      });
+      await cargarUsuarios();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'No se pudo eliminar el usuario',
+      });
+    }
+  };
+
   const handleCambiarPaginaProductos = (numeroPagina) => {
     setPaginacionProductos((prev) => ({
       ...prev,
@@ -149,26 +205,6 @@ const AdministradorScreen = () => {
       desde: (numeroPagina - 1) * prev.limite,
     }));
   };
-
- // Función para eliminar un usuario
-  const handleEliminarUsuario = async (id) => {
-    try {
-      await eliminarUsuario(id); // Llama a la función eliminarUsuario
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Usuario eliminado correctamente',
-      });
-      await cargarUsuarios(); // Recarga la lista de usuarios después de eliminar
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message || 'No se pudo eliminar el usuario',
-      });
-    }
-  };
-
 
   return (
     <div className="container py-4">
@@ -213,13 +249,30 @@ const AdministradorScreen = () => {
         </div>
       )}
 
-      
+      {/* Mostrar formulario de usuarios */}
+      {mostrarFormularioUsuario && (
+        <div className="card-admin mb-4">
+          <div className="card-admin-body">
+            <h2 className="card-admin-title mb-4 text-center">
+              {usuarioEditando ? 'Editar' : 'Agregar'} Usuario
+            </h2>
+            <UsuarioForm
+              usuario={usuarioEditando}
+              onGuardar={handleGuardarUsuario}
+              onCancelar={() => {
+                setMostrarFormularioUsuario(false);
+                setUsuarioEditando(null);
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Tabla de productos */}
       <TablaProductos
         productos={productos}
-        onEditar={handleEditar}
-        onEliminar={handleEliminar}
+        onEditar={handleEditarProducto}
+        onEliminar={handleEliminarProducto}
       />
 
       {/* Paginación de productos */}
@@ -234,7 +287,7 @@ const AdministradorScreen = () => {
       <h2 className="mb-4 mt-4 text-center">Usuarios</h2>
       <TablaUsuarios
         usuarios={usuarios}
-        onEditar={() => {}}
+        onEditar={handleEditarUsuario}
         onEliminar={handleEliminarUsuario}
       />
 

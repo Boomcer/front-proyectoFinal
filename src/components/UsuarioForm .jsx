@@ -4,11 +4,35 @@ const UsuarioForm = ({ usuario, onGuardar, onCancelar }) => {
   const [nombre, setNombre] = useState(usuario?.nombre || '');
   const [email, setEmail] = useState(usuario?.email || '');
   const [rol, setRol] = useState(usuario?.rol || '');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onGuardar({ nombre, email, rol });
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateEmail(email)) {
+      alert("Por favor, ingresa un email válido.");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      await onGuardar({ nombre, email, rol, password });
+      setNombre('');
+      setEmail('');
+      setRol('');
+      setPassword('');
+    } catch (error) {
+      alert(`Error al guardar el usuario: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const isFormValid = nombre && email && rol;
 
   return (
     <div className="card-admin mb-4">
@@ -59,12 +83,25 @@ const UsuarioForm = ({ usuario, onGuardar, onCancelar }) => {
               <option value="USER_ROL">Usuario</option>
             </select>
           </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
           <div className="d-flex justify-content-end gap-2">
             <button type="button" className="btn btn-secondary" onClick={onCancelar}>
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary">
-              Guardar
+            <button type="submit" className="btn btn-primary" disabled={!isFormValid || isLoading}>
+              {isLoading ? 'Guardando...' : 'Guardar'}
             </button>
           </div>
         </form>

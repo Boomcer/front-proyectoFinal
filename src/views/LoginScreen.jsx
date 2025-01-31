@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../helpers/fetchApi.js";
-import img from '../assets/img/LogoGrande.jpeg';
 import { Link } from "react-router-dom";
 
 const LoginScreen = () => {
@@ -51,6 +50,9 @@ const LoginScreen = () => {
         localStorage.setItem("token", JSON.stringify(response.token));
         // Guardar el uid como una cadena normal (sin stringify)
         localStorage.setItem("uid", response.usuario.uid);
+
+        // Guardar el rol del usuario
+        localStorage.setItem("user", JSON.stringify({ rol: response.usuario.rol }));
 
         // Guardar favoritos y carrito con JSON.stringify() porque son arrays u objetos
         localStorage.setItem("favoritos", JSON.stringify(response.usuario.favoritos || []));
@@ -128,13 +130,11 @@ const LoginScreen = () => {
               </div>
             )}
             {error && (
-            <div className="alert alert-danger mt-2" role="alert">
-              {error}
-            </div>
-          )}
+              <div className="alert alert-danger mt-2" role="alert">
+                {error}
+              </div>
+            )}
           </div>
-
-          
 
           <div className="d-grid my-4">
             <button type="submit" className="btn btn-primary btn-lg">
@@ -151,4 +151,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen; 
+export default LoginScreen;

@@ -86,8 +86,9 @@ const CardProductApp = ({ producto }) => {
   };
 
   return (
-    <div className="col">
-      <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
+    <div className="conteinercardHome"> 
+      <div className="conteinerCardd">
+      <div id="card" className="card border-2 shadow bg-dark">
         <Link className="nav-link" to={`/producto/${producto._id}`}>
           <div id="content-img" className="align-items-center">
             <img
@@ -114,7 +115,7 @@ const CardProductApp = ({ producto }) => {
           <div
             onClick={!loadingFavoritos ? handleAddToFavoritos : null}
             style={{
-              fontSize: "2em",
+              fontSize: "2.3em",
               color: isFavorite ? "red" : "#E0E0E0",
               cursor: loadingFavoritos ? "not-allowed" : "pointer",
             }}
@@ -122,6 +123,7 @@ const CardProductApp = ({ producto }) => {
             <FontAwesomeIcon icon={faHeart} />
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

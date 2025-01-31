@@ -6,6 +6,7 @@ import { getUsuario, putUsuario } from '../helpers/apiUsuarios';
 const PerfilScreen = () => {
   const [usuario, setUsuario] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar la contraseña
   const navigate = useNavigate();
   const uid = localStorage.getItem("uid");
 
@@ -140,15 +141,24 @@ const PerfilScreen = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Nueva Contraseña</label>
-              <input
-                type="password"
-                id="password"
-                className="form-control"
-                value={usuario.password || ""}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
+              <label htmlFor="password" className="form-label">Contraseña</label>
+              <div className="input-group">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  className="form-control"
+                  value={usuario.password || ""}
+                  onChange={handleChange}
+                  disabled={!editMode}
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? "Ocultar" : "Mostrar"}
+                </button>
+              </div>
             </div>
 
             <div className="d-flex justify-content-between">

@@ -14,14 +14,14 @@ import CategoriasScreen from '../views/CategoriasScreen';
 import PerfilScreen from '../views/PerfilScreen';
 import CategoryProducts from '../components/CategoryProducts'; 
 import CreditCard from "../components/CreditCard";
-import ResultadosBusqueda  from '../components/ResultadosBusqueda';
+import ResultadosBusqueda from '../components/ResultadosBusqueda';
 
 const RoutesTwo = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/buscar" element={<ResultadosBusqueda  />} />
+        <Route path="/buscar" element={<ResultadosBusqueda />} />
         <Route path="/nosotros" element={<AboutScreen />} />
         <Route path="/perfil" element={<PerfilScreen />} />
         <Route path="/categorias" element={<CategoriasScreen />} />
@@ -35,12 +35,11 @@ const RoutesTwo = () => {
         <Route
           path="/admin"
           element={
-            <ProtectedRoutes>
+            <ProtectedRoutes requiredRole="ADMIN_ROL">
               <AdministradorScreen />
             </ProtectedRoutes>
           }
         />
-        
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </>

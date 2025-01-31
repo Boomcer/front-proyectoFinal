@@ -58,24 +58,21 @@ const addToCarrito = async (productoId, cantidad = 1) => {
   return await resp.json();
 };
 
+
 // Eliminar producto del carrito
 const deleteFromCarrito = async (productoId) => {
   const uid = localStorage.getItem("uid");
-  const token = JSON.parse(localStorage.getItem("token")); // Obtener token desde localStorage
+  const token = JSON.parse(localStorage.getItem("token"));
 
   if (!uid || !token) {
     throw new Error("El UID o el token no están disponibles en localStorage.");
   }
 
-  // Formato que espera el backend
   const body = {
-    eliminarCarrito: [{ productoId }], // Array con el ID del producto
+    eliminarCarrito: [{ productoId }], // Formato esperado por el backend
   };
 
-  console.log("Datos enviados al backend para eliminar del carrito:", body);
-
   try {
-    // Solicitud PUT al backend
     const resp = await fetch(`${url}/${uid}`, {
       method: "PUT",
       body: JSON.stringify(body),
@@ -98,7 +95,6 @@ const deleteFromCarrito = async (productoId) => {
     throw error;
   }
 };
-
 // Añadir producto a favoritos
 const addToFavoritos = async (productoId) => {
   const uid = localStorage.getItem("uid");
@@ -228,6 +224,8 @@ const clearCarrito = async () => {
     throw error;
   }
 };
+
+
 
 // Actualizar información del usuario en localStorage
 const refreshUsuario = async () => {

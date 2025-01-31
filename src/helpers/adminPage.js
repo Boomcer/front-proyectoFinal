@@ -152,13 +152,14 @@ export const obtenerUsuarios = async (limite = 5, desde = 0) => {
 };
 
 export const eliminarUsuario = async (id) => {
-  const response = await fetch(`${API_URL}/usuarios/${id}`, { // Agrega la barra después de API_URL
-    method: 'DELETE',
+  const response = await fetch(`${API_URL}/usuarios/${id}`, {
+    // Agrega la barra después de API_URL
+    method: "DELETE",
     headers: getHeaders(),
   });
 
   if (!response.ok) {
-    throw new Error('No se pudo eliminar el usuario');
+    throw new Error("No se pudo eliminar el usuario");
   }
 
   const data = await response.json();
@@ -168,13 +169,13 @@ export const eliminarUsuario = async (id) => {
 export const actualizarUsuario = async (id, usuario) => {
   try {
     const response = await fetch(`${API_URL}/usuarios/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getHeaders(),
       body: JSON.stringify(usuario),
     });
 
     if (!response.ok) {
-      throw new Error('No se pudo actualizar el usuario');
+      throw new Error("No se pudo actualizar el usuario");
     }
 
     const data = await response.json();
@@ -184,3 +185,26 @@ export const actualizarUsuario = async (id, usuario) => {
     throw error;
   }
 };
+
+export const crearUsuario = async (usuario) => {
+  try {
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(usuario),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.msg || "Error al crear el usuario");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error al crear usuario:", error.message);
+    throw error;
+  }
+}
