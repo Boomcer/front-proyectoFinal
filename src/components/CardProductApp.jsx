@@ -88,19 +88,21 @@ const CardProductApp = ({ producto }) => {
   return (
     <div className="col">
       <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
-        <Link className="nav-link conteiner_card" to={`/producto/${producto._id}`}>
-          <div id="content-img" className="align-items-center w-100">
+        <Link className="nav-link" to={`/producto/${producto._id}`}>
+          <div id="content-img" className="align-items-center">
             <img
               src={producto.img}
               className="card-img-top"
               alt={producto.nombre}
             />
           </div>
-          <div className="card-body text-light">
-            <h6 className="card-title">{producto.nombre}</h6>
-            <p className="card-text">$ {producto.precio}</p>
-          </div>
         </Link>
+        <div className="card-body text-light">
+          <Link className="nav-link" to={`/producto/${producto._id}`}>
+            <h6 className="card-title">{producto.nombre}</h6>
+          </Link>
+          <p className="card-text">$ {producto.precio}</p>
+        </div>
         <div className="d-flex align-items-center justify-content-around w-100 m-2 gap-1">
           <button
             onClick={handleAddToCarrito}
