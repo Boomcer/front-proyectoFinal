@@ -8,6 +8,7 @@ import Publicidad from "../components/publicidad";
 
 
 const HomeScreen = () => {
+
   return (
     <div className="container">
             {/* <BuscarProductos /> */}
