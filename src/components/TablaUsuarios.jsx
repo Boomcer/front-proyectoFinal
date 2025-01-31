@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
-import '../css/TablaUsuarios.css'
+import "../css/TablaUsuarios.css";
 
 const TablaUsuarios = ({ usuarios, onEditar, onEliminar }) => {
   const [hoveredImage, setHoveredImage] = useState(null);
 
-  // Función para confirmar la eliminación de un usuario
+ 
   const confirmarEliminacion = (id) => {
     Swal.fire({
       title: "¿Estás seguro?",
@@ -19,12 +19,11 @@ const TablaUsuarios = ({ usuarios, onEditar, onEliminar }) => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        onEliminar(id); // Llama a la función onEliminar si el usuario confirma
+        onEliminar(id); 
       }
     });
   };
 
-  // Función para mostrar la imagen en tamaño completo
   const mostrarImagenCompleta = (imagen, nombre) => {
     Swal.fire({
       imageUrl: imagen,

@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { buscarProductos } from '../helpers/buscar.js';
-import { addToCarrito, addToFavoritos, refreshUsuario } from '../helpers/apiUsuarios.js';
-import '../css/CategoryProducts.css';
-import Swal from 'sweetalert2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { buscarProductos } from "../helpers/buscar.js";
+import {
+  addToCarrito,
+  addToFavoritos,
+  refreshUsuario,
+} from "../helpers/apiUsuarios.js";
+import "../css/CategoryProducts.css";
+import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const ResultadosBusqueda = () => {
   const location = useLocation();
-  const query = new URLSearchParams(location.search).get('q');
+  const query = new URLSearchParams(location.search).get("q");
   const [resultados, setResultados] = useState([]);
   const [error, setError] = useState(null);
   const [loadingCarrito, setLoadingCarrito] = useState({});
@@ -30,7 +34,7 @@ const ResultadosBusqueda = () => {
           }
           setError(null);
         } catch (error) {
-          setError('No se pudieron cargar los resultados. Inténtalo de nuevo.');
+          setError("No se pudieron cargar los resultados. Inténtalo de nuevo.");
           setResultados([]);
         }
       }
@@ -39,7 +43,8 @@ const ResultadosBusqueda = () => {
   }, [query]);
 
   useEffect(() => {
-    const favoritosGuardados = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const favoritosGuardados =
+      JSON.parse(localStorage.getItem("favoritos")) || [];
     setFavoritos(favoritosGuardados.map((prod) => prod._id));
   }, []);
 
@@ -53,13 +58,13 @@ const ResultadosBusqueda = () => {
         text: "El producto se ha añadido correctamente.",
         icon: "success",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
     } catch (error) {
       Swal.fire({
         title: "Error",
         text: "Hubo un problema al añadir el producto al carrito.",
-        icon: "error"
+        icon: "error",
       });
     } finally {
       setLoadingCarrito((prev) => ({ ...prev, [productoId]: false }));
@@ -80,7 +85,7 @@ const ResultadosBusqueda = () => {
           text: "Se ha eliminado de tu lista.",
           icon: "success",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       } else {
         nuevosFavoritos = [...favoritos, productoId];
@@ -89,16 +94,19 @@ const ResultadosBusqueda = () => {
           text: "El producto se ha añadido correctamente.",
           icon: "success",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       }
       setFavoritos(nuevosFavoritos);
-      localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos.map((id) => ({ _id: id }))));
+      localStorage.setItem(
+        "favoritos",
+        JSON.stringify(nuevosFavoritos.map((id) => ({ _id: id })))
+      );
     } catch (error) {
       Swal.fire({
         title: "Error",
         text: "Hubo un problema al añadir el producto a favoritos.",
-        icon: "error"
+        icon: "error",
       });
     } finally {
       setLoadingFavoritos((prev) => ({ ...prev, [productoId]: false }));
@@ -115,7 +123,11 @@ const ResultadosBusqueda = () => {
             <div key={producto._id} className="card-product">
               <div className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
                 <div className="content-img align-items-center">
-                  <img src={producto.img} className="card-img-top" alt={producto.nombre} />
+                  <img
+                    src={producto.img}
+                    className="card-img-top"
+                    alt={producto.nombre}
+                  />
                 </div>
                 <div className="card-body text-light">
                   <h6 className="card-title">{producto.nombre}</h6>
@@ -126,14 +138,20 @@ const ResultadosBusqueda = () => {
                       className="btn btn-outline-secondary"
                       disabled={loadingCarrito[producto._id]}
                     >
-                      {loadingCarrito[producto._id] ? "Cargando..." : "Añadir a carrito"}
+                      {loadingCarrito[producto._id]
+                        ? "Cargando..."
+                        : "Añadir a carrito"}
                     </button>
                     <div
                       onClick={() => handleAddToFavoritos(producto)}
                       style={{
                         fontSize: "2em",
-                        color: favoritos.includes(producto._id) ? "red" : "#E0E0E0",
-                        cursor: loadingFavoritos[producto._id] ? "not-allowed" : "pointer",
+                        color: favoritos.includes(producto._id)
+                          ? "red"
+                          : "#E0E0E0",
+                        cursor: loadingFavoritos[producto._id]
+                          ? "not-allowed"
+                          : "pointer",
                       }}
                     >
                       <FontAwesomeIcon icon={faHeart} />

@@ -11,16 +11,11 @@ const HomeScreen = () => {
 
   return (
     <div className="container">
-            {/* <BuscarProductos /> */}
-
-      {/* titulo */}
-      {/* carrusel */}
       <DestacadosApp />
       <Categories />
       <CardsProductApp />
       <Page />
       <Publicidad />
-      {/* grillas de productos */}
     </div>
   );
 };

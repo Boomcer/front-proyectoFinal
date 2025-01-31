@@ -64,8 +64,6 @@ export const actualizarProducto = async (id, producto) => {
       throw new Error("El ID del producto es obligatorio.");
     }
 
-    console.log("Actualizando producto:", id, producto);
-
     const response = await fetch(`${API_URL}/productos/${id}`, {
       method: "PUT",
       headers: getHeaders(),
@@ -92,7 +90,6 @@ export const eliminarProducto = async (id) => {
   }
 };
 
-// Nueva función para obtener categorías
 export const obtenerCategorias = async (limite = 10, desde = 0) => {
   try {
     const response = await fetch(
@@ -153,7 +150,6 @@ export const obtenerUsuarios = async (limite = 5, desde = 0) => {
 
 export const eliminarUsuario = async (id) => {
   const response = await fetch(`${API_URL}/usuarios/${id}`, {
-    // Agrega la barra después de API_URL
     method: "DELETE",
     headers: getHeaders(),
   });

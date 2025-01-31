@@ -3,7 +3,11 @@ import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { addToCarrito, addToFavoritos, refreshUsuario } from "../helpers/apiUsuarios.js";
+import {
+  addToCarrito,
+  addToFavoritos,
+  refreshUsuario,
+} from "../helpers/apiUsuarios.js";
 import "../css/CardProductApp.css";
 
 const CardProductApp = ({ producto }) => {
@@ -17,28 +21,28 @@ const CardProductApp = ({ producto }) => {
   }, [producto._id]);
 
   const handleAddToCarrito = async (e) => {
-    e.stopPropagation(); // Evita que el click active el Link
+    e.stopPropagation(); 
     setLoadingCarrito(true);
     try {
       await addToCarrito(producto._id, 1);
       await refreshUsuario();
-      
+
       Swal.fire({
         title: "¡Añadido al carrito!",
         text: "El producto se ha añadido correctamente.",
         icon: "success",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-
     } catch (error) {
       console.error("Error al añadir al carrito:", error);
       Swal.fire({
         title: "Error",
-        text: error.message.includes("UID") || error.message.includes("token")
-          ? "Por favor, inicie sesión nuevamente."
-          : "Hubo un problema al añadir el producto al carrito.",
-        icon: "error"
+        text:
+          error.message.includes("UID") || error.message.includes("token")
+            ? "Por favor, inicie sesión nuevamente."
+            : "Hubo un problema al añadir el producto al carrito.",
+        icon: "error",
       });
     } finally {
       setLoadingCarrito(false);
@@ -46,7 +50,7 @@ const CardProductApp = ({ producto }) => {
   };
 
   const handleAddToFavoritos = async (e) => {
-    e.stopPropagation(); // Evita que el click active el Link
+    e.stopPropagation(); 
     setLoadingFavoritos(true);
     try {
       await addToFavoritos(producto._id);
@@ -54,7 +58,9 @@ const CardProductApp = ({ producto }) => {
 
       const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
       if (isFavorite) {
-        const nuevosFavoritos = favoritos.filter((fav) => fav._id !== producto._id);
+        const nuevosFavoritos = favoritos.filter(
+          (fav) => fav._id !== producto._id
+        );
         localStorage.setItem("favoritos", JSON.stringify(nuevosFavoritos));
         setIsFavorite(false);
       } else {
@@ -65,20 +71,22 @@ const CardProductApp = ({ producto }) => {
 
       Swal.fire({
         title: isFavorite ? "Eliminado de favoritos" : "¡Añadido a favoritos!",
-        text: isFavorite ? "Se ha eliminado de tu lista." : "El producto se ha añadido correctamente.",
+        text: isFavorite
+          ? "Se ha eliminado de tu lista."
+          : "El producto se ha añadido correctamente.",
         icon: "success",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-
     } catch (error) {
       console.error("Error al añadir a favoritos:", error);
       Swal.fire({
         title: "Error",
-        text: error.message.includes("UID") || error.message.includes("token")
-          ? "Por favor, inicie sesión nuevamente."
-          : "Hubo un problema al añadir el producto a favoritos.",
-        icon: "error"
+        text:
+          error.message.includes("UID") || error.message.includes("token")
+            ? "Por favor, inicie sesión nuevamente."
+            : "Hubo un problema al añadir el producto a favoritos.",
+        icon: "error",
       });
     } finally {
       setLoadingFavoritos(false);
@@ -86,44 +94,44 @@ const CardProductApp = ({ producto }) => {
   };
 
   return (
-    <div className="conteinercardHome"> 
+    <div className="conteinercardHome">
       <div className="conteinerCardd">
-      <div id="card" className="card border-2 shadow bg-dark">
-        <Link className="nav-link" to={`/producto/${producto._id}`}>
-          <div id="content-img" className="align-items-center">
-            <img
-              src={producto.img}
-              className="card-img-top"
-              alt={producto.nombre}
-            />
-          </div>
-        </Link>
-        <div className="card-body text-light">
+        <div id="card" className="card border-2 shadow bg-dark">
           <Link className="nav-link" to={`/producto/${producto._id}`}>
-            <h6 className="card-title">{producto.nombre}</h6>
+            <div id="content-img" className="align-items-center">
+              <img
+                src={producto.img}
+                className="card-img-top"
+                alt={producto.nombre}
+              />
+            </div>
           </Link>
-          <p className="card-text">$ {producto.precio}</p>
-        </div>
-        <div className="d-flex align-items-center justify-content-around w-100 m-2 gap-1">
-          <button
-            onClick={handleAddToCarrito}
-            className="btn btn-outline-secondary"
-            disabled={loadingCarrito}
-          >
-            {loadingCarrito ? "Cargando..." : "Añadir a carrito"}
-          </button>
-          <div
-            onClick={!loadingFavoritos ? handleAddToFavoritos : null}
-            style={{
-              fontSize: "2.3em",
-              color: isFavorite ? "red" : "#E0E0E0",
-              cursor: loadingFavoritos ? "not-allowed" : "pointer",
-            }}
-          >
-            <FontAwesomeIcon icon={faHeart} />
+          <div className="card-body text-light">
+            <Link className="nav-link" to={`/producto/${producto._id}`}>
+              <h6 className="card-title">{producto.nombre}</h6>
+            </Link>
+            <p className="card-text">$ {producto.precio}</p>
+          </div>
+          <div className="d-flex align-items-center justify-content-around w-100 m-2 gap-1">
+            <button
+              onClick={handleAddToCarrito}
+              className="btn btn-outline-secondary"
+              disabled={loadingCarrito}
+            >
+              {loadingCarrito ? "Cargando..." : "Añadir a carrito"}
+            </button>
+            <div
+              onClick={!loadingFavoritos ? handleAddToFavoritos : null}
+              style={{
+                fontSize: "2.3em",
+                color: isFavorite ? "red" : "#E0E0E0",
+                cursor: loadingFavoritos ? "not-allowed" : "pointer",
+              }}
+            >
+              <FontAwesomeIcon icon={faHeart} />
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );

@@ -38,5 +38,4 @@ const getProducto = async (id) => {
   return data;
 };
 
-
 export { getProductos, destacados, getProducto };

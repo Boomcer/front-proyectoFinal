@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Swal from 'sweetalert2';
-import { obtenerCategorias } from '../helpers/adminPage.js'; // Importar la función para obtener categorías
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Swal from "sweetalert2";
+import { obtenerCategorias } from "../helpers/adminPage.js"; 
 
 const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
   const [formData, setFormData] = useState({
-    nombre: '',
-    descripcion: '',
-    precio: '',
-    stock: '',
-    categoria: '',
-    img: '',
+    nombre: "",
+    descripcion: "",
+    precio: "",
+    stock: "",
+    categoria: "",
+    img: "",
     destacado: false,
   });
 
@@ -47,7 +47,7 @@ const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -56,15 +56,15 @@ const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
     try {
       await onGuardar(formData);
       Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: `Producto ${producto ? 'actualizado' : 'creado'} correctamente`
+        icon: "success",
+        title: "Éxito",
+        text: `Producto ${producto ? "actualizado" : "creado"} correctamente`,
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Hubo un problema al procesar el producto'
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al procesar el producto",
       });
     }
   };
@@ -152,11 +152,15 @@ const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
         <label className="form-check-label">Destacado</label>
       </div>
       <div className="d-flex gap-2 justify-content-end mt-4">
-        <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={onCancelar}
+        >
           Cancelar
         </button>
         <button type="submit" className="btn btn-primary">
-          {producto ? 'Actualizar' : 'Crear'} Producto
+          {producto ? "Actualizar" : "Crear"} Producto
         </button>
       </div>
     </form>

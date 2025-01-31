@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const UsuarioForm = ({ usuario, onGuardar, onCancelar }) => {
-  const [nombre, setNombre] = useState(usuario?.nombre || '');
-  const [email, setEmail] = useState(usuario?.email || '');
-  const [rol, setRol] = useState(usuario?.rol || '');
-  const [password, setPassword] = useState('');
+  const [nombre, setNombre] = useState(usuario?.nombre || "");
+  const [email, setEmail] = useState(usuario?.email || "");
+  const [rol, setRol] = useState(usuario?.rol || "");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
@@ -21,10 +21,10 @@ const UsuarioForm = ({ usuario, onGuardar, onCancelar }) => {
     setIsLoading(true);
     try {
       await onGuardar({ nombre, email, rol, password });
-      setNombre('');
-      setEmail('');
-      setRol('');
-      setPassword('');
+      setNombre("");
+      setEmail("");
+      setRol("");
+      setPassword("");
     } catch (error) {
       alert(`Error al guardar el usuario: ${error.message}`);
     } finally {
@@ -38,7 +38,7 @@ const UsuarioForm = ({ usuario, onGuardar, onCancelar }) => {
     <div className="card-admin mb-4">
       <div className="card-admin-body">
         <h2 className="card-admin-title mb-4 text-center">
-          {usuario ? 'Editar' : 'Agregar'} Usuario
+          {usuario ? "Editar" : "Agregar"} Usuario
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -97,11 +97,19 @@ const UsuarioForm = ({ usuario, onGuardar, onCancelar }) => {
             />
           </div>
           <div className="d-flex justify-content-end gap-2">
-            <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onCancelar}
+            >
               Cancelar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={!isFormValid || isLoading}>
-              {isLoading ? 'Guardando...' : 'Guardar'}
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={!isFormValid || isLoading}
+            >
+              {isLoading ? "Guardando..." : "Guardar"}
             </button>
           </div>
         </form>

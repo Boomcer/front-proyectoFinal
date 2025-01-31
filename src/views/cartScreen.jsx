@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProducto } from "../helpers/apiProductos";
-import { getUsuario, deleteFromCarrito, putCarrito } from "../helpers/apiUsuarios"; 
+import {
+  getUsuario,
+  deleteFromCarrito,
+  putCarrito,
+} from "../helpers/apiUsuarios";
 import CartApp from "../components/CardCarrito";
 
 const CartScreen = () => {
@@ -35,34 +39,32 @@ const CartScreen = () => {
     fetchCarrito();
   }, [uid]);
 
-
   const handleDeleteCarrito = async (productoId) => {
     try {
       await deleteFromCarrito(productoId);
       setCarrito((prevCarrito) =>
         prevCarrito.filter((item) => item._id !== productoId)
-      ); 
+      );
     } catch (error) {
       console.error("Error al eliminar el producto del carrito:", error);
     }
   };
 
-    const handleUpdateCantidad = async (carritoId, nuevaCantidad) => {
+  const handleUpdateCantidad = async (carritoId, nuevaCantidad) => {
     try {
-      await putCarrito(carritoId, nuevaCantidad); 
+      await putCarrito(carritoId, nuevaCantidad);
       setCarrito((prevCarrito) =>
         prevCarrito.map((item) =>
           item.carritoId === carritoId
             ? { ...item, cantidad: nuevaCantidad }
             : item
         )
-      ); 
+      );
     } catch (error) {
       console.error("Error al actualizar la cantidad:", error);
     }
   };
 
-  // Calcular el total del carrito
   const calcularTotalCarrito = () => {
     return carrito.reduce((total, item) => {
       const precio = parseFloat(item.producto.precio) || 0;
@@ -74,30 +76,38 @@ const CartScreen = () => {
   return (
     <div className="p-2">
       <h1>🛒 Carrito de Compras 🛒</h1>
-      <div className="row g-3">
-        {carrito.map(({ producto, carritoId, cantidad }) => (
-          <CartApp
-            key={carritoId}
-            id={carritoId}
-            producto={{
-              ...producto,
-              cantidad,
-            }}
-            onDeleteCarrito={handleDeleteCarrito} 
-            onUpdateCantidad={handleUpdateCantidad} 
-          />
-        ))}
-      </div>
-      {carrito.length > 0 && (
-        <div className="text-center mt-5 mb-3">
-          <h4>Total: ${Math.round(calcularTotalCarrito())}</h4>
-          <button
-            className="btn btn-primary mt-3"
-            onClick={() => navigate("/checkout")}
-          >
-            Comprar Todo
-          </button>
+
+      {carrito.length === 0 ? (
+        <div className="alert alert-info text-center w-100">
+          No hay productos en el carrito
         </div>
+      ) : (
+        <>
+          <div className="row g-3">
+            {carrito.map(({ producto, carritoId, cantidad }) => (
+              <CartApp
+                key={carritoId}
+                id={carritoId}
+                producto={{
+                  ...producto,
+                  cantidad,
+                }}
+                onDeleteCarrito={handleDeleteCarrito}
+                onUpdateCantidad={handleUpdateCantidad}
+              />
+            ))}
+          </div>
+
+          <div className="text-center mt-5 mb-3">
+            <h4>Total: ${Math.round(calcularTotalCarrito())}</h4>
+            <button
+              className="btn btn-primary mt-3"
+              onClick={() => navigate("/checkout")}
+            >
+              Comprar Todo
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 const CardCarrito = ({ producto, onDeleteCarrito }) => {
   const { _id, nombre, precio, img } = producto;
 
-  // Función para eliminar un producto del carrito con SweetAlert2
   const handleDelete = () => {
     Swal.fire({
       title: "¿Estás seguro?",

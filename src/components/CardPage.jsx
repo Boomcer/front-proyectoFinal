@@ -1,19 +1,17 @@
-import { useState } from 'react'
-import '../css/CardPage.css'
+import { useState } from "react";
+import "../css/CardPage.css";
 
 function BenefitCard({ icon, title, description, delay }) {
   return (
-    <div 
-      className="benefit-card fade-in" 
+    <div
+      className="benefit-card fade-in"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="icon">
-        {icon}
-      </div>
+      <div className="icon">{icon}</div>
       <h2 className="title">{title}</h2>
       <p className="description">{description}</p>
     </div>
-  )
+  );
 }
 
 function CardPage() {
@@ -21,24 +19,25 @@ function CardPage() {
     {
       icon: "💰",
       title: "30% OFF Abonando en Efectivo",
-      description: "Motoenvío o Retiro por taller"
+      description: "Motoenvío o Retiro por taller",
     },
     {
       icon: "💳",
       title: "Paga Como Quieras",
-      description: "3 Y 6 Cuotas sin interés con tarjetas de Mercadopago"
+      description: "3 Y 6 Cuotas sin interés con tarjetas de Mercadopago",
     },
     {
       icon: "🚚",
       title: "Envíos Gratis todo el PAÍS",
-      description: "Superando los $15000"
+      description: "Superando los $15000",
     },
     {
       icon: "↩️",
       title: "Devolvelo gratis",
-      description: "Si no te gustó o no te convence, la primera devolución es por nuestra cuenta."
-    }
-  ]
+      description:
+        "Si no te gustó o no te convence, la primera devolución es por nuestra cuenta.",
+    },
+  ];
 
   return (
     <div className="containerr">
@@ -54,7 +53,7 @@ function CardPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default CardPage
+export default CardPage;

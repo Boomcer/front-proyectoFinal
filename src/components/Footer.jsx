@@ -96,7 +96,7 @@ const Footer = () => {
               <div className="copyright-text">
                 <p>
                   General Paz Moda &copy; 2024, Todos los derechos reservados{' '}
-                  <a href="https://codepen.io/anupkumar92/">Aqui</a>
+                  <a href="../views/ErrorScreen.jsx">Aqui</a>
                 </p>
               </div>
             </div>

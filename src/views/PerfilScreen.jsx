@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { getUsuario, putUsuario } from '../helpers/apiUsuarios';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { getUsuario, putUsuario } from "../helpers/apiUsuarios";
 
 const PerfilScreen = () => {
   const [usuario, setUsuario] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar la contraseña
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const uid = localStorage.getItem("uid");
 
@@ -22,7 +22,7 @@ const PerfilScreen = () => {
         text: "No se encontró un usuario logueado. Redirigiendo al login.",
         icon: "warning",
         confirmButtonText: "Aceptar",
-      }).then(() => navigate('/login'));
+      }).then(() => navigate("/login"));
     }
 
     return () => setUsuario(null);
@@ -66,7 +66,6 @@ const PerfilScreen = () => {
     }
   };
 
-  // Función para cerrar sesión
   const handleLogout = () => {
     Swal.fire({
       title: "¿Cerrar sesión?",
@@ -78,8 +77,8 @@ const PerfilScreen = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.removeItem("uid"); // Eliminar credenciales
-        navigate("/login"); // Redirigir al login
+        localStorage.removeItem("uid");
+        navigate("/login");
         Swal.fire({
           title: "Sesión cerrada",
           text: "Has cerrado sesión correctamente.",
@@ -94,11 +93,13 @@ const PerfilScreen = () => {
     <div className="container mt-5 mb-3">
       {usuario ? (
         <>
-          <h2 className="mb-4">Hola, {usuario.nombre || 'Usuario'}</h2>
+          <h2 className="mb-4">Hola, {usuario.nombre || "Usuario"}</h2>
           <h3 className="mb-4">Mis Datos Personales</h3>
           <form>
             <div className="mb-3">
-              <label htmlFor="nombre" className="form-label">Nombre</label>
+              <label htmlFor="nombre" className="form-label">
+                Nombre
+              </label>
               <input
                 type="text"
                 id="nombre"
@@ -110,7 +111,9 @@ const PerfilScreen = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">Correo</label>
+              <label htmlFor="email" className="form-label">
+                Correo
+              </label>
               <input
                 type="email"
                 id="email"
@@ -121,13 +124,19 @@ const PerfilScreen = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="img" className="form-label">URL de Imagen de Perfil</label>
+              <label htmlFor="img" className="form-label">
+                URL de Imagen de Perfil
+              </label>
               <div className="text-center">
                 <img
                   src={usuario.img || "https://via.placeholder.com/150"}
                   alt="Perfil"
                   className="img-thumbnail mb-3"
-                  style={{ width: "150px", height: "150px", objectFit: "cover" }}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
               <input
@@ -141,7 +150,9 @@ const PerfilScreen = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Contraseña</label>
+              <label htmlFor="password" className="form-label">
+                Contraseña
+              </label>
               <div className="input-group">
                 <input
                   type={showPassword ? "text" : "password"}

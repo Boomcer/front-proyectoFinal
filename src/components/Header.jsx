@@ -8,20 +8,20 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userRole, setUserRole] = useState(null); // Estado para almacenar el rol del usuario
+  const [userRole, setUserRole] = useState(null); 
   const navigate = useNavigate();
 
   const { favoritesCount, cartCount } = useGlobalState();
 
-  // Obtener el rol del usuario al cargar el componente
+
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario desde localStorage
+    const user = JSON.parse(localStorage.getItem("user")); 
     if (user && user.rol) {
-      setUserRole(user.rol); // Guardar el rol en el estado
+      setUserRole(user.rol);
     }
   }, []);
 
-  // Manejar el scroll
+ 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -31,7 +31,7 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Manejar la búsqueda
+ 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
@@ -58,7 +58,7 @@ function Header() {
           </a>
         </div>
 
-        {/* Formulario de búsqueda */}
+       
         <form className="search-bar" onSubmit={handleSearch}>
           <input
             type="text"
@@ -104,7 +104,7 @@ function Header() {
           <li>
             <a href="/nosotros">Nosotros</a>
           </li>
-          {/* Mostrar el enlace de Admin solo si el usuario tiene rol ADMIN */}
+        
           {userRole === "ADMIN_ROL" && (
             <li>
               <a href="/admin">Admin</a>

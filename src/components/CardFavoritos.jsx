@@ -19,27 +19,39 @@ const CardFavoritos = ({ producto, id, onDeleteFavorito }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         onDeleteFavorito(id);
-        Swal.fire("Eliminado", "El producto ha sido eliminado de tus favoritos.", "success");
+        Swal.fire(
+          "Eliminado",
+          "El producto ha sido eliminado de tus favoritos.",
+          "success"
+        );
       }
     });
   };
 
   return (
     <div className="col w-100 d-flex justify-content-center m-2 ">
-      <div id="card" className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark">
+      <div
+        id="card"
+        className="card d-flex align-items-center justify-content-center text-center border-2 shadow bg-dark"
+      >
         <Link className="nav-link" to={`/producto/${producto._id}`}>
           <div id="content-img" className="align-items-center">
             <img
-              src={producto.img || "/default-image.png"} 
+              src={producto.img || "/default-image.png"}
               className="card-img-top"
               alt={producto.nombre || "Producto"}
             />
           </div>
         </Link>
         <div className="card-body text-light">
-          <h6 className="card-title">{producto.nombre || "Producto sin nombre"}</h6>
+          <h6 className="card-title">
+            {producto.nombre || "Producto sin nombre"}
+          </h6>
           <p className="card-text">$ {producto.precio || "0.00"}</p>
-          <button onClick={handleDelete} className="btn btn-outline-danger mt-2">
+          <button
+            onClick={handleDelete}
+            className="btn btn-outline-danger mt-2"
+          >
             <FontAwesomeIcon icon={faTrash} /> Eliminar de Favoritos
           </button>
         </div>

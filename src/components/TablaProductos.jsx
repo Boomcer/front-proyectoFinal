@@ -1,20 +1,19 @@
-import { useState } from 'react';
-import Swal from 'sweetalert2';
-
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 const TablaProductos = ({ productos, onEditar, onEliminar }) => {
   const [hoveredImage, setHoveredImage] = useState(null);
 
   const confirmarEliminacion = (id) => {
     Swal.fire({
-      title: '¿Estás seguro?',
+      title: "¿Estás seguro?",
       text: "Esta acción no se puede deshacer",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         onEliminar(id);
@@ -33,8 +32,8 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
       showConfirmButton: false,
       showCloseButton: true,
       customClass: {
-        image: 'img-fluid'
-      }
+        image: "img-fluid",
+      },
     });
   };
 
@@ -58,16 +57,16 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
         </thead>
         <tbody>
           {productos.map((producto) => (
-
-            
             <tr key={producto._id}>
               <td>
                 {producto.imagen && (
                   <div
                     className="product-image-container"
-                    onMouseEnter={() => setHoveredImage(producto._id )}
+                    onMouseEnter={() => setHoveredImage(producto._id)}
                     onMouseLeave={() => setHoveredImage(null)}
-                    onClick={() => mostrarImagenCompleta(producto.imagen, producto.nombre)}
+                    onClick={() =>
+                      mostrarImagenCompleta(producto.imagen, producto.nombre)
+                    }
                   >
                     <img
                       src={producto.img}
@@ -82,15 +81,19 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
                   </div>
                 )}
               </td>
-              <td>{producto.nombre || 'Sin nombre'}</td>
+              <td>{producto.nombre || "Sin nombre"}</td>
               <td className="d-none d-sm-table-cell">
-                <div className="text-truncate" style={{ maxWidth: '200px' }}>
-                  {producto.descripcion || 'Sin descripción'}
+                <div className="text-truncate" style={{ maxWidth: "200px" }}>
+                  {producto.descripcion || "Sin descripción"}
                 </div>
               </td>
-              <td>${producto.precio?.toFixed(2) || '0.00'}</td>
+              <td>${producto.precio?.toFixed(2) || "0.00"}</td>
               <td className="d-none d-md-table-cell">{producto.stock || 0}</td>
-              <td className="d-none d-lg-table-cell">{producto.categoria?.nombre || producto.categoria || 'Sin categoría'}</td>
+              <td className="d-none d-lg-table-cell">
+                {producto.categoria?.nombre ||
+                  producto.categoria ||
+                  "Sin categoría"}
+              </td>
               <td>
                 <div className="d-flex flex-wrap gap-2">
                   <button
@@ -123,8 +126,5 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
     </div>
   );
 };
-
-
-
 
 export default TablaProductos;

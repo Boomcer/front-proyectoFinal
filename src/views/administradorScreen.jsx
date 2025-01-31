@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import '../css/adminPage.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import ProductoForm from '../components/ProductoForm';
-import TablaProductos from '../components/TablaProductos';
-import TablaUsuarios from '../components/TablaUsuarios';
-import UsuarioForm from '../components/UsuarioForm .jsx'; // Importar el formulario de usuario
-import Paginacion from '../components/Paginacion';
+import React, { useState, useEffect } from "react";
+import "../css/adminPage.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProductoForm from "../components/ProductoForm";
+import TablaProductos from "../components/TablaProductos";
+import TablaUsuarios from "../components/TablaUsuarios";
+import UsuarioForm from "../components/UsuarioForm .jsx";
+import Paginacion from "../components/Paginacion";
 import {
   obtenerProductos,
   crearProducto,
@@ -15,18 +15,18 @@ import {
   eliminarUsuario,
   actualizarUsuario,
   crearUsuario,
-} from '../helpers/adminPage.js';
-import Swal from 'sweetalert2';
+} from "../helpers/adminPage.js";
+import Swal from "sweetalert2";
 
 const AdministradorScreen = () => {
   const [productos, setProductos] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [productoEditando, setProductoEditando] = useState(null);
-  const [usuarioEditando, setUsuarioEditando] = useState(null); // Estado para el usuario que se está editando
+  const [usuarioEditando, setUsuarioEditando] = useState(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [mostrarFormularioUsuario, setMostrarFormularioUsuario] = useState(false); // Estado para mostrar el formulario de usuario
+  const [mostrarFormularioUsuario, setMostrarFormularioUsuario] =
+    useState(false);
 
-  // Estados de paginación separados
   const [paginacionProductos, setPaginacionProductos] = useState({
     total: 0,
     limite: 5,
@@ -39,22 +39,25 @@ const AdministradorScreen = () => {
     desde: 0,
   });
 
-  // Cargar productos cuando cambie la paginación de productos
   useEffect(() => {
     cargarProductos();
   }, [paginacionProductos.desde, paginacionProductos.limite]);
 
-  // Cargar usuarios cuando cambie la paginación de usuarios
   useEffect(() => {
     cargarUsuarios();
   }, [paginacionUsuarios.desde, paginacionUsuarios.limite]);
 
   const cargarProductos = async () => {
     try {
-      const data = await obtenerProductos(paginacionProductos.limite, paginacionProductos.desde);
+      const data = await obtenerProductos(
+        paginacionProductos.limite,
+        paginacionProductos.desde
+      );
       const productosConImagen = data.productos.map((producto) => ({
         ...producto,
-        imagen: producto.img || 'https://i.pinimg.com/736x/a9/29/16/a92916d371b56dbbbde21dd289aa13c8.jpg',
+        imagen:
+          producto.img ||
+          "https://i.pinimg.com/736x/a9/29/16/a92916d371b56dbbbde21dd289aa13c8.jpg",
       }));
 
       setProductos(productosConImagen);
@@ -64,45 +67,48 @@ const AdministradorScreen = () => {
       }));
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudieron cargar los productos. Verifica tu token de acceso.',
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar los productos. Verifica tu token de acceso.",
       });
     }
   };
 
-const cargarUsuarios = async () => {
-  try {
-    const data = await obtenerUsuarios(paginacionUsuarios.limite, paginacionUsuarios.desde);
-    console.log("Respuesta de la API:", data); // Depuración
-
-    setUsuarios(Array.isArray(data.todosLosUsuarios) ? data.todosLosUsuarios : []);
-    setPaginacionUsuarios((prev) => ({
-      ...prev,
-      total: typeof data.usuariosActivos === "number" ? data.usuariosActivos : 0,
-    }));
-  } catch (error) {
-    console.error("Error al obtener usuarios:", error);
-    setUsuarios([]);
-  }
-};
-
+  const cargarUsuarios = async () => {
+    try {
+      const data = await obtenerUsuarios(
+        paginacionUsuarios.limite,
+        paginacionUsuarios.desde
+      );
+      setUsuarios(
+        Array.isArray(data.todosLosUsuarios) ? data.todosLosUsuarios : []
+      );
+      setPaginacionUsuarios((prev) => ({
+        ...prev,
+        total:
+          typeof data.usuariosActivos === "number" ? data.usuariosActivos : 0,
+      }));
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
+      setUsuarios([]);
+    }
+  };
 
   const handleGuardarProducto = async (producto) => {
     try {
       if (productoEditando) {
         await actualizarProducto(productoEditando._id, producto);
         Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'Producto actualizado correctamente',
+          icon: "success",
+          title: "Éxito",
+          text: "Producto actualizado correctamente",
         });
       } else {
         await crearProducto(producto);
         Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'Producto creado correctamente',
+          icon: "success",
+          title: "Éxito",
+          text: "Producto creado correctamente",
         });
       }
       await cargarProductos();
@@ -110,9 +116,9 @@ const cargarUsuarios = async () => {
       setProductoEditando(null);
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message || 'Hubo un problema al procesar el producto',
+        icon: "error",
+        title: "Error",
+        text: error.message || "Hubo un problema al procesar el producto",
       });
     }
   };
@@ -122,16 +128,16 @@ const cargarUsuarios = async () => {
       if (usuarioEditando) {
         await actualizarUsuario(usuarioEditando._id, usuario);
         Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'Usuario actualizado correctamente',
+          icon: "success",
+          title: "Éxito",
+          text: "Usuario actualizado correctamente",
         });
       } else {
         await crearUsuario(usuario);
         Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'Usuario creado correctamente',
+          icon: "success",
+          title: "Éxito",
+          text: "Usuario creado correctamente",
         });
       }
       await cargarUsuarios();
@@ -139,9 +145,9 @@ const cargarUsuarios = async () => {
       setUsuarioEditando(null);
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message || 'Hubo un problema al procesar el usuario',
+        icon: "error",
+        title: "Error",
+        text: error.message || "Hubo un problema al procesar el usuario",
       });
     }
   };
@@ -161,15 +167,15 @@ const cargarUsuarios = async () => {
       await eliminarProducto(id);
       await cargarProductos();
       Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Producto eliminado correctamente',
+        icon: "success",
+        title: "Éxito",
+        text: "Producto eliminado correctamente",
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message || 'No se pudo eliminar el producto',
+        icon: "error",
+        title: "Error",
+        text: error.message || "No se pudo eliminar el producto",
       });
     }
   };
@@ -178,16 +184,16 @@ const cargarUsuarios = async () => {
     try {
       await eliminarUsuario(id);
       Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Usuario eliminado correctamente',
+        icon: "success",
+        title: "Éxito",
+        text: "Usuario eliminado correctamente",
       });
       await cargarUsuarios();
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message || 'No se pudo eliminar el usuario',
+        icon: "error",
+        title: "Error",
+        text: error.message || "No se pudo eliminar el usuario",
       });
     }
   };
@@ -210,12 +216,9 @@ const cargarUsuarios = async () => {
     <div className="container py-4">
       <h1 className="mb-4 text-center">Administrador de Productos</h1>
 
-      {/* Mostrar el total de productos */}
       <div className="mb-4 text-center">
         <h4>Total de productos: {paginacionProductos.total}</h4>
       </div>
-
-      {/* Mostrar formulario de productos */}
       {!mostrarFormulario ? (
         <div className="d-flex justify-content-center mb-4 gap-2">
           <button
@@ -235,7 +238,7 @@ const cargarUsuarios = async () => {
         <div className="card-admin mb-4">
           <div className="card-admin-body">
             <h2 className="card-admin-title mb-4 text-center">
-              {productoEditando ? 'Editar' : 'Agregar'} Producto
+              {productoEditando ? "Editar" : "Agregar"} Producto
             </h2>
             <ProductoForm
               producto={productoEditando}
@@ -249,12 +252,11 @@ const cargarUsuarios = async () => {
         </div>
       )}
 
-      {/* Mostrar formulario de usuarios */}
       {mostrarFormularioUsuario && (
         <div className="card-admin mb-4">
           <div className="card-admin-body">
             <h2 className="card-admin-title mb-4 text-center">
-              {usuarioEditando ? 'Editar' : 'Agregar'} Usuario
+              {usuarioEditando ? "Editar" : "Agregar"} Usuario
             </h2>
             <UsuarioForm
               usuario={usuarioEditando}
@@ -268,14 +270,12 @@ const cargarUsuarios = async () => {
         </div>
       )}
 
-      {/* Tabla de productos */}
       <TablaProductos
         productos={productos}
         onEditar={handleEditarProducto}
         onEliminar={handleEliminarProducto}
       />
 
-      {/* Paginación de productos */}
       <Paginacion
         total={paginacionProductos.total}
         limite={paginacionProductos.limite}
@@ -283,7 +283,6 @@ const cargarUsuarios = async () => {
         onCambiarPagina={handleCambiarPaginaProductos}
       />
 
-      {/* Tabla de usuarios */}
       <h2 className="mb-4 mt-4 text-center">Usuarios</h2>
       <TablaUsuarios
         usuarios={usuarios}
@@ -291,7 +290,6 @@ const cargarUsuarios = async () => {
         onEliminar={handleEliminarUsuario}
       />
 
-      {/* Paginación de usuarios */}
       <Paginacion
         total={paginacionUsuarios.total}
         limite={paginacionUsuarios.limite}

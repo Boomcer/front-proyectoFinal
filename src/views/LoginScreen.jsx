@@ -2,11 +2,12 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../helpers/fetchApi.js";
 import { Link } from "react-router-dom";
+import logochico from "../assets/img/LogoChico.jpeg";
+
 
 const LoginScreen = () => {
   const navigate = useNavigate();
 
-  // Declarar useState para mensajes
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [formulario, setFormulario] = useState({
@@ -46,24 +47,22 @@ const LoginScreen = () => {
 
     auth(formulario.email, formulario.password).then((response) => {
       if (response?.token) {
-        // Guardar el token como una cadena normal (sin stringify)
+      
         localStorage.setItem("token", JSON.stringify(response.token));
-        // Guardar el uid como una cadena normal (sin stringify)
+    
         localStorage.setItem("uid", response.usuario.uid);
 
-        // Guardar el rol del usuario
         localStorage.setItem("user", JSON.stringify({ rol: response.usuario.rol }));
 
-        // Guardar favoritos y carrito con JSON.stringify() porque son arrays u objetos
         localStorage.setItem("favoritos", JSON.stringify(response.usuario.favoritos || []));
         localStorage.setItem("carrito", JSON.stringify(response.usuario.carrito || []));
 
-        console.log(response);
+        
         navigate("/");
       } else {
-        // Configurar mensaje en caso de error
+       
         setError(null);
-        setMessage(response); // Mostrar el mensaje de error
+        setMessage(response); 
       }
     });
   };
@@ -77,9 +76,9 @@ const LoginScreen = () => {
       <div className="login-card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="text-center mb-4">
           <img 
-            src="https://via.placeholder.com/100" 
+            src={logochico} 
             alt="Logo"
-            className="img-fluid rounded-circle mb-3"
+            className="img-fluid mb-3 shadow w-24"
           />
           <h3 className="fw-bold">Bienvenido de nuevo</h3>
           <p className="text-muted">Inicia sesión para continuar</p>
@@ -123,7 +122,7 @@ const LoginScreen = () => {
               placeholder="********"
               required
             />
-            {/* Mensaje de error de conexión */}
+          
             {message && (
               <div className="alert alert-danger mt-2" role="alert">
                 {message.msg}

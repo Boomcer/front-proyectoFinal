@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { useNavigate } from "react-router-dom"; 
 import Swal from "sweetalert2";
 import { clearCarrito } from "../helpers/apiUsuarios";
-import styles from '../css/CreditCard.module.css'; // Import modular
+import styles from "../css/CreditCard.module.css"; 
 
 export default function CreditCardForm() {
   const [cardNumber, setCardNumber] = useState("");
@@ -11,18 +11,18 @@ export default function CreditCardForm() {
   const [cardYear, setCardYear] = useState("");
   const [cardCvv, setCardCvv] = useState("");
   const uid = localStorage.getItem("uid");
-  const navigate = useNavigate(); // Inicializar useNavigate
+  const navigate = useNavigate(); 
 
   const handlePurchase = async () => {
     try {
-      await clearCarrito(uid); // Vaciar el carrito
+      await clearCarrito(uid); 
       Swal.fire({
         icon: "success",
         title: "¡Compra realizada con éxito!",
         text: "Pronto te estará llegando un mail con los detalles de tu compra!!!",
         confirmButtonText: "Aceptar",
       }).then(() => {
-        navigate("/"); // Redirigir al home después de cerrar la alerta
+        navigate("/");
       });
     } catch (error) {
       console.error("Error al vaciar el carrito:", error);

@@ -33,7 +33,6 @@ const CarsProductApp = () => {
         </div>
       ) : (
         <div id="ContenedorCards2" className="container bg-secondary">
-          {/* Ajustar el número de columnas según el tamaño de la pantalla */}
           <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
             {productos
               .map((item) => <CardProductApp key={item._id} producto={item} />)
