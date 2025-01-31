@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {destacados} from '../helpers/apiProductos.js'
+import { Link } from 'react-router-dom'
 import '../css/destacados.css'
 
 const DestacadosApp = () => {
@@ -26,14 +27,17 @@ const DestacadosApp = () => {
                 data-bs-interval="10000">
                     <div className="d-flex justify-content-center container">
                         <section className=" container-img">
+                        <Link className="nav-link" to={`/producto/${producto._id}`}>
                             <img src={producto.img}
                             alt="imagen" 
                             className=''/>
+                        </Link>
                         </section>
                         <section className='align-self-center container-nombre'>
+                        <Link className="nav-link" to={`/producto/${producto._id}`}>
                             <p>{producto.nombre}</p>
+                        </Link>
                         </section>
-
                     </div>
                 </div>
             ))}
