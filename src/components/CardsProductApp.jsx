@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getProductos } from "../helpers/apiProductos.js";
 import CardProductApp from "./CardProductApp.jsx";
 import PaginationApp from "./PaginationApp.jsx";
-import "./CardProductApp.css";
+import "../css/CardProductApp.css";
+
 //import { useNavigate } from "react-router-dom";
 
 const CarsProductApp = () => {

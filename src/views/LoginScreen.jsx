@@ -50,10 +50,12 @@ const LoginScreen = () => {
         // Guardar el token como una cadena normal (sin stringify)
         localStorage.setItem("token", JSON.stringify(response.token));
         // Guardar el uid como una cadena normal (sin stringify)
-        localStorage.setItem("uid", response.uid);
+        localStorage.setItem("uid", response.usuario.uid);
+
         // Guardar favoritos y carrito con JSON.stringify() porque son arrays u objetos
-        localStorage.setItem("favoritos", JSON.stringify(response.favoritos || []));
-        localStorage.setItem("carrito", JSON.stringify(response.carrito || []));
+        localStorage.setItem("favoritos", JSON.stringify(response.usuario.favoritos || []));
+        localStorage.setItem("carrito", JSON.stringify(response.usuario.carrito || []));
+
         console.log(response);
         navigate("/");
       } else {

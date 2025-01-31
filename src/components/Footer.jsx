@@ -43,7 +43,7 @@ const Footer = () => {
             <div className="col-xl-4 col-lg-4 mb-50">
               <div className="footer-widget">
                 <div className="footer-logo">
-                  <Link to="/">
+                  <Link to="../views/ErrorScreen.jsx">
                     <img className="w-50" id="Logo" src={LogoChico} alt="Logo" />
                   </Link>
                 </div>
@@ -55,13 +55,13 @@ const Footer = () => {
                 </div>
                 <div className="footer-social-icon">
                   <span>Siguenos</span>
-                  <a href="#">
+                  <a href="../views/ErrorScreen.jsx">
                     <i className="fab fa-facebook-f facebook-bg"></i>
                   </a>
-                  <a href="#">
+                  <a href="../views/ErrorScreen.jsx">
                     <i className="fab fa-twitter twitter-bg"></i>
                   </a>
-                  <a href="#">
+                  <a href="../views/ErrorScreen.jsx">
                     <i className="fab fa-google-plus-g google-bg"></i>
                   </a>
                 </div>
@@ -74,12 +74,12 @@ const Footer = () => {
                 </div>
               <div className="footerlist">
                 <ul>
-                  <li><a href="#">Inicio</a></li>
-                  <li><a href="#">Sobre Nosotros</a></li>
-                  <li><a href="#">Productos</a></li>
-                  <li><a href="#">Preguntas</a></li>
-                  <li><a href="#">Contacto</a></li>
-                  <li><a href="#">Politicas</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Inicio</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Sobre Nosotros</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Productos</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Preguntas</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Contacto</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Politicas</a></li>
                 </ul>
               </div>
               </div>
@@ -103,10 +103,10 @@ const Footer = () => {
             <div className="col-xl-6 col-lg-6 d-none d-lg-block text-right">
               <div className="footer-menu">
                 <ul>
-                  <li><a href="#">Inicio</a></li>
-                  <li><a href="#">Sobre nosotros</a></li>
-                  <li><a href="#">Politica</a></li>
-                  <li><a href="#">Contacto</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Inicio</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Sobre nosotros</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Politica</a></li>
+                  <li><a href="../views/ErrorScreen.jsx">Contacto</a></li>
                 </ul>
               </div>
             </div>

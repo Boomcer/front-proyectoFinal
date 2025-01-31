@@ -8,7 +8,7 @@ import {
   obtenerProductos,
   crearProducto,
   actualizarProducto,
-  eliminarProducto
+  eliminarProducto,
 } from '../helpers/adminPage.js';
 import Swal from 'sweetalert2';
 
@@ -19,7 +19,7 @@ const AdministradorScreen = () => {
   const [paginacion, setPaginacion] = useState({
     total: 0,
     limite: 5,
-    desde: 0
+    desde: 0,
   });
 
   useEffect(() => {
@@ -29,35 +29,42 @@ const AdministradorScreen = () => {
   const cargarProductos = async () => {
     try {
       const data = await obtenerProductos(paginacion.limite, paginacion.desde);
-      setProductos(data.productos);
+
+      // Asegurar que todos los productos tengan un valor para la imagen
+      const productosConImagen = data.productos.map((producto) => ({
+        ...producto,
+        imagen: producto.img || 'https://i.pinimg.com/736x/a9/29/16/a92916d371b56dbbbde21dd289aa13c8.jpg', // Imagen por defecto
+      }));
+
+      setProductos(productosConImagen);
       setPaginacion((prev) => ({
         ...prev,
-        total: data.total
+        total: data.total,
       }));
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudieron cargar los productos. Verifica tu token de acceso.'
+        text: 'No se pudieron cargar los productos. Verifica tu token de acceso.',
       });
     }
   };
 
-  const handleSubmit = async (producto) => {
+  const handleGuardarProducto = async (producto) => {
     try {
       if (productoEditando) {
         await actualizarProducto(productoEditando._id, producto);
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'Producto actualizado correctamente'
+          text: 'Producto actualizado correctamente',
         });
       } else {
         await crearProducto(producto);
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'Producto creado correctamente'
+          text: 'Producto creado correctamente',
         });
       }
       await cargarProductos();
@@ -67,7 +74,7 @@ const AdministradorScreen = () => {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.message || 'Hubo un problema al procesar el producto'
+        text: error.message || 'Hubo un problema al procesar el producto',
       });
     }
   };
@@ -84,13 +91,13 @@ const AdministradorScreen = () => {
       Swal.fire({
         icon: 'success',
         title: 'Éxito',
-        text: 'Producto eliminado correctamente'
+        text: 'Producto eliminado correctamente',
       });
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.message || 'No se pudo eliminar el producto'
+        text: error.message || 'No se pudo eliminar el producto',
       });
     }
   };
@@ -98,13 +105,18 @@ const AdministradorScreen = () => {
   const handleCambiarPagina = (numeroPagina) => {
     setPaginacion((prev) => ({
       ...prev,
-      desde: (numeroPagina - 1) * prev.limite
+      desde: (numeroPagina - 1) * prev.limite,
     }));
   };
 
   return (
     <div className="container py-4">
       <h1 className="mb-4 text-center">Administrador de Productos</h1>
+
+      {/* Mostrar el total de productos */}
+      <div className="mb-4 text-center">
+        <h4>Total de productos: {paginacion.total}</h4>
+      </div>
 
       {!mostrarFormulario ? (
         <div className="d-flex justify-content-center mb-4">
@@ -123,8 +135,8 @@ const AdministradorScreen = () => {
             </h2>
             <ProductoForm
               producto={productoEditando}
-              onSubmit={handleSubmit}
-              onCancel={() => {
+              onGuardar={handleGuardarProducto}
+              onCancelar={() => {
                 setMostrarFormulario(false);
                 setProductoEditando(null);
               }}
@@ -133,22 +145,18 @@ const AdministradorScreen = () => {
         </div>
       )}
 
-      <div className="table-responsive">
-        <TablaProductos
-          productos={productos}
-          onEditar={handleEditar}
-          onEliminar={handleEliminar}
-        />
-      </div>
+      <TablaProductos
+        productos={productos}
+        onEditar={handleEditar}
+        onEliminar={handleEliminar}
+      />
 
-      <div className="d-flex justify-content-center mt-4">
-        <Paginacion
-          total={paginacion.total}
-          limite={paginacion.limite}
-          desde={paginacion.desde}
-          onCambiarPagina={handleCambiarPagina}
-        />
-      </div>
+      <Paginacion
+        total={paginacion.total}
+        limite={paginacion.limite}
+        desde={paginacion.desde}
+        onCambiarPagina={handleCambiarPagina}
+      />
     </div>
   );
 };

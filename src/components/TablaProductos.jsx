@@ -70,7 +70,7 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
                     onClick={() => mostrarImagenCompleta(producto.imagen, producto.nombre)}
                   >
                     <img
-                      src={producto.imagen}
+                      src={producto.img}
                       alt={producto.nombre}
                       className="product-image img-fluid"
                     />
@@ -123,5 +123,8 @@ const TablaProductos = ({ productos, onEditar, onEliminar }) => {
     </div>
   );
 };
+
+
+
 
 export default TablaProductos;

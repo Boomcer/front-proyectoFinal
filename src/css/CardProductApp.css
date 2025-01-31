@@ -1,5 +1,7 @@
+
+
 #ContenedorCards1{
-    height: 1200px;  
+    /* height: 1200px;   */
     display: flex;
     align-items:flex-start;
     justify-content: center;
@@ -13,9 +15,13 @@
     align-items:center;
     justify-content: center;
 }
-
-.card {
+.conteiner_card{
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+} 
+.card {
+    width: 220px;
     height: 220px;
     object-fit: cover;
     overflow: hidden;
@@ -56,7 +62,7 @@
 }
 
 #paginacion{
-
+  
     margin-right: 10px;
     display:inline-block;
 }
@@ -64,13 +70,13 @@
 h5{
     color: white;
 }
-             /* Texto negro en hover */
+            
              .custom-highlight {
-                color: #ffffff;           /* Texto blanco */
-                background-color: #007bff; /* Fondo azul */
-                border-radius: 50%;       /* Borde redondeado opcional */
-                padding: 5px 10px;        /* Espaciado interno */
-                font-weight: bold;        /* Texto en negrita */
+                color: #ffffff;          
+                background-color: #007bff; 
+                border-radius: 50%;       
+                padding: 5px 10px;     
+                font-weight: bold;        
               }
               
               /* Estilo para los números de páginas distintas a la actual */

@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { alta } from "../helpers/fetchFormApi";
-
-// import { useNavigate } from "react-router-dom";
+import { alta, login } from "../helpers/fetchFormApi";
+import { useNavigate } from "react-router-dom";
 
 const FormScreen = () => {
   const {
@@ -14,21 +13,36 @@ const FormScreen = () => {
   } = useForm();
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     console.log("Datos enviados:", data);
     setLoading(true);
-    alta(data).then((respuesta) => {
+
+    // Asignar rol por defecto
+    const usuarioConRol = { ...data, rol: "USER_ROL" };
+
+    // Crear usuario
+    const respuestaAlta = await alta(usuarioConRol);
+
+    if (respuestaAlta?.errors) {
       setLoading(false);
-      reset();
-      if (respuesta?.errors) {
-        console.log(respuesta.errors[0].msg);
-        setMessage(respuesta.errors[0].msg);
-      } else {
-        console.log(respuesta.msg);
-        setMessage(respuesta.msg);
-      }
-    });
+      setMessage(respuestaAlta.errors[0].msg);
+      return;
+    }
+
+    // Inicio de sesión automático
+    const respuestaLogin = await login(data.email, data.password);
+
+    if (respuestaLogin?.errors) {
+      setLoading(false);
+      setMessage(respuestaLogin.errors[0].msg);
+      return;
+    }
+
+    // Redirigir al login
+    setLoading(false);
+    navigate("/login");
   };
 
   return (
@@ -80,7 +94,7 @@ const FormScreen = () => {
           )}
         </div>
 
-        {/* Campo password */}
+        {/* Campo Password */}
         <div className="mb-3 d-flex align-items-center">
           <label className="form-label me-3">Password</label>
           <input
@@ -99,26 +113,12 @@ const FormScreen = () => {
           )}
         </div>
 
-        {/* Campo rol */}
-        <div className="mb-3 d-flex align-items-center">
-          <label className="form-label me-3">Rol</label>
-          <select
-            className="form-select"
-            {...register("rol", {
-              required: true,
-            })}
-          >
-            <option value="ADMIN_ROL">ADMIN_ROL</option>
-            <option value="USER_ROL">USER_ROL</option>
-          </select>
-        </div>
-
         <button
           type="submit"
           disabled={loading ? true : false}
           className={loading ? "btn btn-primary disabled" : "btn btn-primary"}
         >
-          Enviar
+          {loading ? "Cargando..." : "Enviar"}
         </button>
       </form>
       {message && (
@@ -130,4 +130,4 @@ const FormScreen = () => {
   );
 };
 
-export default FormScreen
+export default FormScreen;

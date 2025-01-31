@@ -1,4 +1,4 @@
-const url = "https://backend-proyectofinal-rolling.onrender.com/api/";
+const url =  import.meta.env.VITE_API_URL + "/api/";
 
 const auth = async (email, password) =>{
     const resp = await fetch(url + "auth/login", {

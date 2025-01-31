@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { addToCarrito, addToFavoritos, refreshUsuario } from "../helpers/apiUsuarios.js";
-import "./CardProductApp.css";
+import "../css/CardProductApp.css";
 const CardProductApp = ({ producto }) => {
       
   const [loadingCarrito, setLoadingCarrito] = useState(false);

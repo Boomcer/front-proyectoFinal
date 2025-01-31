@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
-import '../css/adminPage.css';
+import { obtenerCategorias } from '../helpers/adminPage.js'; // Importar la función para obtener categorías
 
-const ProductoForm = ({ producto, onSubmit, onCancel }) => {
+const ProductoForm = ({ producto, onGuardar, onCancelar }) => {
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -10,43 +11,50 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
     stock: '',
     categoria: '',
     imagen: '',
-    destacado: false 
+    destacado: false,
   });
-  console.log('Datos enviados:', formData);
 
-  const [previewImage, setPreviewImage] = useState('');
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     if (producto) {
       setFormData({
-        nombre: producto.nombre || '',
-        descripcion: producto.descripcion || '',
-        precio: producto.precio || '',
-        stock: producto.stock || '',
-        categoria: producto.categoria || '',
-        imagen: producto.imagen || '',
-        destacado: producto.destacado || false // Inicializar destacado
+        nombre: producto.nombre,
+        descripcion: producto.descripcion,
+        precio: producto.precio,
+        stock: producto.stock,
+        categoria: producto.categoria._id,
+        imagen: producto.imagen,
+        destacado: producto.destacado,
       });
-      setPreviewImage(producto.imagen || '');
     }
   }, [producto]);
 
+  useEffect(() => {
+    const cargarCategorias = async () => {
+      try {
+        const categorias = await obtenerCategorias();
+        setCategorias(categorias.categorias);
+      } catch (error) {
+        console.error("Error al cargar las categorías:", error);
+      }
+    };
+
+    cargarCategorias();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value // Manejar checkbox
+      [name]: type === 'checkbox' ? checked : value,
     }));
-
-    if (name === 'imagen') {
-      setPreviewImage(value);
-    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await onSubmit(formData);
+      await onGuardar(formData);
       Swal.fire({
         icon: 'success',
         title: 'Éxito',
@@ -62,117 +70,89 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="needs-validation">
-      <div className="row">
-        <div className="col-md-8">
-          <div className="mb-3">
-            <label htmlFor="nombre" className="form-label">Nombre</label>
-            <input
-              type="text"
-              className="form-control"
-              id="nombre"
-              name="nombre"
-              value={formData.nombre || ''}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="descripcion" className="form-label">Descripción</label>
-            <textarea
-              className="form-control"
-              id="descripcion"
-              name="descripcion"
-              value={formData.descripcion || ''}
-              onChange={handleChange}
-              rows="3"
-              required
-            />
-          </div>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="mb-3">
-                <label htmlFor="precio" className="form-label">Precio</label>
-                <div className="input-group">
-                  <span className="input-group-text">$</span>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="precio"
-                    name="precio"
-                    value={formData.precio || ''}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="mb-3">
-                <label htmlFor="stock" className="form-label">Stock</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="stock"
-                  name="stock"
-                  value={formData.stock || ''}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="categoria" className="form-label">Categoría</label>
-            <input
-              type="text"
-              className="form-control"
-              id="categoria"
-              name="categoria"
-              value={formData.categoria || ''}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="imagen" className="form-label">URL de la imagen</label>
-            <input
-              type="url"
-              className="form-control"
-              id="imagen"
-              name="imagen"
-              value={formData.imagen || ''}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="destacado"
-              name="destacado"
-              checked={formData.destacado}
-              onChange={handleChange}
-            />
-            <label htmlFor="destacado" className="form-check-label">Destacado</label>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="text-center">
-            <label className="form-label">Vista previa de la imagen</label>
-            <div className="image-preview-container">
-              <img
-                src={previewImage || 'https://via.placeholder.com/200x200?text=Vista+Previa'}
-                alt="Vista previa"
-                className={`image-preview ${previewImage ? 'has-image' : ''}`}
-              />
-            </div>
-          </div>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label className="form-label">Nombre</label>
+        <input
+          type="text"
+          className="form-control"
+          name="nombre"
+          value={formData.nombre}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Descripción</label>
+        <textarea
+          className="form-control"
+          name="descripcion"
+          value={formData.descripcion}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Precio</label>
+        <input
+          type="number"
+          className="form-control"
+          name="precio"
+          value={formData.precio}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Stock</label>
+        <input
+          type="number"
+          className="form-control"
+          name="stock"
+          value={formData.stock}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Categoría</label>
+        <select
+          className="form-select"
+          name="categoria"
+          value={formData.categoria}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Seleccionar categoría</option>
+          {categorias.map((categoria) => (
+            <option key={categoria._id} value={categoria._id}>
+              {categoria.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Imagen</label>
+        <input
+          type="text"
+          className="form-control"
+          name="imagen"
+          value={formData.imagen}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3 form-check">
+        <input
+          type="checkbox"
+          className="form-check-input"
+          name="destacado"
+          checked={formData.destacado}
+          onChange={handleChange}
+        />
+        <label className="form-check-label">Destacado</label>
       </div>
       <div className="d-flex gap-2 justify-content-end mt-4">
-        <button type="button" className="btn btn-secondary" onClick={onCancel}>
+        <button type="button" className="btn btn-secondary" onClick={onCancelar}>
           Cancelar
         </button>
         <button type="submit" className="btn btn-primary">
@@ -181,6 +161,12 @@ const ProductoForm = ({ producto, onSubmit, onCancel }) => {
       </div>
     </form>
   );
+};
+
+ProductoForm.propTypes = {
+  producto: PropTypes.object,
+  onGuardar: PropTypes.func.isRequired,
+  onCancelar: PropTypes.func.isRequired,
 };
 
 export default ProductoForm;
