@@ -104,7 +104,9 @@ function Header() {
           <li>
             <a href="/nosotros">Nosotros</a>
           </li>
-        
+          <li>
+            <a href="/contact">Contacto</a>
+          </li>        
           {userRole === "ADMIN_ROL" && (
             <li>
               <a href="/admin">Admin</a>

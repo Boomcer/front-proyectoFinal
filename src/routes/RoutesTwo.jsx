@@ -15,6 +15,7 @@ import PerfilScreen from '../views/PerfilScreen';
 import CategoryProducts from '../components/CategoryProducts'; 
 import CreditCard from "../components/CreditCard";
 import ResultadosBusqueda from '../components/ResultadosBusqueda';
+import Contact from '../components/Contact';
 
 const RoutesTwo = () => {
   return (
@@ -22,6 +23,7 @@ const RoutesTwo = () => {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/buscar" element={<ResultadosBusqueda />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/nosotros" element={<AboutScreen />} />
         <Route path="/perfil" element={<PerfilScreen />} />
         <Route path="/categorias" element={<CategoriasScreen />} />
