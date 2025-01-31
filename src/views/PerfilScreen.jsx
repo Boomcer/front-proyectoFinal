@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { getUsuario, putUsuario } from '../helpers/apiUsuarios';
 
 const PerfilScreen = () => {
-  const [usuario, setUsuario] = useState(null); // Estado para guardar los datos del usuario
-  const [editMode, setEditMode] = useState(false); // Controla si los campos están habilitados
-  const navigate = useNavigate(); // Hook para redirigir
-  const uid = localStorage.getItem("uid"); // Obtener el UID del usuario
+  const [usuario, setUsuario] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const navigate = useNavigate();
+  const uid = localStorage.getItem("uid");
 
-  // Cargar datos del usuario desde el backend al montar el componente
   useEffect(() => {
     setUsuario(null);
     if (uid) {
       getUsuario(uid).then((response) => {
-        setUsuario(response?.usuario || {}); // Establecer datos del usuario
+        setUsuario(response?.usuario || {});
       });
     } else {
-      alert("No se encontró un usuario logueado. Redirigiendo al login.");
-      navigate('/login'); // Redirigir al login si no hay UID
+      Swal.fire({
+        title: "Sesión no encontrada",
+        text: "No se encontró un usuario logueado. Redirigiendo al login.",
+        icon: "warning",
+        confirmButtonText: "Aceptar",
+      }).then(() => navigate('/login'));
     }
 
-    // Limpiar el estado del usuario al desmontar el componente
     return () => setUsuario(null);
   }, [uid, navigate]);
 
@@ -29,32 +32,61 @@ const PerfilScreen = () => {
     setUsuario((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Habilitar modo de edición o guardar cambios
   const handleEditClick = async () => {
     if (editMode) {
-      // Guardar cambios en el backend
       try {
-        const response = await putUsuario(uid, usuario); // Llamada PUT al backend
+        const response = await putUsuario(uid, usuario);
         if (response.ok) {
-          alert("Datos actualizados correctamente.");
-          setEditMode(false); // Deshabilitar edición
+          Swal.fire({
+            title: "Datos actualizados",
+            text: "Tus datos han sido guardados correctamente.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          });
+          setEditMode(false);
         } else {
-          alert("Error al actualizar los datos. Verifique e intente nuevamente.");
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al actualizar los datos. Inténtalo de nuevo.",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+          });
         }
       } catch (error) {
-        console.error("Error al actualizar los datos:", error);
-        alert("Ocurrió un error. Intente nuevamente más tarde.");
+        Swal.fire({
+          title: "Error inesperado",
+          text: "Ocurrió un error. Inténtalo más tarde.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     } else {
-      // Habilitar modo de edición
       setEditMode(true);
     }
   };
 
-  // Cerrar y regresar al home
-  const handleClose = () => {
-    setUsuario(null);
-    navigate("/");
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    Swal.fire({
+      title: "¿Cerrar sesión?",
+      text: "Se eliminarán tus credenciales y deberás iniciar sesión nuevamente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, cerrar sesión",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("uid"); // Eliminar credenciales
+        navigate("/login"); // Redirigir al login
+        Swal.fire({
+          title: "Sesión cerrada",
+          text: "Has cerrado sesión correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    });
   };
 
   return (
@@ -64,7 +96,6 @@ const PerfilScreen = () => {
           <h2 className="mb-4">Hola, {usuario.nombre || 'Usuario'}</h2>
           <h3 className="mb-4">Mis Datos Personales</h3>
           <form>
-            {/* Campo de Nombre */}
             <div className="mb-3">
               <label htmlFor="nombre" className="form-label">Nombre</label>
               <input
@@ -73,11 +104,10 @@ const PerfilScreen = () => {
                 className="form-control"
                 value={usuario.nombre || ""}
                 onChange={handleChange}
-                disabled={!editMode} // Deshabilitado por defecto
+                disabled={!editMode}
               />
             </div>
 
-            {/* Campo de Correo (No editable) */}
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Correo</label>
               <input
@@ -85,11 +115,10 @@ const PerfilScreen = () => {
                 id="email"
                 className="form-control"
                 value={usuario.email || ""}
-                disabled // Campo siempre deshabilitado
+                disabled
               />
             </div>
 
-            {/* Imagen de Perfil */}
             <div className="mb-3">
               <label htmlFor="img" className="form-label">URL de Imagen de Perfil</label>
               <div className="text-center">
@@ -106,24 +135,22 @@ const PerfilScreen = () => {
                 className="form-control"
                 value={usuario.img || ""}
                 onChange={handleChange}
-                disabled={!editMode} // Deshabilitado por defecto
+                disabled={!editMode}
               />
             </div>
 
-            {/* Campo de Nueva Contraseña */}
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Nueva Contraseña</label>
               <input
                 type="password"
                 id="password"
                 className="form-control"
-                value={usuario.password || ""} // Vacío inicialmente
+                value={usuario.password || ""}
                 onChange={handleChange}
-                disabled={!editMode} // Deshabilitado por defecto
+                disabled={!editMode}
               />
             </div>
 
-            {/* Botones */}
             <div className="d-flex justify-content-between">
               <button
                 type="button"
@@ -134,10 +161,10 @@ const PerfilScreen = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-secondary"
-                onClick={handleClose}
+                className="btn btn-danger"
+                onClick={handleLogout}
               >
-                Cerrar
+                Cerrar Sesión
               </button>
             </div>
           </form>

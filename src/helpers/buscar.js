@@ -2,29 +2,28 @@ const API_URL = import.meta.env.VITE_API_URL + '/api';
 
 export const buscarProductos = async (query) => {
   try {
-    // Construir la URL correcta con el término de búsqueda
     const url = `${API_URL}/buscar/productos/${encodeURIComponent(query)}`;
-    
-    // Realizar la solicitud
+    console.log("URL de búsqueda:", url); // Depuración
+
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        "x-token": JSON.parse(localStorage.getItem("token")), // Asegúrate de incluir el token si es necesario
+        "x-token": JSON.parse(localStorage.getItem("token")),
       },
     });
 
-    // Verificar si la respuesta es exitosa
+    console.log("Respuesta de la API:", response); // Depuración
+
     if (!response.ok) {
       throw new Error(`Error al buscar productos: ${response.statusText}`);
     }
 
-    // Obtener los datos de la respuesta
     const data = await response.json();
+    console.log("Datos de la API:", data); // Depuración
 
-    // Devolver los resultados
-    return data.result || []; // Asegúrate de devolver un array vacío si no hay resultados
+    return data.result || [];
   } catch (error) {
     console.error('Error en buscarProductos:', error);
-    return []; // Devolver un array vacío en caso de error
+    return [];
   }
 };

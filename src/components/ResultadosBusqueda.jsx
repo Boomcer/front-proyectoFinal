@@ -13,10 +13,10 @@ const ResultadosBusqueda = () => {
       if (query) {
         try {
           const data = await buscarProductos(query);
-          setResultados(data.result);
+          setResultados(data.result || []);
           setError(null);
         } catch (error) {
-          setError("No se pudieron cargar los resultados. Inténtalo de nuevo.");
+          setError('No se pudieron cargar los resultados. Inténtalo de nuevo.');
           setResultados([]);
         }
       }

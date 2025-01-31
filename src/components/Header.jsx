@@ -1,79 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { buscarProductos } from '../helpers/buscar.js';
-import '../css/Header.css';
+import { useState, useEffect } from 'react';
+import '../css/header.css';
 import LogoChico from '../assets/img/LogoChico.jpeg';
 
-const Header = () => {
+function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [favoritesCount, setFavoritesCount] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-  }, []);
-
-  useEffect(() => {
-    const updateFavoritesCount = () => {
-      const favorites = JSON.parse(localStorage.getItem('favoritos')) || [];
-      setFavoritesCount(favorites.length);
-    };
-    updateFavoritesCount();
-    window.addEventListener('storage', updateFavoritesCount);
-    return () => window.removeEventListener('storage', updateFavoritesCount);
-  }, []);
-
-  useEffect(() => {
-    const updateCartCount = () => {
-      const cart = JSON.parse(localStorage.getItem('carrito')) || [];
-      setCartCount(cart.length);
-    };
-    updateCartCount();
-    window.addEventListener('storage', updateCartCount);
-    return () => window.removeEventListener('storage', updateCartCount);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('uid');
-    setIsLoggedIn(false);
-    navigate('/login');
-  };
-
-  const handleSearch = () => {
-    if (searchQuery.trim() !== '') {
-      navigate(`/buscar?q=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery(''); // Opcional: limpia la barra de búsqueda
-    }
-  };
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  const fetchSuggestions = async (query) => {
-    if (query.length > 1) {
-      const data = await buscarProductos(query);
-      setSuggestions(data);
-    } else {
-      setSuggestions([]);
-    }
-  };
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -88,64 +28,52 @@ const Header = () => {
           <span></span>
         </button>
 
-        <Link className="logo" to="/">
-          <img src={LogoChico} alt="Logo" />
-        </Link>
+        <div className="logo">
+          <img src={LogoChico} alt="logo" />
+        </div>
 
         <div className="search-bar">
           <input 
             type="text" 
-            placeholder="¿Qué estás buscando?" 
+            placeholder="¿Qué estás buscando?"
             aria-label="Buscar"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              fetchSuggestions(e.target.value);
-            }}
-            onKeyPress={handleKeyPress}
           />
-          <button className="search-button" aria-label="Buscar" onClick={handleSearch}>
-            <i className="bi bi-search"></i>
+          <button className="search-button" aria-label="Buscar">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
           </button>
-          {suggestions.length > 0 && (
-            <ul className="suggestions-list">
-              {suggestions.map((item, index) => (
-                <li key={index} onClick={() => {
-                  setSearchQuery(item.nombre);
-                  handleSearch();
-                }}>
-                  {item.nombre}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
 
         <div className="user-actions">
-          <NavLink to="/favoritos" className="icon-button" aria-label="Favoritos">
+          <a href="/favoritos" className="icon-button" aria-label="Favoritos">
             <i className="bi bi-heart-fill text-danger"></i>
-            <span className="badge bg-danger">{favoritesCount}</span>
-          </NavLink>
-          <div className="icon-button" aria-label="Mi cuenta">
-            {isLoggedIn ? (
-              <>
-                <i className="bi bi-person-circle dropdown-toggle d-flex" data-bs-toggle="dropdown"></i>
-                <ul className="dropdown-menu g-4">
-                  <li><button className="dropdown-item" onClick={handleLogout}>Desconectarse</button></li>
-                </ul>
-              </>
-            ) : (
-              <i className="bi bi-person-circle" onClick={() => navigate('/login')}></i>
-            )}
-          </div>
-          <NavLink to="/carrito" className="icon-button cart" aria-label="Mi carrito">
+            <span className="badge bg-danger">0</span>
+          </a>
+          <a href="/perfil" className="icon-button" aria-label="Mi cuenta">
+            <i className="bi bi-person-circle"></i>
+          </a>
+          <a href="/carrito" className="icon-button cart" aria-label="Mi carrito">
             <i className="bi bi-cart-fill"></i>
-            <span className="badge bg-danger">{cartCount}</span>
-          </NavLink>
+            <span className="badge bg-danger">0</span>
+          </a>
         </div>
       </div>
+
+      <nav className={`navigation ${isMenuOpen ? 'active' : ''}`}>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/categorias">Categorías</a></li>
+          <li><a href="/nosotros">Nosotros</a></li>
+          <li><a href="/admin">Admin</a></li>
+        </ul>
+      </nav>
+      
+      {isMenuOpen && (
+        <div className="overlay" onClick={() => setIsMenuOpen(false)}></div>
+      )}
     </header>
   );
-};
+}
 
 export default Header;
